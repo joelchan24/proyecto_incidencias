@@ -29,6 +29,15 @@ public class Login extends AppCompatActivity {
         btn_entrar=(Button)findViewById(R.id.btn_login);
 
 
+        Button btnRegistro =(Button)findViewById(R.id.btnregistrar);
+        btnRegistro.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent =new Intent(Login.this, registro.class);
+                startActivity(intent);
+            }
+        });
+
         btn_entrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -48,7 +57,7 @@ public class Login extends AppCompatActivity {
                                 }
                                 else
                                 {
-                                    Toast.makeText(getApplicationContext(),"usuarios o password incorrectos",Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getApplicationContext(),"Correo o contraseña incorrectos",Toast.LENGTH_SHORT).show();
                                 }
                             }
                         });
