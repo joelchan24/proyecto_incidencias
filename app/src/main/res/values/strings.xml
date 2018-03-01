@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Todo Protegido SOS</string>
     <string name="register"><u>registrate</u></string>
+    <string name="title_activity_mapas_incidentes">Map</string>
 </resources>

@@ -26,12 +26,13 @@ public class Login extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         txt_contra=(EditText)findViewById(R.id.txt_contraseña);
         txt_correo=(EditText)findViewById(R.id.txt_correo);
-        btn_entrar=(Button)findViewById(R.id.btn_entrar);
+        btn_entrar=(Button)findViewById(R.id.btn_login);
+
 
         btn_entrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+               // Toast.makeText(getApplicationContext(),"gay",Toast.LENGTH_LONG).show();
                 Thread hilo = new Thread(){
                     @Override
                     public void run() {
@@ -52,7 +53,9 @@ public class Login extends AppCompatActivity {
                             }
                         });
                     }
+
                 };
+                hilo.start();
             }
         });
 
