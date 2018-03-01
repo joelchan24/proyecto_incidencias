@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">proyecto_incidencias</string>
+    <string name="app_name">Todo Protegido SOS</string>
+    <string name="register"><u>registrate</u></string>
 </resources>
