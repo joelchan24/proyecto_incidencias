@@ -99,9 +99,9 @@
                 android:inputType="date" />
 
 
-            <EditText
+            <Spinner
                 android:id="@+id/editText9"
-                android:layout_width="290dp"
+                android:layout_width="280dp"
                 android:layout_height="40dp"
                 android:layout_below="@+id/editText8"
                 android:layout_centerHorizontal="true"

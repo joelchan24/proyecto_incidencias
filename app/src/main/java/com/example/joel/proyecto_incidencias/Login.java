@@ -33,7 +33,7 @@ public class Login extends AppCompatActivity {
         btnRegistro.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent =new Intent(Login.this, registro.class);
+                Intent intent =new Intent(Login.this, MainActivityMenu.class);
                 startActivity(intent);
             }
         });
@@ -52,7 +52,7 @@ public class Login extends AppCompatActivity {
                                 int con=OBJJson(resp);
                                 if(con>0)
                                 {
-                                   Intent intent= new Intent(getApplicationContext(),menu_principal.class);
+                                   Intent intent= new Intent(getApplicationContext(),MainActivityMenu.class);
                                     startActivity(intent);
                                 }
                                 else
