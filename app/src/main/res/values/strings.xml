@@ -2,4 +2,5 @@
     <string name="app_name">Todo Protegido SOS</string>
     <string name="register"><u>registrate</u></string>
     <string name="title_activity_mapas_incidentes">Map</string>
+    <string name="marker_delait_lating">(%1$.2f,%2$.2f)</string>
 </resources>

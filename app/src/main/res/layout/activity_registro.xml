@@ -23,8 +23,8 @@
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="23dp"
-                app:srcCompat="@drawable/camera"
-                android:background="@drawable/cv"/>
+                android:background="@drawable/cv"
+                app:srcCompat="@drawable/camera" />
 
 
             <EditText
@@ -34,12 +34,13 @@
                 android:layout_below="@+id/imageButton"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="20dp"
-                android:drawablePadding="8dp"
-                android:drawableLeft="@drawable/ic_account_circle_black_24dp"
                 android:background="@drawable/radiuscorner"
+                android:drawableLeft="@drawable/ic_account_circle_black_24dp"
+                android:drawablePadding="8dp"
                 android:ems="10"
-                android:inputType="textPersonName"
-                android:hint="Nombre" />
+                android:hint="Nombre"
+                android:inputType="textPersonName" />
+
             <EditText
                 android:id="@+id/editText4"
                 android:layout_width="290dp"
@@ -47,12 +48,12 @@
                 android:layout_below="@+id/editText3"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="20dp"
-                android:drawablePadding="8dp"
-                android:drawableLeft="@drawable/ic_person_black_24dp"
                 android:background="@drawable/radiuscorner"
+                android:drawableLeft="@drawable/ic_person_black_24dp"
+                android:drawablePadding="8dp"
                 android:ems="10"
-                android:inputType="textPersonName"
-                android:hint="Apellidos" />
+                android:hint="Apellidos"
+                android:inputType="textPersonName" />
 
             <EditText
                 android:id="@+id/editText5"
@@ -61,12 +62,12 @@
                 android:layout_below="@+id/editText4"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="20dp"
-                android:drawablePadding="8dp"
-                android:drawableLeft="@drawable/ic_email_black_24dp"
                 android:background="@drawable/radiuscorner"
+                android:drawableLeft="@drawable/ic_email_black_24dp"
+                android:drawablePadding="8dp"
                 android:ems="10"
-                android:inputType="textEmailAddress"
-                android:hint="Correo Eletronico" />
+                android:hint="Correo Eletronico"
+                android:inputType="textEmailAddress" />
 
             <EditText
                 android:id="@+id/editText6"
@@ -75,14 +76,12 @@
                 android:layout_below="@+id/editText5"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="20dp"
-                android:drawablePadding="8dp"
-                android:drawableLeft="@drawable/ic_lock_black_24dp"
                 android:background="@drawable/radiuscorner"
+                android:drawableLeft="@drawable/ic_lock_black_24dp"
+                android:drawablePadding="8dp"
                 android:ems="10"
-                android:inputType="textPersonName"
-                android:hint="Contraseña" />
-
-
+                android:hint="Contraseña"
+                android:inputType="textPersonName" />
 
 
             <EditText
@@ -92,12 +91,12 @@
                 android:layout_below="@+id/editText6"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="20dp"
-                android:drawablePadding="8dp"
-                android:drawableLeft="@drawable/ic_date_range_black_24dp"
                 android:background="@drawable/radiuscorner"
+                android:drawableLeft="@drawable/ic_date_range_black_24dp"
+                android:drawablePadding="8dp"
                 android:ems="10"
-                android:inputType="date"
-                android:hint="Fecha de nacimiento" />
+                android:hint="Fecha de nacimiento"
+                android:inputType="date" />
 
 
             <EditText
@@ -107,12 +106,13 @@
                 android:layout_below="@+id/editText8"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="20dp"
-                android:drawablePadding="8dp"
-                android:drawableLeft="@drawable/ic_wc_black_24dp"
                 android:background="@drawable/radiuscorner"
+                android:drawableLeft="@drawable/ic_wc_black_24dp"
+                android:drawablePadding="8dp"
                 android:ems="10"
-                android:inputType="textPersonName"
-                android:hint="Sexo" />
+                android:hint="Sexo"
+                android:inputType="textPersonName" />
+
             <View
                 android:id="@+id/view"
                 android:layout_width="fill_parent"
@@ -122,6 +122,7 @@
                 android:layout_marginTop="20dp"
                 android:background="#03A9F4" />
             android:background="#03A9F4" />
+
             <TextView
                 android:id="@+id/view2"
                 android:layout_width="wrap_content"
@@ -130,6 +131,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="20dp"
                 android:text="Llena todos los campos y presiona" />
+
             <Button
                 android:id="@+id/buttonregi"
                 android:layout_width="300dp"
@@ -142,10 +144,7 @@
                 android:textColor="@android:color/white" />
 
 
-
         </RelativeLayout>
-
-
 
 
     </ScrollView>
