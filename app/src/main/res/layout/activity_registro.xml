@@ -100,7 +100,7 @@
                 android:hint="Fecha de nacimiento" />
 
 
-            <EditText
+            <Spinner
                 android:id="@+id/editText9"
                 android:layout_width="290dp"
                 android:layout_height="40dp"
