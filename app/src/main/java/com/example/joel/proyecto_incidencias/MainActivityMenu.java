@@ -1,5 +1,6 @@
 package com.example.joel.proyecto_incidencias;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -14,7 +15,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 public class MainActivityMenu extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener ,mapa_puntos_aprovados.OnFragmentInteractionListener,EstadisticasFragment.OnFragmentInteractionListener{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +83,8 @@ public class MainActivityMenu extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_camera) {
+            mapa_puntos_aprovados conte= new mapa_puntos_aprovados();
+            getSupportFragmentManager().beginTransaction().add(R.id.contenedor,conte).commit();
             // Handle the camera action
         } else if (id == R.id.nav_gallery) {
 
@@ -98,5 +101,10 @@ public class MainActivityMenu extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+        
     }
 }
