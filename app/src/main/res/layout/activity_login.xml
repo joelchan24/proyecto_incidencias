@@ -16,7 +16,7 @@
             android:layout_height="wrap_content">
 
             <ImageView
-                android:id="@+id/imageView"
+                android:id="@+id/img_imagenusuario"
                 android:layout_width="130dp"
                 android:layout_height="130dp"
                 android:layout_alignParentTop="true"
@@ -24,10 +24,10 @@
                 android:layout_marginTop="15dp"
                 app:srcCompat="@drawable/logosos" />
             <TextView
-                android:id="@+id/textView"
+                android:id="@+id/txv_correo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/imageView"
+                android:layout_below="@+id/img_imagenusuario"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="25dp"
                 android:text="Todo Protegido SOS"
@@ -37,7 +37,7 @@
                 android:id="@+id/txt_correo"
                 android:layout_width="220dp"
                 android:layout_height="40dp"
-                android:layout_below="@+id/textView"
+                android:layout_below="@+id/txv_correo"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="30dp"
                 android:background="@drawable/radiuscorner"

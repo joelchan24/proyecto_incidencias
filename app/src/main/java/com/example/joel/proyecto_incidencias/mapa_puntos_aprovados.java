@@ -1,6 +1,7 @@
 package com.example.joel.proyecto_incidencias;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -8,8 +9,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
@@ -17,14 +18,20 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 
 public class mapa_puntos_aprovados extends Fragment implements OnMapReadyCallback {
 
-
+    public String respueta;
 
     GoogleMap nmap;
     MapView mapView;
     View vista;
+    SharedPreferences mapa_preferencias;
+    String respuesta;
 
 
 
@@ -37,7 +44,10 @@ public class mapa_puntos_aprovados extends Fragment implements OnMapReadyCallbac
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         vista= inflater.inflate(R.layout.fragment_mapa_puntos_aprovados, container, false);
+        //como le asigne la bariable respuets
+this.respuesta=mapa_preferencias.getString("respuesta_mapa","");
         return  vista;
     }
 
@@ -70,12 +80,14 @@ public class mapa_puntos_aprovados extends Fragment implements OnMapReadyCallbac
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
         }
+        mapa_preferencias=context.getSharedPreferences("puntos",Context.MODE_PRIVATE);
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
         mListener = null;
+
     }
 
     @Override
@@ -83,11 +95,44 @@ public class mapa_puntos_aprovados extends Fragment implements OnMapReadyCallbac
         MapsInitializer.initialize(getContext());
         nmap=googleMap;
         nmap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-        LatLng sydney = new LatLng(-34, 151);
+
+
+
+
+
+
+                            try {
+                                JSONArray array = new JSONArray(respuesta);
+                                for (int i =0; i<array.length(); i++){
+                                    JSONObject row = array.getJSONObject(i);
+                                Double    latitud = row.getDouble("latitud");
+                                Double    longitud = row.getDouble("longitud");
+                                 String   nombrelugar = row.getString("nombre");
+
+                                    nmap.addMarker(new MarkerOptions().position(new LatLng(latitud, longitud)).title(nombrelugar));
+                                    Toast.makeText(getActivity(),"jdjdj"+longitud,Toast.LENGTH_LONG).show();
+                                }
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
+
+
+                    }
+
+
+
+
+
+
+
+
+     /*   LatLng sydney = new LatLng(-34, 151);
         nmap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
         nmap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-        nmap.addMarker(new MarkerOptions().position(new LatLng(20.9169054,-89.94771109999999)).title("kimchil"));
-    }
+        nmap.addMarker(new MarkerOptions().position(new LatLng(20.9169054,-89.94771109999999)).title("kimchil"));*/
+
 
 
     public interface OnFragmentInteractionListener {

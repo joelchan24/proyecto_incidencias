@@ -1,14 +1,15 @@
 package com.example.joel.proyecto_incidencias;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -20,6 +21,9 @@ import java.net.URL;
 public class Login extends AppCompatActivity {
     EditText txt_correo,txt_contra;
     Button btn_entrar;
+    JSONArray jsonArray;
+    String nombre;
+    String correo;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,7 +37,7 @@ public class Login extends AppCompatActivity {
         btnRegistro.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent =new Intent(Login.this, MainActivityMenu.class);
+                Intent intent =new Intent(Login.this, mapas_incidentes.class);
                 startActivity(intent);
             }
         });
@@ -52,8 +56,13 @@ public class Login extends AppCompatActivity {
                                 int con=OBJJson(resp);
                                 if(con>0)
                                 {
-                                   Intent intent= new Intent(getApplicationContext(),MainActivityMenu.class);
+                                    Toast.makeText(getApplicationContext(),"Bienvenido "+nombre,Toast.LENGTH_SHORT).show();
+                                  Intent intent= new Intent(Login.this,MainActivityMenu.class);
+                                  intent.putExtra("nombre",nombre);
+                                  intent.putExtra("cor",correo);
                                     startActivity(intent);
+
+
                                 }
                                 else
                                 {
@@ -74,7 +83,7 @@ public class Login extends AppCompatActivity {
         String linea="";
         int respuesta=0;
         StringBuilder resul=null;try {
-            url=new URL("http://sos.gearhostpreview.com/sos_service.asmx/login?correo="+correo+"&contraseña="+contraseña);
+            url=new URL("http://incidencias.gearhostpreview.com/sos_service.asmx/login?correo="+correo+"&contraseña="+contraseña);
             HttpURLConnection conec=(HttpURLConnection)url.openConnection();
             respuesta=conec.getResponseCode();
             resul=new StringBuilder();
@@ -102,10 +111,16 @@ public class Login extends AppCompatActivity {
         int respuesta_si_existe=0;
 
         try{
-            JSONArray jsonArray=new JSONArray(respu);
+             jsonArray=new JSONArray(respu);
             if (jsonArray.length()>0)
             {
                 respuesta_si_existe=1;
+                for(int i=0;i<jsonArray.length();i++)
+                {
+                    JSONObject row = jsonArray.getJSONObject(i);
+                    correo=row.getString("correo");
+                    nombre=row.getString("nombre");
+                }
             }
 
 
@@ -115,9 +130,12 @@ public class Login extends AppCompatActivity {
         }
 
 
+
+
         return  respuesta_si_existe;
 
 
 
     }
+
 }

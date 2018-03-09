@@ -8,11 +8,15 @@
     android:fitsSystemWindows="true"
     tools:openDrawer="start">
 
-    <include
+   <include
         layout="@layout/app_bar_main_activity_menu"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-
+    <!--<fragment
+        android:id="@+id/con"
+        android:name="com.example.joel.proyecto_incidencias.EstadisticasFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></fragment>-->
     <android.support.design.widget.NavigationView
         android:id="@+id/nav_view"
         android:layout_width="wrap_content"
