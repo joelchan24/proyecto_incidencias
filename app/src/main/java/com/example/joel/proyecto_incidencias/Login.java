@@ -83,7 +83,7 @@ public class Login extends AppCompatActivity {
         String linea="";
         int respuesta=0;
         StringBuilder resul=null;try {
-            url=new URL("http://incidencias.gearhostpreview.com/sos_service.asmx/login?correo="+correo+"&contraseña="+contraseña);
+            url=new URL("http://incidenciaspro.gearhostpreview.com/sos_service.asmx/login?correo="+correo+"&contraseña="+contraseña);
             HttpURLConnection conec=(HttpURLConnection)url.openConnection();
             respuesta=conec.getResponseCode();
             resul=new StringBuilder();
@@ -118,8 +118,8 @@ public class Login extends AppCompatActivity {
                 for(int i=0;i<jsonArray.length();i++)
                 {
                     JSONObject row = jsonArray.getJSONObject(i);
-                    correo=row.getString("correo");
-                    nombre=row.getString("nombre");
+                    correo=row.getString("Correo");
+                    nombre=row.getString("Nombre");
                 }
             }
 

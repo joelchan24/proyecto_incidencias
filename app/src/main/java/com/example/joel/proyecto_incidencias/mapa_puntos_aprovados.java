@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
@@ -105,12 +106,13 @@ this.respuesta=mapa_preferencias.getString("respuesta_mapa","");
                                 JSONArray array = new JSONArray(respuesta);
                                 for (int i =0; i<array.length(); i++){
                                     JSONObject row = array.getJSONObject(i);
-                                Double    latitud = row.getDouble("latitud");
-                                Double    longitud = row.getDouble("longitud");
-                                 String   nombrelugar = row.getString("nombre");
-
+                                Double    latitud = row.getDouble("Latitud");
+                                Double    longitud = row.getDouble("Longitud");
+                                 String   nombrelugar = row.getString("Zona");
+LatLng LA=new LatLng(latitud,longitud);
                                     nmap.addMarker(new MarkerOptions().position(new LatLng(latitud, longitud)).title(nombrelugar));
                                     Toast.makeText(getActivity(),"jdjdj"+longitud,Toast.LENGTH_LONG).show();
+                                    nmap.moveCamera(CameraUpdateFactory.newLatLng(LA));
                                 }
 
                             } catch (JSONException e) {

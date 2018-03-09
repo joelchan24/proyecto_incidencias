@@ -28,7 +28,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class MainActivityMenu extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener ,mapa_puntos_aprovados.OnFragmentInteractionListener,EstadisticasFragment.OnFragmentInteractionListener,GpuntosFragment.OnFragmentInteractionListener{
+        implements NavigationView.OnNavigationItemSelectedListener ,mapa_puntos_aprovados.OnFragmentInteractionListener,EstadisticasFragment.OnFragmentInteractionListener,GpuntosFragment.OnFragmentInteractionListener,misIncidenciasFragment.OnFragmentInteractionListener,MisdatosFragment.OnFragmentInteractionListener,GenerarIncidenciaFragment.OnFragmentInteractionListener{
     SharedPreferences preferencias_puntos;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -124,12 +124,17 @@ public class MainActivityMenu extends AppCompatActivity
             getSupportFragmentManager().beginTransaction().add(R.id.contenedor,gpuntosFragment).commit();
 
         } else if (id == R.id.nav_slideshow) {
-
+GenerarIncidenciaFragment generarIncidenciaFragment= new GenerarIncidenciaFragment();
+            getSupportFragmentManager().beginTransaction().add(R.id.contenedor,generarIncidenciaFragment).commit();
         } else if (id == R.id.nav_manage) {
-
+EstadisticasFragment estadisticasFragment= new EstadisticasFragment();
+getSupportFragmentManager().beginTransaction().add(R.id.contenedor,estadisticasFragment).commit();
         } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {
+MisdatosFragment misdatosFragment= new MisdatosFragment();
+getSupportFragmentManager().beginTransaction().add(R.id.contenedor,misdatosFragment).commit();
+        }else if(id==R.id.nav_send1){
 
         }
 
@@ -177,7 +182,8 @@ public class MainActivityMenu extends AppCompatActivity
         int respuesta=0;
         StringBuilder resul=null;
         try {
-            url=new URL("http://fhkuku182-001-site1.atempurl.com/Grantour.asmx/CargarLugares");
+            //http://fhkuku182-001-site1.atempurl.com/Grantour.asmx/CargarLugares
+            url=new URL("http://incidenciaspro.gearhostpreview.com/sos_service.asmx/mostrar_puntos");
             HttpURLConnection conec=(HttpURLConnection)url.openConnection();
             respuesta=conec.getResponseCode();
             resul=new StringBuilder();
