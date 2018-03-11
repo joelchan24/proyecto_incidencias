@@ -20,7 +20,7 @@ import java.net.URL;
 
 public class Login extends AppCompatActivity {
     EditText txt_correo,txt_contra;
-    Button btn_entrar;
+    Button btn_entrar,btn_registro;
     JSONArray jsonArray;
     String nombre;
     String correo;
@@ -37,7 +37,7 @@ public class Login extends AppCompatActivity {
         btnRegistro.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent =new Intent(Login.this, mapas_incidentes.class);
+                Intent intent =new Intent(Login.this,registro.class);
                 startActivity(intent);
             }
         });
