@@ -28,7 +28,7 @@
 
 
             <EditText
-                android:id="@+id/editText3"
+                android:id="@+id/txtnombreR"
                 android:layout_width="290dp"
                 android:layout_height="40dp"
                 android:layout_below="@+id/imageButton"
@@ -42,10 +42,10 @@
                 android:inputType="textPersonName" />
 
             <EditText
-                android:id="@+id/editText4"
+                android:id="@+id/txtapellidoR"
                 android:layout_width="290dp"
                 android:layout_height="40dp"
-                android:layout_below="@+id/editText3"
+                android:layout_below="@+id/txtnombreR"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="20dp"
                 android:background="@drawable/radiuscorner"
@@ -56,10 +56,10 @@
                 android:inputType="textPersonName" />
 
             <EditText
-                android:id="@+id/editText5"
+                android:id="@+id/txtcorreoR"
                 android:layout_width="290dp"
                 android:layout_height="40dp"
-                android:layout_below="@+id/editText4"
+                android:layout_below="@+id/txtapellidoR"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="20dp"
                 android:background="@drawable/radiuscorner"
@@ -70,10 +70,10 @@
                 android:inputType="textEmailAddress" />
 
             <EditText
-                android:id="@+id/editText6"
+                android:id="@+id/txtcontraseñaR"
                 android:layout_width="290dp"
                 android:layout_height="40dp"
-                android:layout_below="@+id/editText5"
+                android:layout_below="@+id/txtcorreoR"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="20dp"
                 android:background="@drawable/radiuscorner"
@@ -85,10 +85,10 @@
 
 
             <EditText
-                android:id="@+id/editText8"
+                android:id="@+id/txtfechaR"
                 android:layout_width="290dp"
                 android:layout_height="40dp"
-                android:layout_below="@+id/editText6"
+                android:layout_below="@+id/txtcontraseñaR"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="20dp"
                 android:background="@drawable/radiuscorner"
@@ -103,7 +103,7 @@
                 android:id="@+id/editText9"
                 android:layout_width="280dp"
                 android:layout_height="40dp"
-                android:layout_below="@+id/editText8"
+                android:layout_below="@+id/txtfechaR"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="20dp"
                 android:background="@drawable/radiuscorner"
@@ -133,7 +133,7 @@
                 android:text="Llena todos los campos y presiona" />
 
             <Button
-                android:id="@+id/buttonregi"
+                android:id="@+id/buttonregiR"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/view2"
