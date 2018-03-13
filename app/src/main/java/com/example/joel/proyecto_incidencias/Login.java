@@ -24,6 +24,8 @@ public class Login extends AppCompatActivity {
     JSONArray jsonArray;
     String nombre;
     String correo;
+    String foto;
+    int id;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,6 +62,9 @@ public class Login extends AppCompatActivity {
                                   Intent intent= new Intent(Login.this,MainActivityMenu.class);
                                   intent.putExtra("nombre",nombre);
                                   intent.putExtra("cor",correo);
+                                    intent.putExtra("foto",foto);
+                                    intent.putExtra("ID",id);
+
                                     startActivity(intent);
 
 
@@ -82,7 +87,8 @@ public class Login extends AppCompatActivity {
         URL url=null;
         String linea="";
         int respuesta=0;
-        StringBuilder resul=null;try {
+        StringBuilder resul=null;
+        try {
             url=new URL("http://incidenciaspro.gearhostpreview.com/sos_service.asmx/login?correo="+correo+"&contraseña="+contraseña);
             HttpURLConnection conec=(HttpURLConnection)url.openConnection();
             respuesta=conec.getResponseCode();
@@ -120,6 +126,8 @@ public class Login extends AppCompatActivity {
                     JSONObject row = jsonArray.getJSONObject(i);
                     correo=row.getString("Correo");
                     nombre=row.getString("Nombre");
+                    foto=row.getString("foto");
+                    id=row.getInt("ID");
                 }
             }
 

@@ -3,10 +3,14 @@ package com.example.joel.proyecto_incidencias;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+//import android.support.v4.app.Fragment;
+import android.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.Toast;
 
 
 /**
@@ -28,7 +32,9 @@ public class EstadisticasFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_estadisticas, container, false);
+        View vista_frag=inflater.inflate(R.layout.fragment_estadisticas, container, false);
+
+        return  vista_frag;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -68,5 +74,47 @@ public class EstadisticasFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+    public AlertDialog createLoginDialogo(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+
+        View vista = inflater.inflate(R.layout.ejemplo, null);
+
+        builder.setView(vista);
+
+        Button toas=(Button)vista.findViewById(R.id.btntoas);
+        toas.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getActivity(),"valk",Toast.LENGTH_LONG).show();
+            }
+        });
+      /*  Button signup = (Button) v.findViewById(R.id.crear_boton);
+        Button signin = (Button) v.findViewById(R.id.entrar_boton);
+
+        signup.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        // Crear Cuenta...
+                        dismiss();
+                    }
+                }
+        );
+
+        signin.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        // Loguear...
+                        dismiss();
+                    }
+                }
+
+        );*/
+
+        return builder.create();
     }
 }

@@ -1,7 +1,10 @@
 package com.example.joel.proyecto_incidencias;
 
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -12,9 +15,11 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Base64;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,6 +35,7 @@ import java.net.URL;
 public class MainActivityMenu extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener ,mapa_puntos_aprovados.OnFragmentInteractionListener,EstadisticasFragment.OnFragmentInteractionListener,GpuntosFragment.OnFragmentInteractionListener,misIncidenciasFragment.OnFragmentInteractionListener,MisdatosFragment.OnFragmentInteractionListener,GenerarIncidenciaFragment.OnFragmentInteractionListener{
     SharedPreferences preferencias_puntos;
+    int id_usuairo;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,14 +46,19 @@ public class MainActivityMenu extends AppCompatActivity
         NavigationView navigationView=(NavigationView)findViewById(R.id.nav_view);
         View view =navigationView.getHeaderView(0);
         TextView nom = (TextView) view.findViewById(R.id.txv_nombre);
-
+        ImageView imagenusuario=(ImageView)view.findViewById(R.id.img_imagenusuario);
         TextView cor = (TextView) view.findViewById(R.id.txv_correo);
         Bundle datos_traidos= getIntent().getExtras();
         if(datos_traidos!=null) {
             String nombre_usuario = (String) datos_traidos.get("nombre");
             String correo_usuario = (String) datos_traidos.get("cor");
+            String fot=(String)datos_traidos.get("foto");
+            id_usuairo=(int)datos_traidos.get("ID");
             cor.setText(correo_usuario);
             nom.setText(nombre_usuario);
+            byte []data1= Base64.decode(fot,Base64.DEFAULT);
+            Bitmap bmo= BitmapFactory.decodeByteArray(data1,0,data1.length);
+            imagenusuario.setImageBitmap(bmo);
 
             Toast.makeText(getApplicationContext(),nom.getText().toString(),Toast.LENGTH_SHORT).show();
         }
@@ -117,23 +128,35 @@ public class MainActivityMenu extends AppCompatActivity
         if (id == R.id.nav_camera) {
             CargarDatosLugares();
             mapa_puntos_aprovados conte= new mapa_puntos_aprovados();
-            getSupportFragmentManager().beginTransaction().add(R.id.contenedor,conte).commit();
+            FragmentTransaction fragmentTransaction= getFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.contenedor,conte).commit();
+
             // Handle the camera action
         } else if (id == R.id.nav_gallery) {
             GpuntosFragment gpuntosFragment=new GpuntosFragment();
-            getSupportFragmentManager().beginTransaction().add(R.id.contenedor,gpuntosFragment).commit();
+            FragmentTransaction fragmentTransaction= getFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.contenedor,gpuntosFragment).commit();
+            //fragmentTransaction.addToBackStack(null);
+
 
         } else if (id == R.id.nav_slideshow) {
+            Bundle bundle = new Bundle();
+            bundle.putInt("id",id_usuairo);
 GenerarIncidenciaFragment generarIncidenciaFragment= new GenerarIncidenciaFragment();
-            getSupportFragmentManager().beginTransaction().add(R.id.contenedor,generarIncidenciaFragment).commit();
+generarIncidenciaFragment.setArguments(bundle);
+          //  getSupportFragmentManager().beginTransaction().add(R.id.contenedor,generarIncidenciaFragment).commit();
+            FragmentTransaction fragmentTransaction= getFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.contenedor,generarIncidenciaFragment).commit();
         } else if (id == R.id.nav_manage) {
 EstadisticasFragment estadisticasFragment= new EstadisticasFragment();
-getSupportFragmentManager().beginTransaction().add(R.id.contenedor,estadisticasFragment).commit();
+            FragmentTransaction fragmentTransaction= getFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.contenedor,estadisticasFragment).commit();
         } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {
 MisdatosFragment misdatosFragment= new MisdatosFragment();
-getSupportFragmentManager().beginTransaction().add(R.id.contenedor,misdatosFragment).commit();
+            FragmentTransaction fragmentTransaction= getFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.contenedor,misdatosFragment).commit();
         }else if(id==R.id.nav_send1){
 
         }
@@ -230,6 +253,34 @@ getSupportFragmentManager().beginTransaction().add(R.id.contenedor,misdatosFragm
         return  respuesta_si_existe;
 
 
+
+    }
+    public  String Agregar_usuairo(Double longitud,Double latitud,String zona,int id_usuario,int id_indencia,String urlno,String comentario)  {
+        String urldefait="nota";
+        urlno=urldefait;
+        URL url=null;
+        String linea="";
+        int respuesta=0;
+        StringBuilder resul=null;
+        try {
+            url=new URL("http://incidenciaspro.gearhostpreview.com/sos_service.asmx/Guardar_puntos?longitud="+longitud+"&latitud="+latitud+"&Zona="+zona+"&id_usuario="+id_usuario+"&id_peligro="+id_indencia+"&url="+urlno+"&comentario="+comentario);
+            HttpURLConnection conec=(HttpURLConnection)url.openConnection();
+            respuesta=conec.getResponseCode();
+            resul=new StringBuilder();
+            if(respuesta==HttpURLConnection.HTTP_OK)
+            {
+                InputStream in= new BufferedInputStream(conec.getInputStream());
+                BufferedReader reader= new BufferedReader(new InputStreamReader(in));
+
+                while ((linea=reader.readLine())!=null)
+                {
+                    resul.append(linea);
+                }
+
+            }
+        }catch (Exception e)
+        {}
+        return   resul.toString();
 
     }
 }
