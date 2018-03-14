@@ -3,6 +3,7 @@ package com.example.joel.proyecto_incidencias;
 import android.app.DialogFragment;
 import android.app.Fragment;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -13,6 +14,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -54,6 +56,10 @@ public class GenerarIncidenciaFragment extends Fragment implements OnMapReadyCal
     double lo;
     double latitud;
 TextView zona,comentario,algo;
+    CharSequence[] arreglo={"BACHES","MALTRATO ANIMAL","LOTES BALDÍOS","VANDALISMO ","ROBO","QUEMA DE BASURA","ACCIDENTES AUTOMOVILÍSTICOS","OTROS"};
+    CharSequence[] array={"4","5","6","7","8","9","10","11"};
+
+    String datogayner;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -96,27 +102,30 @@ TextView zona,comentario,algo;
                              Bundle savedInstanceState) {
       View vista_crearincidencias=inflater.inflate(R.layout.fragment_generar_incidencia, container, false);
          id_usuario = getArguments().getInt("id");
-         zona=(TextView)vista_crearincidencias.findViewById(R.id.txt_zona);
+         zona=(TextView)vista_crearincidencias.findViewById(R.id.txt_dadada);
          comentario=(TextView)vista_crearincidencias.findViewById(R.id.txt_comentario);
          algo=(TextView)vista_crearincidencias.findViewById(R.id.txt_algo);
       String id=Integer.toString(id_usuario);
-       
+
         Button guardar= (Button)vista_crearincidencias.findViewById(R.id.btn_guardar);
          guardar.setOnClickListener(new View.OnClickListener() {
              @Override
              public void onClick(View view) {
-                 Toast.makeText(getActivity(),""+id_usuario,Toast.LENGTH_LONG).show();
-                 Agregar_incidencia(lo,latitud,algo.getText().toString(),id_usuario,4,comentario.getText().toString());
+                 Toast.makeText(getActivity(),""+datogayner.toString()+" "+id_usuario,Toast.LENGTH_LONG).show();
+             int   id_insidencia=Integer.parseInt(datogayner);
+                 Agregar_incidencia(marcadorgay.getPosition().longitude,marcadorgay.getPosition().latitude,zona.getText().toString(),id_usuario,id_insidencia,comentario.getText().toString());
+              //   Toast.makeText(getActivity(),""+id_usuario,Toast.LENGTH_LONG).show();
              }
          });
       Button button=vista_crearincidencias.findViewById(R.id.btn_ejem);
       button.setOnClickListener(new View.OnClickListener() {
           @Override
           public void onClick(View view) {
+              seleccionar(view);
 
-             DialogFragment d = new ejemplo(); //Instanciamos la clase con el dialogo
+         //    DialogFragment d = new ejemplo(); //Instanciamos la clase con el dialogo
              // d.setCancelable(false);//Hacemos que no se pueda saltar el dialogo (opcional)
-              d.show(getFragmentManager(), "NEWUSER");
+          //    d.show(getFragmentManager(), "NEWUSER");
           }
       });
         mapa=vista_crearincidencias.findViewById(R.id.mvp_mapita);
@@ -163,8 +172,8 @@ TextView zona,comentario,algo;
                         String nombrelugar="sss";
         LatLng LA=new LatLng(latitud,longitud);
      marcadorgay=   ngogle.addMarker(new MarkerOptions().position(LA).title(nombrelugar).snippet("ssss").draggable(true));
-
-        ngogle.moveCamera(CameraUpdateFactory.newLatLng(LA));
+        CameraUpdate miubicacion=CameraUpdateFactory.newLatLngZoom(LA,15);
+        ngogle.moveCamera(miubicacion);
         googleMap.setOnMarkerDragListener(this);
     }
 
@@ -185,9 +194,9 @@ TextView zona,comentario,algo;
  latitud =marker.getPosition().longitude;
  lo=marker.getPosition().latitude;
             Toast.makeText(getActivity(),""+lo+"  "+latitud,Toast.LENGTH_LONG).show();
-            zona.setText(Double.toString(latitud));
+          //  zona.setText(Double.toString(latitud));
 
-            comentario.setText(Double.toString(lo));
+           // comentario.setText(Double.toString(lo));
         }
 
     }
@@ -251,4 +260,35 @@ TextView zona,comentario,algo;
 
     }
 
+/* public void  selccionar(View view)
+    {
+final CharSequence[] arreglo={"You tube","Vimeo","DropBOX","Gogle-drive"};
+final AlertDialog.Builder ale= new AlertDialog.Builder(this);
+ale.setTitle("que servicio te gusta");
+ale.setSingleChoiceItems(arreglo, -1, new DialogInterface.OnClickListener() {
+    @Override
+    public void onClick(DialogInterface dialogo_can, int registro) {
+        mensajetoast("cual te gusta "+arreglo[registro]);
+        dialogo_can.cancel();
+    }
+});
+
+AlertDialog alerta= ale.create();
+alerta.show();
+    }*/
+    public void seleccionar(View view)
+    {
+        AlertDialog.Builder ale=new AlertDialog.Builder(getActivity());
+        ale.setTitle("Cual es su incidencia ");
+        ale.setSingleChoiceItems(arreglo, -1, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                datogayner=array[i].toString();
+                dialogInterface.cancel();
+            }
+        });
+        // CharSequence[] arreglo={}
+AlertDialog alert=ale.create();
+alert.show();
+    }
 }

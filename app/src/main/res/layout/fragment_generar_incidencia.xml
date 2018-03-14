@@ -1,5 +1,6 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/txt_zona"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.joel.proyecto_incidencias.GenerarIncidenciaFragment">
@@ -22,18 +23,18 @@
             android:layout_height="197dp" />
 
         <EditText
-            android:id="@+id/txt_zona"
+            android:id="@+id/txt_dadada"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:inputType="textPersonName" />
+            android:hint="zona" />
 
         <EditText
             android:id="@+id/txt_comentario"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:inputType="textPersonName" />
+            android:hint="Comentario" />
 
         <EditText
             android:id="@+id/txt_algo"

@@ -111,7 +111,7 @@ this.respuesta=mapa_preferencias.getString("respuesta_mapa","");
                                  String   nombrelugar = row.getString("Zona");
 LatLng LA=new LatLng(latitud,longitud);
                                     nmap.addMarker(new MarkerOptions().position(new LatLng(latitud, longitud)).title(nombrelugar));
-                                    Toast.makeText(getActivity(),"jdjdj"+longitud,Toast.LENGTH_LONG).show();
+                               //     Toast.makeText(getActivity(),"jdjdj"+longitud,Toast.LENGTH_LONG).show();
                                     nmap.moveCamera(CameraUpdateFactory.newLatLng(LA));
                                 }
 

@@ -53,7 +53,7 @@ public class MainActivityMenu extends AppCompatActivity
             String nombre_usuario = (String) datos_traidos.get("nombre");
             String correo_usuario = (String) datos_traidos.get("cor");
             String fot=(String)datos_traidos.get("foto");
-            id_usuairo=(int)datos_traidos.get("ID");
+        id_usuairo=(int)datos_traidos.get("ID");
             cor.setText(correo_usuario);
             nom.setText(nombre_usuario);
             byte []data1= Base64.decode(fot,Base64.DEFAULT);
