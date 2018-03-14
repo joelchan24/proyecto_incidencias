@@ -64,8 +64,7 @@ public class registro extends AppCompatActivity implements Response.Listener<JSO
         });
 
 
-
-    }
+   }
     public  void abrirgaleria(View view){
         Intent intent=new Intent();
         intent.setType("image/*");

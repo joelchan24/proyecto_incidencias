@@ -27,9 +27,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".registro"
-            android:theme="@style/AppTheme"
-            />
+        <activity
+            android:name=".registro"
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".MainActivityMenu"
             android:theme="@style/AppTheme" />
@@ -41,7 +41,9 @@
         <activity
             android:name=".mapas_incidentes"
             android:label="@string/title_activity_mapas_incidentes" />
-        <activity android:name=".mensajedialo"></activity>
+
+        <activity android:name=".Imagen"
+            android:theme="@style/AppTheme"/>
     </application>
 
 </manifest>
