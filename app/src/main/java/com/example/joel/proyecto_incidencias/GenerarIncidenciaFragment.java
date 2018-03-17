@@ -1,19 +1,28 @@
 package com.example.joel.proyecto_incidencias;
 
-import android.app.DialogFragment;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.cloudinary.android.MediaManager;
+import com.cloudinary.android.callback.ErrorInfo;
+import com.cloudinary.android.callback.UploadCallback;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -21,16 +30,23 @@ import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.squareup.picasso.Picasso;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.Locale;
+import java.util.HashMap;
+import java.util.Map;
+
+import static android.app.Activity.RESULT_OK;
 
 //import android.support.v4.app.Fragment;
 
@@ -55,7 +71,17 @@ public class GenerarIncidenciaFragment extends Fragment implements OnMapReadyCal
     Marker marcadorgay;
     double lo;
     double latitud;
-TextView zona,comentario,algo;
+// static final int REQUEST_IMAGE_CAPTURE = 123;
+    String acciones;
+TextView zona,comentario;
+Uri direcionimagen;
+String photoPath;
+File photo;
+    ImageButton foto;
+Bitmap ima;
+    private final String ruta_fotos = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/todopro/";
+
+    private File file = new File(ruta_fotos);
     CharSequence[] arreglo={"BACHES","MALTRATO ANIMAL","LOTES BALDÍOS","VANDALISMO ","ROBO","QUEMA DE BASURA","ACCIDENTES AUTOMOVILÍSTICOS","OTROS"};
     CharSequence[] array={"4","5","6","7","8","9","10","11"};
 
@@ -95,16 +121,73 @@ TextView zona,comentario,algo;
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+       MediaManager.init(getActivity(),Configuracion());
     }
+
+   public static Map Configuracion()
+    {
+        Map Config = new HashMap();
+        Config.put("cloud_name", "dlyngnwmw");
+        Config.put("api_key", "362846149476767");
+        Config.put("api_secret", "x8gH0p8MD_4hTCJ0aR6xZWq8mo0");
+        return Config;
+    }
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Fragment FRA=this;
+
       View vista_crearincidencias=inflater.inflate(R.layout.fragment_generar_incidencia, container, false);
          id_usuario = getArguments().getInt("id");
          zona=(TextView)vista_crearincidencias.findViewById(R.id.txt_dadada);
          comentario=(TextView)vista_crearincidencias.findViewById(R.id.txt_comentario);
-         algo=(TextView)vista_crearincidencias.findViewById(R.id.txt_algo);
+         foto=(ImageButton)vista_crearincidencias.findViewById(R.id.btn_foto);
+        foto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final  CharSequence[] arreglo = {"Camara", "Galeria"};
+                android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(getActivity());
+                builder.setTitle("Selecciona");
+                builder.setSingleChoiceItems(arreglo, -1, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if(which == 0)
+                        {
+                            acciones = "CAMARA";
+                           dispatchTakePictureIntent();
+                        }
+                        else
+                        {
+                            acciones="GALERIA";
+                           SelectGaleria();
+                        }
+                        dialog.cancel();
+                    }
+                });
+                android.support.v7.app.AlertDialog alertDialog = builder.create();
+                alertDialog.show();
+             /*   String state= Environment.getExternalStorageState();
+                if(Environment.MEDIA_MOUNTED.equals(state)){
+                    long captureTime=System.currentTimeMillis();
+                    photoPath = Environment.getExternalStorageDirectory() + "/DCIM/Camera/Point" + captureTime + ".jpg";
+                    try{
+                        Intent intent=new Intent("android.media.action.IMAGE_CAPTURE");
+                        photo=new File(photoPath);
+                        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photo));
+                        startActivityForResult(Intent.createChooser(intent, "Capture una foto"), REQUEST_IMAGE_CAPTURE);
+
+                    }
+                    catch (Exception e){
+
+                    }
+
+                }*/
+            }
+        });
       String id=Integer.toString(id_usuario);
 
         Button guardar= (Button)vista_crearincidencias.findViewById(R.id.btn_guardar);
@@ -138,6 +221,139 @@ TextView zona,comentario,algo;
         return vista_crearincidencias;
     }
 
+
+
+    private static final  int SELECT_FILE  =1;
+    protected void SelectGaleria()
+    {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Seleccione una imagen"), SELECT_FILE);
+    }
+
+    static final int REQUEST_IMAGE_CAPTURE = 1;
+
+    private void dispatchTakePictureIntent() {
+        String state = Environment.getExternalStorageState();
+        if (Environment.MEDIA_MOUNTED.equals(state)) {
+            long captureTime = System.currentTimeMillis();
+            photoPath = Environment.getExternalStorageDirectory() + "/DCIM/Camera/Point" + captureTime + ".jpg";
+            try {
+                Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
+                photo = new File(photoPath);
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photo));
+                startActivityForResult(Intent.createChooser(intent, "Capture una foto"), REQUEST_IMAGE_CAPTURE);
+
+            } catch (Exception e) {
+
+            }
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK && acciones =="CAMARA") {
+            File imgfile = new File(photoPath);
+            Bitmap bitmap = BitmapFactory.decodeFile(imgfile.getAbsolutePath());
+
+            direcionimagen = Uri.fromFile(photo);
+            Picasso.get().load(direcionimagen).into(foto);
+            // foto.setImageBitmap(bitmap);
+
+            String RequestID = MediaManager.get().upload(direcionimagen).callback(new UploadCallback() {
+                @Override
+                public void onStart(String requestId) {
+
+                }
+
+                @Override
+                public void onProgress(String requestId, long bytes, long totalBytes) {
+
+                }
+
+                @Override
+                public void onSuccess(String requestId, Map resultData) {
+                    //Aqui te da la URL de la imagen
+                    String URLRESULTADO = resultData.get("url").toString();
+                    Toast.makeText(getActivity(), URLRESULTADO, Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onError(String requestId, ErrorInfo error) {
+
+                }
+
+                @Override
+                public void onReschedule(String requestId, ErrorInfo error) {
+
+                }
+            }).dispatch();
+        }
+        else
+        {
+            if(resultCode == RESULT_OK && acciones =="GALERIA")
+            {
+                Uri selectedImage = data.getData();
+                Log.d("uri", selectedImage.toString());
+                InputStream is;
+                try
+                {
+                    is = getActivity().getContentResolver().openInputStream(selectedImage);
+                    BufferedInputStream bis = new BufferedInputStream(is);
+                    Bitmap bitmap = BitmapFactory.decodeStream(bis);
+                    String resID = MediaManager.get().upload(selectedImage).callback(new UploadCallback() {
+                        @Override
+                        public void onStart(String requestId) {
+
+                        }
+
+                        @Override
+                        public void onProgress(String requestId, long bytes, long totalBytes) {
+
+                        }
+
+                        @Override
+                        public void onSuccess(String requestId, Map resultData) {
+                            String uri=resultData.get("url").toString();
+                            Toast.makeText(getActivity(),uri.toString(),Toast.LENGTH_SHORT).show();
+                          //  Log.d("Resultado", resultData.get("url").toString());
+                        }
+
+                        @Override
+                        public void onError(String requestId, ErrorInfo error) {
+
+                        }
+
+                        @Override
+                        public void onReschedule(String requestId, ErrorInfo error) {
+
+                        }
+                    }).dispatch();
+                    Log.d("Resultado", resID);
+                    foto.setImageBitmap(bitmap);
+
+                } catch (FileNotFoundException e) {
+                    System.out.print("Ups algo salio mal");
+                    e.printStackTrace();
+                }
+
+            }
+            else
+            {
+                Toast.makeText(getActivity(), "Salio de la galeria", Toast.LENGTH_SHORT).show();
+            }
+        }
+
+/*Fragment FRA=this;
+            if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK) {
+
+                Bitmap fotito = (Bitmap) data.getExtras().get("data");
+                foto.setImageBitmap(fotito);
+            }*/
+    }
+
+
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
@@ -164,6 +380,8 @@ TextView zona,comentario,algo;
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
+        boolean success = googleMap.setMapStyle(new MapStyleOptions(getResources()
+                .getString(R.string.style_json)));
         MapsInitializer.initialize(getContext());
         ngogle=googleMap;
         ngogle.setMapType(GoogleMap.MAP_TYPE_NORMAL);

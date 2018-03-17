@@ -7,9 +7,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -67,14 +65,14 @@ public class MainActivityMenu extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+       /* FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
-        });
+        });*/
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -126,8 +124,13 @@ public class MainActivityMenu extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_camera) {
+
             CargarDatosLugares();
             mapa_puntos_aprovados conte= new mapa_puntos_aprovados();
+         /*   Bundle bundle=new Bundle();
+            String ba=enviar_Baches().toString();
+            bundle.putString("baches",ba);
+            conte.setArguments(bundle);*/
             FragmentTransaction fragmentTransaction= getFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.contenedor,conte).commit();
 
@@ -228,6 +231,35 @@ MisdatosFragment misdatosFragment= new MisdatosFragment();
         return  resul.toString();
 
     }
+    public  String enviar_Baches()  {
+        URL url=null;
+        String linea="";
+        int respuesta=0;
+        StringBuilder resul=null;
+        try {
+            //http://fhkuku182-001-site1.atempurl.com/Grantour.asmx/CargarLugares
+            url=new URL("http://incidencias2.gearhostpreview.com/sos_service.asmx/filtros_de_niveles?id_peligro=4");
+            HttpURLConnection conec=(HttpURLConnection)url.openConnection();
+            respuesta=conec.getResponseCode();
+            resul=new StringBuilder();
+            if(respuesta==HttpURLConnection.HTTP_OK)
+            {
+                InputStream in= new BufferedInputStream(conec.getInputStream());
+                BufferedReader reader= new BufferedReader(new InputStreamReader(in));
+
+                while ((linea=reader.readLine())!=null)
+                {
+                    resul.append(linea);
+                }
+
+            }
+        }catch (Exception e)
+        {
+
+        }
+        return  resul.toString();
+
+    }
     public  int OBJJsonS(String respu)
     {
         int respuesta_si_existe=0;
@@ -255,7 +287,7 @@ MisdatosFragment misdatosFragment= new MisdatosFragment();
 
 
     }
-    public  String Agregar_usuairo(Double longitud,Double latitud,String zona,int id_usuario,int id_indencia,String urlno,String comentario)  {
+  /*  public  String Agregar_usuairo(Double longitud,Double latitud,String zona,int id_usuario,int id_indencia,String urlno,String comentario)  {
         String urldefait="nota";
         urlno=urldefait;
         URL url=null;
@@ -282,5 +314,5 @@ MisdatosFragment misdatosFragment= new MisdatosFragment();
         {}
         return   resul.toString();
 
-    }
+    }*/
 }

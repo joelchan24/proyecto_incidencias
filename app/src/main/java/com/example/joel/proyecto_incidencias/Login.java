@@ -1,6 +1,7 @@
 package com.example.joel.proyecto_incidencias;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -26,6 +27,9 @@ public class Login extends AppCompatActivity {
     String correo;
     String foto;
     int id;
+    public  static  final  String MyFRERERNCES="MyPreferences";
+    SharedPreferences sharedPreferences;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,8 +37,54 @@ public class Login extends AppCompatActivity {
         txt_contra=(EditText)findViewById(R.id.txt_contraseña);
         txt_correo=(EditText)findViewById(R.id.txt_correo);
         btn_entrar=(Button)findViewById(R.id.btn_login);
+       /* sharedPreferences=getSharedPreferences(MyFRERERNCES, Context.MODE_PRIVATE);
+
+        if(sharedPreferences!=null)
+        {
+            final String correopre=sharedPreferences.getString("correo_pre","");
+            final String contraseñapre=sharedPreferences.getString("contra_pre","");
+            Thread hilo = new Thread(){
+                @Override
+                public void run() {
+                    final String   resp = enviarpost(correopre,contraseñapre);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            int con=OBJJson(resp);
+                            if(con>0)
+                            {
+                                //intaciamos prefrencias
+                               SharedPreferences.Editor editor=sharedPreferences.edit();
+
+                                Toast.makeText(getApplicationContext(),"Bienvenido "+correopre,Toast.LENGTH_SHORT).show();
+                                Intent intent= new Intent(Login.this,MainActivityMenu.class);
+                                intent.putExtra("nombre",nombre);
+                                intent.putExtra("cor",correo);
+                                intent.putExtra("foto",foto);
+                                intent.putExtra("ID",id);
+                            //   editor.putString("correo_pre",correo);
+                         //     editor.putString("contra_pre",txt_correo.getText().toString());
+                             //   editor.commit();
+
+                              //  editor
+                                startActivity(intent);
 
 
+                            }
+                            else
+                            {
+                                Toast.makeText(getApplicationContext(),"Correo o contraseña incorrectos",Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+                }
+
+            };
+            hilo.start();
+
+
+
+        }*/
         Button btnRegistro =(Button)findViewById(R.id.btnregistrar);
         btnRegistro.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,13 +108,20 @@ public class Login extends AppCompatActivity {
                                 int con=OBJJson(resp);
                                 if(con>0)
                                 {
+                                    //intaciamos prefrencias
+                                //    SharedPreferences.Editor editor=sharedPreferences.edit();
+
                                     Toast.makeText(getApplicationContext(),"Bienvenido "+nombre,Toast.LENGTH_SHORT).show();
                                   Intent intent= new Intent(Login.this,MainActivityMenu.class);
                                   intent.putExtra("nombre",nombre);
                                   intent.putExtra("cor",correo);
                                     intent.putExtra("foto",foto);
                                     intent.putExtra("ID",id);
-
+                                /*    editor.putString("correo_pre",correo);
+                                    editor.putString("contra_pre",txt_correo.getText().toString());
+                                    editor.commit();*/
+                                    Toast.makeText(getApplicationContext(),"Bienvenido "+nombre,Toast.LENGTH_SHORT).show();
+                               //     Toast.makeText(getApplicationContext(),"prerencisass "+sharedPreferences.getString("correo_pre",""),Toast.LENGTH_SHORT).show();
                                     startActivity(intent);
 
 

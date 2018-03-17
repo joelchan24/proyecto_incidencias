@@ -1,8 +1,7 @@
 package com.example.joel.proyecto_incidencias;
 
-import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.FragmentActivity;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -20,6 +19,7 @@ public class mapas_incidentes extends FragmentActivity implements GoogleMap.OnMa
 
     private GoogleMap mMap;
     private  Marker prueva_mar,Maracador_moviendodatos;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

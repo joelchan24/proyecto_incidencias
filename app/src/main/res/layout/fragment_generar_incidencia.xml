@@ -1,4 +1,5 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/txt_zona"
     android:layout_width="match_parent"
@@ -36,18 +37,17 @@
             android:ems="10"
             android:hint="Comentario" />
 
-        <EditText
-            android:id="@+id/txt_algo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textPersonName" />
-
         <Button
             android:id="@+id/btn_guardar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Guardar" />
+
+        <ImageButton
+            android:id="@+id/btn_foto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/camera" />
     </LinearLayout>
 
 </FrameLayout>
