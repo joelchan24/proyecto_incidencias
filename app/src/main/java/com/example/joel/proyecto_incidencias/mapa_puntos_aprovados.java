@@ -136,7 +136,7 @@ String baches;
         //como le asigne la bariable respuets
         //baches
       //  baches = getArguments().get("baches").toString();
-        final FloatingActionButton baches=(FloatingActionButton) vista.findViewById(R.id.btn_gay);
+       /* final FloatingActionButton baches=(FloatingActionButton) vista.findViewById(R.id.btn_gay);
 baches.setOnClickListener(new View.OnClickListener() {
     @Override
     public void onClick(View view) {
@@ -179,7 +179,7 @@ baches.setOnClickListener(new View.OnClickListener() {
     hilo.start();
     }
 
-});
+});*/
         // fin baches
 
 this.respuesta=mapa_preferencias.getString("respuesta_mapa","");
