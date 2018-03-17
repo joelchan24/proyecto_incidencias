@@ -140,7 +140,7 @@ Bitmap ima;
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         Fragment FRA=this;
-
+//
       View vista_crearincidencias=inflater.inflate(R.layout.fragment_generar_incidencia, container, false);
          id_usuario = getArguments().getInt("id");
          zona=(TextView)vista_crearincidencias.findViewById(R.id.txt_dadada);
