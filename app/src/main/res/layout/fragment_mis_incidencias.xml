@@ -2,15 +2,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorAccent"
+
     tools:context="com.example.joel.proyecto_incidencias.misIncidenciasFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
+
+    <com.google.android.gms.maps.MapView
+        android:id="@+id/mis_incidencias"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="mis incidecnias" />
+        android:layout_height="match_parent" />
 
-
-
+    <Spinner
+        android:id="@+id/spinnermis"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
 </FrameLayout>

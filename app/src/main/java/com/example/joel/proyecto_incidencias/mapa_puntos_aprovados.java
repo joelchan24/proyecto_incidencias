@@ -22,6 +22,7 @@ import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.json.JSONArray;
@@ -43,13 +44,14 @@ import java.util.List;
 public class mapa_puntos_aprovados extends Fragment implements OnMapReadyCallback {
 
     public String respueta;
-
+    datos_ventana datos_ventana =new datos_ventana();
     GoogleMap nmap;
     MapView mapView;
     View vista;
     SharedPreferences mapa_preferencias;
     String respuesta;
 String baches;
+    Marker marker;
     private Spinner spinner;
     int num=4;
 
@@ -487,35 +489,75 @@ this.respuesta=mapa_preferencias.getString("respuesta_mapa","");
                                 Double    longitud = row.getDouble("Longitud");
                                  String   nombrelugar = row.getString("Zona");
                                  int incidente= row.getInt("id_peligro");
+
+datos_ventana.setHotel(nombrelugar.toString());
+                                    ventana vetana=new ventana(getActivity());
+                                    nmap.setInfoWindowAdapter(vetana);
 LatLng LA=new LatLng(latitud,longitud);
+MarkerOptions markerOptions= new MarkerOptions();
+
 switch (incidente)
 {
     case 4:
-        nmap.addMarker(new MarkerOptions().position(new LatLng(latitud, longitud)).title(nombrelugar).icon(BitmapDescriptorFactory.fromResource(R.drawable.baches)));
+        nmap.addMarker(markerOptions.position(new LatLng(latitud, longitud)).title(nombrelugar).icon(BitmapDescriptorFactory.fromResource(R.drawable.baches)));
+     /*   marker=nmap.addMarker(markerOptions);
+        datos_ventana.setHotel(nombrelugar);
+        marker.setTag(datos_ventana);
+        marker.showInfoWindow();*/
         break;
     case 5:
-        nmap.addMarker(new MarkerOptions().position(new LatLng(latitud, longitud)).title(nombrelugar).icon(BitmapDescriptorFactory.fromResource(R.drawable.maltrato)));
+        nmap.addMarker(markerOptions.position(new LatLng(latitud, longitud)).title(nombrelugar).icon(BitmapDescriptorFactory.fromResource(R.drawable.maltrato)));
+       /* marker=nmap.addMarker(markerOptions);datos_ventana.setHotel(nombrelugar);
+
+        marker.setTag(datos_ventana);
+        marker.showInfoWindow();*/
         break;
     case 6:
-        nmap.addMarker(new MarkerOptions().position(new LatLng(latitud, longitud)).title(nombrelugar).icon(BitmapDescriptorFactory.fromResource(R.drawable.lotes)));
+        nmap.addMarker(markerOptions.position(new LatLng(latitud, longitud)).title(nombrelugar).icon(BitmapDescriptorFactory.fromResource(R.drawable.lotes)));
+      /*  marker=nmap.addMarker(markerOptions);
+        datos_ventana.setHotel(nombrelugar);
+        marker.setTag(datos_ventana);
+        marker.showInfoWindow();*/
         break;
     case 7:
-        nmap.addMarker(new MarkerOptions().position(new LatLng(latitud, longitud)).title(nombrelugar).icon(BitmapDescriptorFactory.fromResource(R.drawable.vandalismo)));
+        nmap.addMarker(markerOptions.position(new LatLng(latitud, longitud)).title(nombrelugar).icon(BitmapDescriptorFactory.fromResource(R.drawable.vandalismo)));
+    /*    marker=nmap.addMarker(markerOptions);
+        datos_ventana.setHotel(nombrelugar);
+        marker.setTag(datos_ventana);
+        marker.showInfoWindow();*/
         break;
     case 8:
-        nmap.addMarker(new MarkerOptions().position(new LatLng(latitud, longitud)).title(nombrelugar).icon(BitmapDescriptorFactory.fromResource(R.drawable.robo)));
+        nmap.addMarker(markerOptions.position(new LatLng(latitud, longitud)).title(nombrelugar).icon(BitmapDescriptorFactory.fromResource(R.drawable.robo)));
+  /*      marker=nmap.addMarker(markerOptions);
+        datos_ventana.setHotel(nombrelugar);
+        marker.setTag(datos_ventana);
+        marker.showInfoWindow();*/
         break;
     case 9:
-        nmap.addMarker(new MarkerOptions().position(new LatLng(latitud, longitud)).title(nombrelugar).icon(BitmapDescriptorFactory.fromResource(R.drawable.quema)));
+        nmap.addMarker(markerOptions.position(new LatLng(latitud, longitud)).title(nombrelugar).icon(BitmapDescriptorFactory.fromResource(R.drawable.quema)));
+        /*marker=nmap.addMarker(markerOptions);
+        datos_ventana.setHotel(nombrelugar);
+        marker.setTag(datos_ventana);
+        marker.showInfoWindow();*/
         break;
     case 10:
-        nmap.addMarker(new MarkerOptions().position(new LatLng(latitud, longitud)).title(nombrelugar).icon(BitmapDescriptorFactory.fromResource(R.drawable.accidentes)));
+        nmap.addMarker(markerOptions.position(new LatLng(latitud, longitud)).title(nombrelugar).icon(BitmapDescriptorFactory.fromResource(R.drawable.accidentes)));
+        marker=nmap.addMarker(markerOptions);
+      /*  datos_ventana.setHotel(nombrelugar);
+        marker.setTag(datos_ventana);
+        marker.showInfoWindow();*/
         break;
     case 11:
-        nmap.addMarker(new MarkerOptions().position(new LatLng(latitud, longitud)).title(nombrelugar).icon(BitmapDescriptorFactory.fromResource(R.drawable.otros)));
-        break;
-}
+        nmap.addMarker(markerOptions.position(new LatLng(latitud, longitud)).title(nombrelugar).icon(BitmapDescriptorFactory.fromResource(R.drawable.otros)));
 
+        break;
+
+
+}
+                                    marker=nmap.addMarker(markerOptions);
+                                    datos_ventana.setHotel(nombrelugar);
+                                    marker.setTag(datos_ventana);
+                                    marker.showInfoWindow();
                                //     Toast.makeText(getActivity(),"jdjdj"+longitud,Toast.LENGTH_LONG).show();
                                     Double latitudj=20.9673702;
                                     double longitudj=-89.59258569999997;

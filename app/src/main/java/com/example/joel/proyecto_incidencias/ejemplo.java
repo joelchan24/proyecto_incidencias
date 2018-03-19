@@ -1,5 +1,4 @@
 package com.example.joel.proyecto_incidencias;
-
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
@@ -11,7 +10,6 @@ import android.widget.Toast;
 /**
  * Created by JOEL on 11/03/2018.
  */
-
 public class ejemplo extends DialogFragment {
 
 

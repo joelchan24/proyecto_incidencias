@@ -122,7 +122,7 @@ Bitmap ima;
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
-       MediaManager.init(getActivity(),Configuracion());
+
     }
 
    public static Map Configuracion()
@@ -140,6 +140,7 @@ Bitmap ima;
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         Fragment FRA=this;
+
 //
       View vista_crearincidencias=inflater.inflate(R.layout.fragment_generar_incidencia, container, false);
          id_usuario = getArguments().getInt("id");
@@ -155,6 +156,7 @@ Bitmap ima;
                 builder.setSingleChoiceItems(arreglo, -1, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        MediaManager.init(getActivity(),Configuracion());
                         if(which == 0)
                         {
                             acciones = "CAMARA";

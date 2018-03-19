@@ -23,11 +23,7 @@
             android:name=".Login"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".registro"
@@ -47,6 +43,13 @@
             android:name=".mapas_incidentes"
             android:label="@string/title_activity_mapas_incidentes" />
         <activity android:name=".mensajedialo" />
+        <activity android:name=".splashActivity"  android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

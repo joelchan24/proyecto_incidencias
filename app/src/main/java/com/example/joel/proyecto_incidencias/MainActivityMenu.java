@@ -2,6 +2,7 @@ package com.example.joel.proyecto_incidencias;
 
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -33,12 +34,15 @@ import java.net.URL;
 public class MainActivityMenu extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener ,mapa_puntos_aprovados.OnFragmentInteractionListener,EstadisticasFragment.OnFragmentInteractionListener,GpuntosFragment.OnFragmentInteractionListener,misIncidenciasFragment.OnFragmentInteractionListener,MisdatosFragment.OnFragmentInteractionListener,GenerarIncidenciaFragment.OnFragmentInteractionListener{
     SharedPreferences preferencias_puntos;
+    SharedPreferences preferencias_usuarios;
+    public  static  final  String MyFRERERNCES="MyPreferences";
     int id_usuairo;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         //mandar preferencia de los mapas
+        preferencias_usuarios=getSharedPreferences(MyFRERERNCES,Context.MODE_PRIVATE);
         preferencias_puntos = getApplicationContext().getSharedPreferences("puntos", Context.MODE_PRIVATE);
         setContentView(R.layout.activity_main_menu);
         NavigationView navigationView=(NavigationView)findViewById(R.id.nav_view);
@@ -136,7 +140,7 @@ public class MainActivityMenu extends AppCompatActivity
 
             // Handle the camera action
         } else if (id == R.id.nav_gallery) {
-            GpuntosFragment gpuntosFragment=new GpuntosFragment();
+            misIncidenciasFragment gpuntosFragment=new misIncidenciasFragment();
             FragmentTransaction fragmentTransaction= getFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.contenedor,gpuntosFragment).commit();
             //fragmentTransaction.addToBackStack(null);
@@ -161,7 +165,10 @@ MisdatosFragment misdatosFragment= new MisdatosFragment();
             FragmentTransaction fragmentTransaction= getFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.contenedor,misdatosFragment).commit();
         }else if(id==R.id.nav_send1){
-
+SharedPreferences.Editor editor=preferencias_usuarios.edit();
+editor.clear().commit();
+            Intent intent= new Intent(getApplicationContext(),Login.class);
+            startActivity(intent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
