@@ -4,8 +4,6 @@ import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -14,13 +12,15 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Base64;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.cloudinary.android.MediaManager;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 
@@ -30,6 +30,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MainActivityMenu extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener ,mapa_puntos_aprovados.OnFragmentInteractionListener,EstadisticasFragment.OnFragmentInteractionListener,GpuntosFragment.OnFragmentInteractionListener,misIncidenciasFragment.OnFragmentInteractionListener,MisdatosFragment.OnFragmentInteractionListener,GenerarIncidenciaFragment.OnFragmentInteractionListener{
@@ -40,7 +42,7 @@ public class MainActivityMenu extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        MediaManager.init(this,Configuracion());
         //mandar preferencia de los mapas
         preferencias_usuarios=getSharedPreferences(MyFRERERNCES,Context.MODE_PRIVATE);
         preferencias_puntos = getApplicationContext().getSharedPreferences("puntos", Context.MODE_PRIVATE);
@@ -58,9 +60,7 @@ public class MainActivityMenu extends AppCompatActivity
         id_usuairo=(int)datos_traidos.get("ID");
             cor.setText(correo_usuario);
             nom.setText(nombre_usuario);
-            byte []data1= Base64.decode(fot,Base64.DEFAULT);
-            Bitmap bmo= BitmapFactory.decodeByteArray(data1,0,data1.length);
-            imagenusuario.setImageBitmap(bmo);
+            Picasso.get().load(fot).into(imagenusuario);
 
             Toast.makeText(getApplicationContext(),nom.getText().toString(),Toast.LENGTH_SHORT).show();
         }
@@ -140,8 +140,11 @@ public class MainActivityMenu extends AppCompatActivity
 
             // Handle the camera action
         } else if (id == R.id.nav_gallery) {
+            Bundle bundle= new Bundle();
+            bundle.putInt("id",id_usuairo);
             misIncidenciasFragment gpuntosFragment=new misIncidenciasFragment();
             FragmentTransaction fragmentTransaction= getFragmentManager().beginTransaction();
+            gpuntosFragment.setArguments(bundle);
             fragmentTransaction.replace(R.id.contenedor,gpuntosFragment).commit();
             //fragmentTransaction.addToBackStack(null);
 
@@ -175,7 +178,14 @@ editor.clear().commit();
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
+    public static Map Configuracion()
+    {
+        Map Config = new HashMap();
+        Config.put("cloud_name", "dlyngnwmw");
+        Config.put("api_key", "362846149476767");
+        Config.put("api_secret", "x8gH0p8MD_4hTCJ0aR6xZWq8mo0");
+        return Config;
+    }
     @Override
     public void onFragmentInteraction(Uri uri) {
         
@@ -216,7 +226,7 @@ editor.clear().commit();
         StringBuilder resul=null;
         try {
             //http://fhkuku182-001-site1.atempurl.com/Grantour.asmx/CargarLugares
-            url=new URL("http://incidenciaspro.gearhostpreview.com/sos_service.asmx/mostrar_puntos");
+            url=new URL("http://proyectoinciencias.gearhostpreview.com/sos_service.asmx/mostrar_puntos_aprovados");
             HttpURLConnection conec=(HttpURLConnection)url.openConnection();
             respuesta=conec.getResponseCode();
             resul=new StringBuilder();

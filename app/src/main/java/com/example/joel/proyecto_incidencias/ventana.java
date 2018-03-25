@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.GoogleMap;
@@ -17,6 +18,7 @@ import com.squareup.picasso.Picasso;
 
 public class ventana  implements GoogleMap.InfoWindowAdapter {
     private Context context;
+    Marker maracdor;
 
     public ventana(Context ctx){
         context = ctx;
@@ -27,17 +29,28 @@ public class ventana  implements GoogleMap.InfoWindowAdapter {
     }
 
     @Override
-    public View getInfoContents(Marker marker) {
+    public View getInfoContents(final Marker marker) {
+        maracdor=marker;
         View view = ((Activity)context).getLayoutInflater().inflate(R.layout.cuadro_mapa, null);
+        LinearLayout cuadro=(LinearLayout)view.findViewById(R.id.liner);
         TextView name_tv = view.findViewById(R.id.name);
         TextView details_tv = view.findViewById(R.id.details);
-        datos_ventana datos_ventana=(datos_ventana)marker.getTag();
-        ImageView img = view.findViewById(R.id.pic);
-        name_tv.setText(marker.getTitle());
-//        details_tv.setText(datos_ventana.getHotel());
 
-//        String rutaimagen=datos_ventana.getImage();
-        Picasso.get().load(R.drawable.baches).into(img);
+        datos_ventana datos_ventana=(datos_ventana)marker.getTag();
+
+        ImageView img = view.findViewById(R.id.pic);
+        name_tv.setText(((datos_ventana) marker.getTag()).getDetalle());
+details_tv.setText(((datos_ventana) marker.getTag()).getNombre());
+
+   String rutaimagen=((datos_ventana) marker.getTag()).getImage();
+     Picasso.get().load(rutaimagen).into(img);
+
+
+
+
        return  view;
     }
+
+
+
 }

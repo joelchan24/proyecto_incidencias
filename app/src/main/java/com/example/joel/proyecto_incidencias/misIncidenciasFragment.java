@@ -49,6 +49,7 @@ Spinner spinner;
     MapView mapView;
     Marker marcador;
     String respuesta;
+    int id_usuario;
     private OnFragmentInteractionListener mListener;
 
     public misIncidenciasFragment() {
@@ -60,6 +61,7 @@ Spinner spinner;
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
        View vista=inflater.inflate(R.layout.fragment_mis_incidencias, container, false);
+        id_usuario = getArguments().getInt("id");
         List<SocialNetwork> items = new ArrayList<SocialNetwork>(9);
         items.add(new SocialNetwork(getString(R.string.todo), R.drawable.logosos));
         items.add(new SocialNetwork(getString(R.string.baches), R.drawable.baches));
@@ -74,344 +76,404 @@ Spinner spinner;
         spinner = (Spinner)vista.findViewById(R.id.spinnermis);
         spinner.setAdapter(new SocialNetworkSpinnerAdapter(getActivity(),items));
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                                              @Override
-                                              public void onItemSelected(AdapterView <?> adapterView, View view, int i, long l) {
-                                                  Toast.makeText(adapterView.getContext(), ((SocialNetwork) adapterView.getItemAtPosition(i)).getNombre() + i, Toast.LENGTH_SHORT).show();
-                                                  int posicion = i;
-                                                  switch (i) {
-                                                      case 1:
-                                                          Thread hilo = new Thread() {
-                                                              @Override
-                                                              public void run() {
-                                                                  respuesta = enviar_filtro_incidencia(4);
-                                                                  getActivity().runOnUiThread(new Runnable() {
-                                                                      @Override
-                                                                      public void run() {
-                                                                          int con = OBJJson(respuesta);
-                                                                          if (con > 0) {
-                                                                              try {
-                                                                                  nmap.clear();
-                                                                                  JSONArray array = new JSONArray(respuesta);
-                                                                                  for (int i = 0; i < array.length(); i++) {
-                                                                                      JSONObject row = array.getJSONObject(i);
-                                                                                      Double latitud = row.getDouble("Latitud");
-                                                                                      Double longitud = row.getDouble("Longitud");
-                                                                                      String nombrelugar = row.getString("Zona");
-                                                                                      LatLng LA = new LatLng(latitud, longitud);
-                                                                                      nmap.addMarker(new MarkerOptions().position(new LatLng(latitud, longitud)).title(nombrelugar).icon(BitmapDescriptorFactory.fromResource(R.drawable.baches)));
-                                                                                      //    Toast.makeText(getActivity(),"jdjdj"+longitud,Toast.LENGTH_LONG).show();
-                                                                                      nmap.moveCamera(CameraUpdateFactory.newLatLng(LA));
-                                                                                  }
+            @Override
+            public void onItemSelected(AdapterView <?> adapterView, View view, int i, long l) {
+              //  Toast.makeText(adapterView.getContext(), ((SocialNetwork) adapterView.getItemAtPosition(i)).getNombre()+i, Toast.LENGTH_SHORT).show();
+                int posicion =i;
+                switch (i)
+                {case 0:
+                    break;
+                    case 1:
+                        Thread hilotodo = new Thread() {
+                            @Override
+                            public void run() {
+                                respuesta = enviar_filtro_incidencia(4);
+                                getActivity().runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        int con = OBJJson(respuesta);
+                                        nmap.clear();
+                                        if (con > 0) {
+                                            try {
 
-                                                                              } catch (JSONException e) {
-                                                                                  e.printStackTrace();
-                                                                              }
-                                                                          } else {
-                                                                              Toast.makeText(getActivity(), "ss", Toast.LENGTH_LONG).show();
-                                                                          }
-                                                                      }
-                                                                  });
-                                                              }
+                                                JSONArray array = new JSONArray(respuesta);
+                                                for (int i = 0; i < array.length(); i++) {
+                                                    JSONObject row = array.getJSONObject(i);
+                                                    Double latitud = row.getDouble("Latitud");
+                                                    Double longitud = row.getDouble("Longitud");
+                                                    String nombrelugar = row.getString("Zona");
+                                                    String imagen=row.getString("imagen");
+                                                    LatLng LA = new LatLng(latitud, longitud);
+                                                marcador=    nmap.addMarker(new MarkerOptions().position(new LatLng(latitud, longitud)).title(nombrelugar).icon(BitmapDescriptorFactory.fromResource(R.drawable.baches)));
+                                                    //    Toast.makeText(getActivity(),"jdjdj"+longitud,Toast.LENGTH_LONG).show();
+                                                    ventana ventana = new ventana(getContext());
+                                                    datos_ventana datos_ventana =new datos_ventana();
+                                                    datos_ventana.setDetalle(nombrelugar);
+                                                    datos_ventana.setNombre(nombrelugar);
+                                                    datos_ventana.setImage(imagen);
+                                                    marcador.setTag(datos_ventana);
+                                                    nmap.moveCamera(CameraUpdateFactory.newLatLng(LA));
+                                                }
 
-
-                                                              //  Toast.makeText(getActivity(),"gay",Toast.LENGTH_SHORT).show();
-                                                          };
-                                                          hilo.start();
-
-                                                          break;
-                                                      case 2:
-                                                          Thread hilo1 = new Thread() {
-                                                              @Override
-                                                              public void run() {
-                                                                  respuesta = enviar_filtro_incidencia(5);
-                                                                  getActivity().runOnUiThread(new Runnable() {
-                                                                      @Override
-                                                                      public void run() {
-                                                                          int con = OBJJson(respuesta);
-                                                                          if (con > 0) {
-                                                                              try {
-                                                                                  nmap.clear();
-                                                                                  JSONArray array = new JSONArray(respuesta);
-                                                                                  for (int i = 0; i < array.length(); i++) {
-                                                                                      JSONObject row = array.getJSONObject(i);
-                                                                                      Double latitud = row.getDouble("Latitud");
-                                                                                      Double longitud = row.getDouble("Longitud");
-                                                                                      String nombrelugar = row.getString("Zona");
-                                                                                      LatLng LA = new LatLng(latitud, longitud);
-                                                                                      nmap.addMarker(new MarkerOptions().position(new LatLng(latitud, longitud)).title(nombrelugar).icon(BitmapDescriptorFactory.fromResource(R.drawable.maltrato)));
-                                                                                      //    Toast.makeText(getActivity(),"jdjdj"+longitud,Toast.LENGTH_LONG).show();
-                                                                                      nmap.moveCamera(CameraUpdateFactory.newLatLng(LA));
-                                                                                  }
-
-                                                                              } catch (JSONException e) {
-                                                                                  e.printStackTrace();
-                                                                              }
-                                                                          } else {
-                                                                              Toast.makeText(getActivity(), "ss", Toast.LENGTH_LONG).show();
-                                                                          }
-                                                                      }
-                                                                  });
-                                                              }
+                                            } catch (JSONException e) {
+                                                e.printStackTrace();
+                                            }
+                                        } else {
+                                            Toast.makeText(getActivity(),"NO HAY INCIDENTES DE VACHES ",Toast.LENGTH_LONG).show();
+                                        }
+                                    }
+                                });
+                            }
 
 
-                                                              //  Toast.makeText(getActivity(),"gay",Toast.LENGTH_SHORT).show();
-                                                          };
-                                                          hilo1.start();
+                            //  Toast.makeText(getActivity(),"gay",Toast.LENGTH_SHORT).show();
+                        };
+                        hilotodo.start();
+                        break;
+                    case 2:
+                        Thread hilo = new Thread() {
+                            @Override
+                            public void run() {
+                                respuesta = enviar_filtro_incidencia(5);
+                                getActivity().runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        int con = OBJJson(respuesta);
+                                        nmap.clear();
+                                        if (con > 0) {
+                                            try {
+
+                                                JSONArray array = new JSONArray(respuesta);
+                                                for (int i = 0; i < array.length(); i++) {
+                                                    JSONObject row = array.getJSONObject(i);
+                                                    Double latitud = row.getDouble("Latitud");
+                                                    Double longitud = row.getDouble("Longitud");
+                                                    String nombrelugar = row.getString("Zona");
+                                                    String imagen=row.getString("imagen");
+                                                    LatLng LA = new LatLng(latitud, longitud);
+                                              marcador=      nmap.addMarker(new MarkerOptions().position(new LatLng(latitud, longitud)).title(nombrelugar).icon(BitmapDescriptorFactory.fromResource(R.drawable.maltrato)));
+                                                    //    Toast.makeText(getActivity(),"jdjdj"+longitud,Toast.LENGTH_LONG).show();
+                                                    ventana ventana = new ventana(getContext());
+                                                    datos_ventana datos_ventana =new datos_ventana();
+                                                    datos_ventana.setDetalle(nombrelugar);
+                                                    datos_ventana.setNombre(nombrelugar);
+                                                    datos_ventana.setImage(imagen);
+                                                    marcador.setTag(datos_ventana);
+                                                    nmap.moveCamera(CameraUpdateFactory.newLatLng(LA));
+                                                }
+
+                                            } catch (JSONException e) {
+                                                e.printStackTrace();
+                                            }
+                                        } else {
+                                            Toast.makeText(getActivity(),"NO HAY INCIDENTES DE VACHES ",Toast.LENGTH_LONG).show();
+                                        }
+                                    }
+                                });
+                            }
 
 
-                                                          break;
-                                                      case 3:
-                                                          Thread hilo2 = new Thread() {
-                                                              @Override
-                                                              public void run() {
-                                                                  respuesta = enviar_filtro_incidencia(6);
-                                                                  getActivity().runOnUiThread(new Runnable() {
-                                                                      @Override
-                                                                      public void run() {
-                                                                          int con = OBJJson(respuesta);
-                                                                          if (con > 0) {
-                                                                              try {
-                                                                                  nmap.clear();
-                                                                                  JSONArray array = new JSONArray(respuesta);
-                                                                                  for (int i = 0; i < array.length(); i++) {
-                                                                                      JSONObject row = array.getJSONObject(i);
-                                                                                      Double latitud = row.getDouble("Latitud");
-                                                                                      Double longitud = row.getDouble("Longitud");
-                                                                                      String nombrelugar = row.getString("Zona");
-                                                                                      LatLng LA = new LatLng(latitud, longitud);
-                                                                                      nmap.addMarker(new MarkerOptions().position(new LatLng(latitud, longitud)).title(nombrelugar).icon(BitmapDescriptorFactory.fromResource(R.drawable.lotes)));
-                                                                                      //    Toast.makeText(getActivity(),"jdjdj"+longitud,Toast.LENGTH_LONG).show();
-                                                                                      nmap.moveCamera(CameraUpdateFactory.newLatLng(LA));
-                                                                                  }
+                            //  Toast.makeText(getActivity(),"gay",Toast.LENGTH_SHORT).show();
+                        };
+                        hilo.start();
 
-                                                                              } catch (JSONException e) {
-                                                                                  e.printStackTrace();
-                                                                              }
-                                                                          } else {
-                                                                              Toast.makeText(getActivity(), "ss", Toast.LENGTH_LONG).show();
-                                                                          }
-                                                                      }
-                                                                  });
-                                                              }
+                        break;
+                    case 3:
+                        Thread hilo1 = new Thread() {
+                            @Override
+                            public void run() {
+                                respuesta = enviar_filtro_incidencia(6);
+                                getActivity().runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        int con = OBJJson(respuesta);
+                                        nmap.clear();
+                                        if (con > 0) {
+                                            try {
 
+                                                JSONArray array = new JSONArray(respuesta);
+                                                for (int i = 0; i < array.length(); i++) {
+                                                    JSONObject row = array.getJSONObject(i);
+                                                    Double latitud = row.getDouble("Latitud");
+                                                    Double longitud = row.getDouble("Longitud");
+                                                    String nombrelugar = row.getString("Zona");
+                                                    String imagen=row.getString("imagen");
+                                                    LatLng LA = new LatLng(latitud, longitud);
+                                                marcador=    nmap.addMarker(new MarkerOptions().position(new LatLng(latitud, longitud)).title(nombrelugar).icon(BitmapDescriptorFactory.fromResource(R.drawable.lotes)));
+                                                    //    Toast.makeText(getActivity(),"jdjdj"+longitud,Toast.LENGTH_LONG).show();
+                                                    ventana ventana = new ventana(getContext());
+                                                    datos_ventana datos_ventana =new datos_ventana();
+                                                    datos_ventana.setDetalle(nombrelugar);
+                                                    datos_ventana.setNombre(nombrelugar);
+                                                    datos_ventana.setImage(imagen);
+                                                    marcador.setTag(datos_ventana);
+                                                    nmap.moveCamera(CameraUpdateFactory.newLatLng(LA));
+                                                }
 
-                                                              //  Toast.makeText(getActivity(),"gay",Toast.LENGTH_SHORT).show();
-                                                          };
-                                                          hilo2.start();
-
-                                                          break;
-                                                      case 4:
-                                                          Thread hilo3 = new Thread() {
-                                                              @Override
-                                                              public void run() {
-                                                                  respuesta = enviar_filtro_incidencia(7);
-                                                                  getActivity().runOnUiThread(new Runnable() {
-                                                                      @Override
-                                                                      public void run() {
-                                                                          int con = OBJJson(respuesta);
-                                                                          nmap.clear();
-                                                                          if (con > 0) {
-                                                                              try {
-
-                                                                                  JSONArray array = new JSONArray(respuesta);
-                                                                                  for (int i = 0; i < array.length(); i++) {
-                                                                                      JSONObject row = array.getJSONObject(i);
-                                                                                      Double latitud = row.getDouble("Latitud");
-                                                                                      Double longitud = row.getDouble("Longitud");
-                                                                                      String nombrelugar = row.getString("Zona");
-                                                                                      LatLng LA = new LatLng(latitud, longitud);
-                                                                                      nmap.addMarker(new MarkerOptions().position(new LatLng(latitud, longitud)).title(nombrelugar).icon(BitmapDescriptorFactory.fromResource(R.drawable.vandalismo)));
-                                                                                      //    Toast.makeText(getActivity(),"jdjdj"+longitud,Toast.LENGTH_LONG).show();
-                                                                                      nmap.moveCamera(CameraUpdateFactory.newLatLng(LA));
-                                                                                  }
-
-                                                                              } catch (JSONException e) {
-                                                                                  e.printStackTrace();
-                                                                              }
-                                                                          } else {
-                                                                              Toast.makeText(getActivity(), "ss", Toast.LENGTH_LONG).show();
-                                                                          }
-                                                                      }
-                                                                  });
-                                                              }
+                                            } catch (JSONException e) {
+                                                e.printStackTrace();
+                                            }
+                                        } else {
+                                            Toast.makeText(getActivity(),"NO HAY INCIDENTES DE MALTRATO ANIMAL ",Toast.LENGTH_LONG).show();
+                                        }
+                                    }
+                                });
+                            }
 
 
-                                                              //  Toast.makeText(getActivity(),"gay",Toast.LENGTH_SHORT).show();
-                                                          };
-                                                          hilo3.start();
-
-                                                          break;
-                                                      case 5:
-                                                          Thread hilo4 = new Thread() {
-                                                              @Override
-                                                              public void run() {
-                                                                  respuesta = enviar_filtro_incidencia(8);
-                                                                  getActivity().runOnUiThread(new Runnable() {
-                                                                      @Override
-                                                                      public void run() {
-                                                                          int con = OBJJson(respuesta);
-                                                                          nmap.clear();
-                                                                          if (con > 0) {
-                                                                              try {
-
-                                                                                  JSONArray array = new JSONArray(respuesta);
-                                                                                  for (int i = 0; i < array.length(); i++) {
-                                                                                      JSONObject row = array.getJSONObject(i);
-                                                                                      Double latitud = row.getDouble("Latitud");
-                                                                                      Double longitud = row.getDouble("Longitud");
-                                                                                      String nombrelugar = row.getString("Zona");
-                                                                                      LatLng LA = new LatLng(latitud, longitud);
-                                                                                      nmap.addMarker(new MarkerOptions().position(new LatLng(latitud, longitud)).title(nombrelugar).icon(BitmapDescriptorFactory.fromResource(R.drawable.robo)));
-                                                                                      //    Toast.makeText(getActivity(),"jdjdj"+longitud,Toast.LENGTH_LONG).show();
-                                                                                      nmap.moveCamera(CameraUpdateFactory.newLatLng(LA));
-                                                                                  }
-
-                                                                              } catch (JSONException e) {
-                                                                                  e.printStackTrace();
-                                                                              }
-                                                                          } else {
-                                                                              Toast.makeText(getActivity(), "ss", Toast.LENGTH_LONG).show();
-                                                                          }
-                                                                      }
-                                                                  });
-                                                              }
+                            //  Toast.makeText(getActivity(),"gay",Toast.LENGTH_SHORT).show();
+                        };
+                        hilo1.start();
 
 
-                                                              //  Toast.makeText(getActivity(),"gay",Toast.LENGTH_SHORT).show();
-                                                          };
-                                                          hilo4.start();
+                        break;
+                    case 4:
+                        Thread hilo2 = new Thread() {
+                            @Override
+                            public void run() {
+                                respuesta = enviar_filtro_incidencia(7);
+                                getActivity().runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        int con = OBJJson(respuesta);
+                                        nmap.clear();
+                                        if (con > 0) {
+                                            try {
 
-                                                          break;
-                                                      case 6:
-                                                          Thread hilo5 = new Thread() {
-                                                              @Override
-                                                              public void run() {
-                                                                  respuesta = enviar_filtro_incidencia(9);
-                                                                  getActivity().runOnUiThread(new Runnable() {
-                                                                      @Override
-                                                                      public void run() {
-                                                                          int con = OBJJson(respuesta);
-                                                                          nmap.clear();
-                                                                          if (con > 0) {
-                                                                              try {
+                                                JSONArray array = new JSONArray(respuesta);
+                                                for (int i = 0; i < array.length(); i++) {
+                                                    JSONObject row = array.getJSONObject(i);
+                                                    Double latitud = row.getDouble("Latitud");
+                                                    Double longitud = row.getDouble("Longitud");
+                                                    String nombrelugar = row.getString("Zona");
+                                                    String imagen=row.getString("imagen");
+                                                    LatLng LA = new LatLng(latitud, longitud);
+                                                 marcador=   nmap.addMarker(new MarkerOptions().position(new LatLng(latitud, longitud)).title(nombrelugar).icon(BitmapDescriptorFactory.fromResource(R.drawable.vandalismo)));
+                                                    //    Toast.makeText(getActivity(),"jdjdj"+longitud,Toast.LENGTH_LONG).show();
+                                                    ventana ventana = new ventana(getContext());
+                                                    datos_ventana datos_ventana =new datos_ventana();
+                                                    datos_ventana.setDetalle(nombrelugar);
+                                                    datos_ventana.setNombre(nombrelugar);
+                                                    datos_ventana.setImage(imagen);
+                                                    marcador.setTag(datos_ventana);
+                                                    nmap.moveCamera(CameraUpdateFactory.newLatLng(LA));
+                                                }
 
-                                                                                  JSONArray array = new JSONArray(respuesta);
-                                                                                  for (int i = 0; i < array.length(); i++) {
-                                                                                      JSONObject row = array.getJSONObject(i);
-                                                                                      Double latitud = row.getDouble("Latitud");
-                                                                                      Double longitud = row.getDouble("Longitud");
-                                                                                      String nombrelugar = row.getString("Zona");
-                                                                                      LatLng LA = new LatLng(latitud, longitud);
-                                                                                      nmap.addMarker(new MarkerOptions().position(new LatLng(latitud, longitud)).title(nombrelugar).icon(BitmapDescriptorFactory.fromResource(R.drawable.quema)));
-                                                                                      //    Toast.makeText(getActivity(),"jdjdj"+longitud,Toast.LENGTH_LONG).show();
-                                                                                      nmap.moveCamera(CameraUpdateFactory.newLatLng(LA));
-                                                                                  }
-
-                                                                              } catch (JSONException e) {
-                                                                                  e.printStackTrace();
-                                                                              }
-                                                                          } else {
-                                                                              Toast.makeText(getActivity(), "ss", Toast.LENGTH_LONG).show();
-                                                                          }
-                                                                      }
-                                                                  });
-                                                              }
-
-
-                                                              //  Toast.makeText(getActivity(),"gay",Toast.LENGTH_SHORT).show();
-                                                          };
-                                                          hilo5.start();
-                                                          break;
-                                                      case 7:
-                                                          Thread hilo6 = new Thread() {
-                                                              @Override
-                                                              public void run() {
-                                                                  respuesta = enviar_filtro_incidencia(10);
-                                                                  getActivity().runOnUiThread(new Runnable() {
-                                                                      @Override
-                                                                      public void run() {
-                                                                          int con = OBJJson(respuesta);
-                                                                          nmap.clear();
-                                                                          if (con > 0) {
-                                                                              try {
-
-                                                                                  JSONArray array = new JSONArray(respuesta);
-                                                                                  for (int i = 0; i < array.length(); i++) {
-                                                                                      JSONObject row = array.getJSONObject(i);
-                                                                                      Double latitud = row.getDouble("Latitud");
-                                                                                      Double longitud = row.getDouble("Longitud");
-                                                                                      String nombrelugar = row.getString("Zona");
-                                                                                      LatLng LA = new LatLng(latitud, longitud);
-                                                                                      nmap.addMarker(new MarkerOptions().position(new LatLng(latitud, longitud)).title(nombrelugar).icon(BitmapDescriptorFactory.fromResource(R.drawable.accidentes)));
-                                                                                      //    Toast.makeText(getActivity(),"jdjdj"+longitud,Toast.LENGTH_LONG).show();
-                                                                                      nmap.moveCamera(CameraUpdateFactory.newLatLng(LA));
-                                                                                  }
-
-                                                                              } catch (JSONException e) {
-                                                                                  e.printStackTrace();
-                                                                              }
-                                                                          } else {
-                                                                              Toast.makeText(getActivity(), "ss", Toast.LENGTH_LONG).show();
-                                                                          }
-                                                                      }
-                                                                  });
-                                                              }
+                                            } catch (JSONException e) {
+                                                e.printStackTrace();
+                                            }
+                                        } else {
+                                            Toast.makeText(getActivity(),"NO HAY INCIDENTES DE LOTES VALDÍOS ",Toast.LENGTH_LONG).show();
+                                        }
+                                    }
+                                });
+                            }
 
 
-                                                              //  Toast.makeText(getActivity(),"gay",Toast.LENGTH_SHORT).show();
-                                                          };
-                                                          hilo6.start();
+                            //  Toast.makeText(getActivity(),"gay",Toast.LENGTH_SHORT).show();
+                        };
+                        hilo2.start();
 
-                                                          break;
-                                                      case 8:
-                                                          Thread hilo7 = new Thread() {
-                                                              @Override
-                                                              public void run() {
-                                                                  respuesta = enviar_filtro_incidencia(11);
-                                                                  getActivity().runOnUiThread(new Runnable() {
-                                                                      @Override
-                                                                      public void run() {
-                                                                          int con = OBJJson(respuesta);
-                                                                          nmap.clear();
-                                                                          if (con > 0) {
-                                                                              try {
+                        break;
+                    case 5:
+                        Thread hilo3 = new Thread() {
+                            @Override
+                            public void run() {
+                                respuesta = enviar_filtro_incidencia(8);
+                                getActivity().runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        int con = OBJJson(respuesta);
+                                        nmap.clear();
+                                        if (con > 0) {
+                                            try {
 
-                                                                                  JSONArray array = new JSONArray(respuesta);
-                                                                                  for (int i = 0; i < array.length(); i++) {
-                                                                                      JSONObject row = array.getJSONObject(i);
-                                                                                      Double latitud = row.getDouble("Latitud");
-                                                                                      Double longitud = row.getDouble("Longitud");
-                                                                                      String nombrelugar = row.getString("Zona");
-                                                                                      LatLng LA = new LatLng(latitud, longitud);
-                                                                                      nmap.addMarker(new MarkerOptions().position(new LatLng(latitud, longitud)).title(nombrelugar).icon(BitmapDescriptorFactory.fromResource(R.drawable.otros)));
-                                                                                      //    Toast.makeText(getActivity(),"jdjdj"+longitud,Toast.LENGTH_LONG).show();
-                                                                                      nmap.moveCamera(CameraUpdateFactory.newLatLng(LA));
-                                                                                  }
+                                                JSONArray array = new JSONArray(respuesta);
+                                                for (int i = 0; i < array.length(); i++) {
+                                                    JSONObject row = array.getJSONObject(i);
+                                                    Double latitud = row.getDouble("Latitud");
+                                                    Double longitud = row.getDouble("Longitud");
+                                                    String nombrelugar = row.getString("Zona");
+                                                    String imagen=row.getString("imagen");
+                                                    LatLng LA = new LatLng(latitud, longitud);
+                                                    marcador=nmap.addMarker(new MarkerOptions().position(new LatLng(latitud, longitud)).title(nombrelugar).icon(BitmapDescriptorFactory.fromResource(R.drawable.robo)));
+                                                    //    Toast.makeText(getActivity(),"jdjdj"+longitud,Toast.LENGTH_LONG).show();
+                                                    ventana ventana = new ventana(getContext());
+                                                    datos_ventana datos_ventana =new datos_ventana();
+                                                    datos_ventana.setDetalle(nombrelugar);
+                                                    datos_ventana.setNombre(nombrelugar);
+                                                    datos_ventana.setImage(imagen);
+                                                    marcador.setTag(datos_ventana);
+                                                    nmap.moveCamera(CameraUpdateFactory.newLatLng(LA));
+                                                }
 
-                                                                              } catch (JSONException e) {
-                                                                                  e.printStackTrace();
-                                                                              }
-                                                                          } else {
-                                                                              Toast.makeText(getActivity(), "ss", Toast.LENGTH_LONG).show();
-                                                                          }
-                                                                      }
-                                                                  });
-                                                              }
+                                            } catch (JSONException e) {
+                                                e.printStackTrace();
+                                            }
+                                        } else {
+                                            Toast.makeText(getActivity(),"NO HAY INCIDENTES DE VANDALISMO ",Toast.LENGTH_LONG).show();
+                                        }
+                                    }
+                                });
+                            }
 
 
-                                                              //  Toast.makeText(getActivity(),"gay",Toast.LENGTH_SHORT).show();
-                                                          };
-                                                          hilo7.start();
+                            //  Toast.makeText(getActivity(),"gay",Toast.LENGTH_SHORT).show();
+                        };
+                        hilo3.start();
 
-                                                          break;
+                        break;
+                    case 6:
+                        Thread hilo4 = new Thread() {
+                            @Override
+                            public void run() {
+                                respuesta = enviar_filtro_incidencia(9);
+                                getActivity().runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        int con = OBJJson(respuesta);
+                                        nmap.clear();
+                                        if (con > 0) {
+                                            try {
 
-                                                  }
-                                              }
+                                                JSONArray array = new JSONArray(respuesta);
+                                                for (int i = 0; i < array.length(); i++) {
+                                                    JSONObject row = array.getJSONObject(i);
+                                                    Double latitud = row.getDouble("Latitud");
+                                                    Double longitud = row.getDouble("Longitud");
+                                                    String nombrelugar = row.getString("Zona");
+                                                    String imagen=row.getString("imagen");
+                                                    LatLng LA = new LatLng(latitud, longitud);
+                                                    marcador=nmap.addMarker(new MarkerOptions().position(new LatLng(latitud, longitud)).title(nombrelugar).icon(BitmapDescriptorFactory.fromResource(R.drawable.quema)));
+                                                    //    Toast.makeText(getActivity(),"jdjdj"+longitud,Toast.LENGTH_LONG).show();
+                                                    ventana ventana = new ventana(getContext());
+                                                    datos_ventana datos_ventana =new datos_ventana();
+                                                    datos_ventana.setDetalle(nombrelugar);
+                                                    datos_ventana.setNombre(nombrelugar);
+                                                    datos_ventana.setImage(imagen);
+                                                    marcador.setTag(datos_ventana);
+                                                    nmap.moveCamera(CameraUpdateFactory.newLatLng(LA));
+                                                }
 
-                                              @Override
-                                              public void onNothingSelected(AdapterView <?> adapterView) {
+                                            } catch (JSONException e) {
+                                                e.printStackTrace();
+                                            }
+                                        } else {
+                                            Toast.makeText(getActivity(),"NO HAY INCIDENTES DE ROBO ",Toast.LENGTH_LONG).show();
+                                        }
+                                    }
+                                });
+                            }
 
-                                              }
+
+                            //  Toast.makeText(getActivity(),"gay",Toast.LENGTH_SHORT).show();
+                        };
+                        hilo4.start();
+
+                        break;
+                    case 7:
+                        Thread hilo5 = new Thread() {
+                            @Override
+                            public void run() {
+                                respuesta = enviar_filtro_incidencia(10);
+                                getActivity().runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        int con = OBJJson(respuesta);
+                                        nmap.clear();
+                                        if (con > 0) {
+                                            try {
+
+                                                JSONArray array = new JSONArray(respuesta);
+                                                for (int i = 0; i < array.length(); i++) {
+                                                    JSONObject row = array.getJSONObject(i);
+                                                    Double latitud = row.getDouble("Latitud");
+                                                    Double longitud = row.getDouble("Longitud");
+                                                    String nombrelugar = row.getString("Zona");
+                                                    String imagen=row.getString("imagen");
+                                                    LatLng LA = new LatLng(latitud, longitud);
+                                                    marcador=nmap.addMarker(new MarkerOptions().position(new LatLng(latitud, longitud)).title(nombrelugar).icon(BitmapDescriptorFactory.fromResource(R.drawable.accidentes)));
+                                                    //    Toast.makeText(getActivity(),"jdjdj"+longitud,Toast.LENGTH_LONG).show();
+                                                    ventana ventana = new ventana(getContext());
+                                                    datos_ventana datos_ventana =new datos_ventana();
+                                                    datos_ventana.setDetalle(nombrelugar);
+                                                    datos_ventana.setNombre(nombrelugar);
+                                                    datos_ventana.setImage(imagen);
+                                                    marcador.setTag(datos_ventana);
+                                                    nmap.moveCamera(CameraUpdateFactory.newLatLng(LA));
+                                                }
+
+                                            } catch (JSONException e) {
+                                                e.printStackTrace();
+                                            }
+                                        } else {
+                                            Toast.makeText(getActivity(),"NO HAY INCIDENTES DE QUEMA DE BASURA",Toast.LENGTH_LONG).show();
+                                        }
+                                    }
+                                });
+                            }
+
+
+                            //  Toast.makeText(getActivity(),"gay",Toast.LENGTH_SHORT).show();
+                        };
+                        hilo5.start();
+                        break;
+                    case 8:
+                        Thread hilo6 = new Thread() {
+                            @Override
+                            public void run() {
+                                respuesta = enviar_filtro_incidencia(11);
+                                getActivity().runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        int con = OBJJson(respuesta);
+                                        nmap.clear();
+                                        if (con > 0) {
+                                            try {
+
+                                                JSONArray array = new JSONArray(respuesta);
+                                                for (int i = 0; i < array.length(); i++) {
+                                                    JSONObject row = array.getJSONObject(i);
+                                                    Double latitud = row.getDouble("Latitud");
+                                                    Double longitud = row.getDouble("Longitud");
+                                                    String nombrelugar = row.getString("Zona");
+                                                    String imagen=row.getString("imagen");
+                                                    LatLng LA = new LatLng(latitud, longitud);
+                                           marcador=         nmap.addMarker(new MarkerOptions().position(new LatLng(latitud, longitud)).title(nombrelugar).icon(BitmapDescriptorFactory.fromResource(R.drawable.otros)));
+                                                    //    Toast.makeText(getActivity(),"jdjdj"+longitud,Toast.LENGTH_LONG).show();
+                                                    ventana ventana = new ventana(getContext());
+                                                    datos_ventana datos_ventana =new datos_ventana();
+                                                    datos_ventana.setDetalle(nombrelugar);
+                                                    datos_ventana.setNombre(nombrelugar);
+                                                    datos_ventana.setImage(imagen);
+                                                    marcador.setTag(datos_ventana);
+                                                    nmap.moveCamera(CameraUpdateFactory.newLatLng(LA));
+                                                }
+
+                                            } catch (JSONException e) {
+                                                e.printStackTrace();
+                                            }
+                                        } else {
+                                            Toast.makeText(getActivity(),"NO HAY INCIDENTES DE ACIIDENTES AUTOMOVILISTICOS ",Toast.LENGTH_LONG).show();
+                                        }
+                                    }
+                                });
+                            }
+
+
+                            //  Toast.makeText(getActivity(),"gay",Toast.LENGTH_SHORT).show();
+                        };
+                        hilo6.start();
+
+                        break;
+
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView <?> adapterView) {
+
+            }
         });
 
 
@@ -467,6 +529,9 @@ Spinner spinner;
         nmap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         LatLng LA=new LatLng(20.9673702,-89.59258569999997);
         CameraUpdate miubicacion= CameraUpdateFactory.newLatLngZoom(LA,12);
+        ventana ventana = new ventana(getContext());
+        //ventana vetana=new ventana(getActivity());
+        nmap.setInfoWindowAdapter(ventana);
 nmap.moveCamera(miubicacion);
     }
 
@@ -487,7 +552,36 @@ nmap.moveCamera(miubicacion);
         StringBuilder resul=null;
         try {
             //http://fhkuku182-001-site1.atempurl.com/Grantour.asmx/CargarLugares
-            url=new URL("http://incidencias2.gearhostpreview.com/sos_service.asmx/filtros_de_niveles?id_peligro="+va);
+            url=new URL("http://proyectoinciencias.gearhostpreview.com/sos_service.asmx/filtros_de_incidencias_porusuario?id_peligro="+va+"&id_usuario="+id_usuario);
+            HttpURLConnection conec=(HttpURLConnection)url.openConnection();
+            respuesta=conec.getResponseCode();
+            resul=new StringBuilder();
+            if(respuesta==HttpURLConnection.HTTP_OK)
+            {
+                InputStream in= new BufferedInputStream(conec.getInputStream());
+                BufferedReader reader= new BufferedReader(new InputStreamReader(in));
+
+                while ((linea=reader.readLine())!=null)
+                {
+                    resul.append(linea);
+                }
+
+            }
+        }catch (Exception e)
+        {
+
+        }
+        return  resul.toString();
+
+    }
+    public  String incidencias_usuario(int va)  {
+        URL url=null;
+        String linea="";
+        int respuesta=0;
+        StringBuilder resul=null;
+        try {
+            //http://fhkuku182-001-site1.atempurl.com/Grantour.asmx/CargarLugares
+            url=new URL("http://proyectoinciencias.gearhostpreview.com/sos_service.asmx/filtros_de_incidencias_porusuario?id_peligro="+va+"&id_usuario="+id_usuario);
             HttpURLConnection conec=(HttpURLConnection)url.openConnection();
             respuesta=conec.getResponseCode();
             resul=new StringBuilder();

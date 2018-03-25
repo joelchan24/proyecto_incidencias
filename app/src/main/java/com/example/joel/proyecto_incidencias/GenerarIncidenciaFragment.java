@@ -20,6 +20,10 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.cloudinary.android.MediaManager;
 import com.cloudinary.android.callback.ErrorInfo;
 import com.cloudinary.android.callback.UploadCallback;
@@ -35,6 +39,8 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONObject;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.File;
@@ -43,7 +49,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.HashMap;
 import java.util.Map;
 
 import static android.app.Activity.RESULT_OK;
@@ -59,11 +64,13 @@ import static android.app.Activity.RESULT_OK;
  * Use the {@link GenerarIncidenciaFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class GenerarIncidenciaFragment extends Fragment implements OnMapReadyCallback,GoogleMap.OnMarkerDragListener {
+public class GenerarIncidenciaFragment extends Fragment implements OnMapReadyCallback,GoogleMap.OnMarkerDragListener, com.android.volley.Response.Listener<JSONObject>, com.android.volley.Response.ErrorListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    RequestQueue requestQueue;
+    JsonObjectRequest jsonObject;
     int id_usuario;
     String dat;
     GoogleMap ngogle;
@@ -71,6 +78,8 @@ public class GenerarIncidenciaFragment extends Fragment implements OnMapReadyCal
     Marker marcadorgay;
     double lo;
     double latitud;
+    String foto_string;
+    int   id_insidencia;
 // static final int REQUEST_IMAGE_CAPTURE = 123;
     String acciones;
 TextView zona,comentario;
@@ -125,14 +134,7 @@ Bitmap ima;
 
     }
 
-   public static Map Configuracion()
-    {
-        Map Config = new HashMap();
-        Config.put("cloud_name", "dlyngnwmw");
-        Config.put("api_key", "362846149476767");
-        Config.put("api_secret", "x8gH0p8MD_4hTCJ0aR6xZWq8mo0");
-        return Config;
-    }
+
 
 
 
@@ -156,7 +158,7 @@ Bitmap ima;
                 builder.setSingleChoiceItems(arreglo, -1, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        MediaManager.init(getActivity(),Configuracion());
+
                         if(which == 0)
                         {
                             acciones = "CAMARA";
@@ -192,13 +194,14 @@ Bitmap ima;
         });
       String id=Integer.toString(id_usuario);
 
+requestQueue= Volley.newRequestQueue(getContext());
         Button guardar= (Button)vista_crearincidencias.findViewById(R.id.btn_guardar);
          guardar.setOnClickListener(new View.OnClickListener() {
              @Override
              public void onClick(View view) {
-                 Toast.makeText(getActivity(),""+datogayner.toString()+" "+id_usuario,Toast.LENGTH_LONG).show();
-             int   id_insidencia=Integer.parseInt(datogayner);
-                 Agregar_incidencia(marcadorgay.getPosition().longitude,marcadorgay.getPosition().latitude,zona.getText().toString(),id_usuario,id_insidencia,comentario.getText().toString());
+                 Toast.makeText(getActivity(),""+dat+" "+id_usuario,Toast.LENGTH_LONG).show();
+//enviarpost();
+                 cargar_webservice(marcadorgay.getPosition().longitude,marcadorgay.getPosition().latitude,zona.getText().toString(),id_usuario,id_insidencia,comentario.getText().toString(),foto_string);
               //   Toast.makeText(getActivity(),""+id_usuario,Toast.LENGTH_LONG).show();
              }
          });
@@ -278,7 +281,8 @@ Bitmap ima;
                 public void onSuccess(String requestId, Map resultData) {
                     //Aqui te da la URL de la imagen
                     String URLRESULTADO = resultData.get("url").toString();
-                    Toast.makeText(getActivity(), URLRESULTADO, Toast.LENGTH_SHORT).show();
+                    foto_string=URLRESULTADO;
+                    Toast.makeText(getActivity(), foto_string, Toast.LENGTH_SHORT).show();
                 }
 
                 @Override
@@ -318,7 +322,8 @@ Bitmap ima;
                         @Override
                         public void onSuccess(String requestId, Map resultData) {
                             String uri=resultData.get("url").toString();
-                            Toast.makeText(getActivity(),uri.toString(),Toast.LENGTH_SHORT).show();
+                            foto_string=uri;
+                            Toast.makeText(getActivity(),foto_string,Toast.LENGTH_SHORT).show();
                           //  Log.d("Resultado", resultData.get("url").toString());
                         }
 
@@ -421,6 +426,27 @@ Bitmap ima;
 
     }
 
+    public  void cargar_webservice(double longi,double lat,String zona,int id_usuario,int id_incidencia,String come ,String fto)
+    {
+
+       String urldafa="kkdkd";
+        String url="http://proyectoinciencias.gearhostpreview.com/sos_service.asmx/Guardar_puntos?longitud="+longi+"&latitud="+lat+"&zona="+zona+"&id_usuario="+id_usuario+"&id_peligro="+id_incidencia+"&url="+urldafa+"&comentario="+come+"&foto="+fto;
+        url.replace(" ","%20");
+        jsonObject = new JsonObjectRequest(com.android.volley.Request.Method.GET,url,null,this,this);
+        requestQueue.add(jsonObject);
+    }
+
+    @Override
+    public void onErrorResponse(VolleyError error) {
+        Toast.makeText(getContext(),"error",Toast.LENGTH_LONG).show();
+
+    }
+
+    @Override
+    public void onResponse(JSONObject response) {
+        Toast.makeText(getContext(),"guardado",Toast.LENGTH_LONG).show();
+    }
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -450,15 +476,18 @@ Bitmap ima;
 
         return builder.create();
     }
-    public  void Agregar_incidencia(double longi,double lat,String zona,int id_usuario,int id_incidencia,String come)  {
+    public  void Agregar_incidencia(double longi,double lat,String zona,int id_usuario,int id_incidencia,String come )  {
         String urldefait="nota";
 
         URL url=null;
+        String fto="http://res.cloudinary.com/dlyngnwmw/image/upload/v1521600790/IMG_20180320_205047_pnck08.jpg";
         String linea="";
         int respuesta=0;
         StringBuilder resul=null;
         try {
-            url=new URL("http://incidenciaspro.gearhostpreview.com/sos_service.asmx/Guardar_puntos?longitud="+longi+"&latitud="+lat+"&Zona="+zona+"&id_usuario="+id_usuario+"&id_peligro="+id_incidencia+"&url="+urldefait+"&comentario="+come);
+            //"http://proyectoinciencias.gearhostpreview.com/sos_service.asmx/Guardar_puntos?longitud="+longi+"&latitud="+lat+"&zona="+zona+"&id_usuario="+id_usuario+"&id_peligro="+id_incidencia+"&url="+urldefait+"&comentario="+come+"&foto="+fto
+            //http://proyectoinciencias.gearhostpreview.com/sos_service.asmx/Guardar_puntos?longitud=-89.64037809008789&latitud=20.966094900664228&zona=hgghg&id_usuario=3033&id_peligro=4&url=ksksk&comentario=jksjskj&foto=http://res.cloudinary.com/dlyngnwmw/image/upload/v1521600790/IMG_20180320_205047_pnck08.jpg
+            url=new URL("http://proyectoinciencias.gearhostpreview.com//sos_service.asmx/Guardar_puntos?longitud=-89.64037809008789&latitud=20.966094900664228&zona=hghghghghghg&id_usuario=3033&id_peligro=4&url=ksksk&comentario=hyhyhyhyhyhyhyhyyy&foto=http://res.cloudinary.com/dlyngnwmw/image/upload/v1521600790/IMG_20180320_205047_pnck08.jpg");
             HttpURLConnection conec=(HttpURLConnection)url.openConnection();
             respuesta=conec.getResponseCode();
             resul=new StringBuilder();
@@ -480,22 +509,33 @@ Bitmap ima;
 
     }
 
-/* public void  selccionar(View view)
-    {
-final CharSequence[] arreglo={"You tube","Vimeo","DropBOX","Gogle-drive"};
-final AlertDialog.Builder ale= new AlertDialog.Builder(this);
-ale.setTitle("que servicio te gusta");
-ale.setSingleChoiceItems(arreglo, -1, new DialogInterface.OnClickListener() {
-    @Override
-    public void onClick(DialogInterface dialogo_can, int registro) {
-        mensajetoast("cual te gusta "+arreglo[registro]);
-        dialogo_can.cancel();
-    }
-});
+    public  void enviarpost()  {
+        URL url=null;
+        String linea="";
+        int respuesta=0;
+        StringBuilder resul=null;
+        try {
+            url=new URL("http://proyectoinciencias.gearhostpreview.com//sos_service.asmx/Guardar_puntos?longitud=-89.64037809008789&latitud=20.966094900664228&zona=hghghghghghg&id_usuario=3033&id_peligro=4&url=ksksk&comentario=hyhyhyhyhyhyhyhyyy&foto=http://res.cloudinary.com/dlyngnwmw/image/upload/v1521600790/IMG_20180320_205047_pnck08.jpg");
+            HttpURLConnection conec=(HttpURLConnection)url.openConnection();
 
-AlertDialog alerta= ale.create();
-alerta.show();
-    }*/
+           // respuesta=conec.getResponseCode();
+          //  resul=new StringBuilder();
+           /* if(respuesta==HttpURLConnection.HTTP_OK)
+            {
+                InputStream in= new BufferedInputStream(conec.getInputStream());
+                BufferedReader reader= new BufferedReader(new InputStreamReader(in));
+
+                while ((linea=reader.readLine())!=null)
+                {
+                    resul.append(linea);
+                }
+
+            }*/
+        }catch (Exception e)
+        {}
+
+
+    }
     public void seleccionar(View view)
     {
         AlertDialog.Builder ale=new AlertDialog.Builder(getActivity());
@@ -504,6 +544,7 @@ alerta.show();
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 datogayner=array[i].toString();
+                id_insidencia=Integer.parseInt(datogayner);
                 dialogInterface.cancel();
             }
         });

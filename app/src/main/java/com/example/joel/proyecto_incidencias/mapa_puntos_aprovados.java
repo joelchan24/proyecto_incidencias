@@ -44,7 +44,7 @@ import java.util.List;
 public class mapa_puntos_aprovados extends Fragment implements OnMapReadyCallback {
 
     public String respueta;
-    datos_ventana datos_ventana =new datos_ventana();
+
     GoogleMap nmap;
     MapView mapView;
     View vista;
@@ -82,7 +82,7 @@ String baches;
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView <?> adapterView, View view, int i, long l) {
-                Toast.makeText(adapterView.getContext(), ((SocialNetwork) adapterView.getItemAtPosition(i)).getNombre()+i, Toast.LENGTH_SHORT).show();
+             //   Toast.makeText(adapterView.getContext(), ((SocialNetwork) adapterView.getItemAtPosition(i)).getNombre()+i, Toast.LENGTH_SHORT).show();
                 int posicion =i;
                 switch (i)
                 {
@@ -95,18 +95,28 @@ String baches;
                                     @Override
                                     public void run() {
                                         int con = OBJJson(respuesta);
+                                        nmap.clear();
                                         if (con > 0) {
                                             try {
-                                                nmap.clear();
+
                                                 JSONArray array = new JSONArray(respuesta);
                                                 for (int i = 0; i < array.length(); i++) {
                                                     JSONObject row = array.getJSONObject(i);
                                                     Double latitud = row.getDouble("Latitud");
                                                     Double longitud = row.getDouble("Longitud");
                                                     String nombrelugar = row.getString("Zona");
+                                                    String imagen=row.getString("imagen");
                                                     LatLng LA = new LatLng(latitud, longitud);
-                                                    nmap.addMarker(new MarkerOptions().position(new LatLng(latitud, longitud)).title(nombrelugar).icon(BitmapDescriptorFactory.fromResource(R.drawable.baches)));
+                                         marker=           nmap.addMarker(new MarkerOptions().position(new LatLng(latitud, longitud)).title(nombrelugar).icon(BitmapDescriptorFactory.fromResource(R.drawable.baches)));
                                                     //    Toast.makeText(getActivity(),"jdjdj"+longitud,Toast.LENGTH_LONG).show();
+                                                    ventana ventana = new ventana(getContext());
+                                                    datos_ventana datos_ventana =new datos_ventana();
+                                                    datos_ventana.setDetalle(nombrelugar);
+                                                    datos_ventana.setNombre(nombrelugar);
+                                                    datos_ventana.setImage(imagen);
+
+                                                    marker.setTag(datos_ventana);
+
                                                     nmap.moveCamera(CameraUpdateFactory.newLatLng(LA));
                                                 }
 
@@ -114,7 +124,7 @@ String baches;
                                                 e.printStackTrace();
                                             }
                                         } else {
-                                            Toast.makeText(getActivity(),"ss",Toast.LENGTH_LONG).show();
+                                            Toast.makeText(getActivity(),"NO HAY INCIDENTES DE VACHES ",Toast.LENGTH_LONG).show();
                                         }
                                     }
                                 });
@@ -135,18 +145,27 @@ String baches;
                                     @Override
                                     public void run() {
                                         int con = OBJJson(respuesta);
+                                        nmap.clear();
                                         if (con > 0) {
                                             try {
-                                                  nmap.clear();
+
                                                 JSONArray array = new JSONArray(respuesta);
                                                 for (int i = 0; i < array.length(); i++) {
                                                     JSONObject row = array.getJSONObject(i);
                                                     Double latitud = row.getDouble("Latitud");
                                                     Double longitud = row.getDouble("Longitud");
                                                     String nombrelugar = row.getString("Zona");
+                                                    String imagen=row.getString("imagen");
                                                     LatLng LA = new LatLng(latitud, longitud);
-                                                    nmap.addMarker(new MarkerOptions().position(new LatLng(latitud, longitud)).title(nombrelugar).icon(BitmapDescriptorFactory.fromResource(R.drawable.maltrato)));
+                                         marker=           nmap.addMarker(new MarkerOptions().position(new LatLng(latitud, longitud)).title(nombrelugar).icon(BitmapDescriptorFactory.fromResource(R.drawable.maltrato)));
                                                     //    Toast.makeText(getActivity(),"jdjdj"+longitud,Toast.LENGTH_LONG).show();
+                                                    ventana ventana = new ventana(getContext());
+                                                    datos_ventana datos_ventana =new datos_ventana();
+                                                    datos_ventana.setDetalle(nombrelugar);
+                                                    datos_ventana.setNombre(nombrelugar);
+                                                    datos_ventana.setImage(imagen);
+
+                                                    marker.setTag(datos_ventana);
                                                     nmap.moveCamera(CameraUpdateFactory.newLatLng(LA));
                                                 }
 
@@ -154,7 +173,7 @@ String baches;
                                                 e.printStackTrace();
                                             }
                                         } else {
-Toast.makeText(getActivity(),"ss",Toast.LENGTH_LONG).show();
+Toast.makeText(getActivity(),"NO HAY INCIDENTES DE MALTRATO ANIMAL ",Toast.LENGTH_LONG).show();
                                         }
                                     }
                                 });
@@ -176,18 +195,27 @@ Toast.makeText(getActivity(),"ss",Toast.LENGTH_LONG).show();
                                     @Override
                                     public void run() {
                                         int con = OBJJson(respuesta);
+                                        nmap.clear();
                                         if (con > 0) {
                                             try {
-                                                nmap.clear();
+
                                                 JSONArray array = new JSONArray(respuesta);
                                                 for (int i = 0; i < array.length(); i++) {
                                                     JSONObject row = array.getJSONObject(i);
                                                     Double latitud = row.getDouble("Latitud");
                                                     Double longitud = row.getDouble("Longitud");
                                                     String nombrelugar = row.getString("Zona");
+                                                    String imagen=row.getString("imagen");
                                                     LatLng LA = new LatLng(latitud, longitud);
-                                                    nmap.addMarker(new MarkerOptions().position(new LatLng(latitud, longitud)).title(nombrelugar).icon(BitmapDescriptorFactory.fromResource(R.drawable.lotes)));
+                                                marker=    nmap.addMarker(new MarkerOptions().position(new LatLng(latitud, longitud)).title(nombrelugar).icon(BitmapDescriptorFactory.fromResource(R.drawable.lotes)));
                                                     //    Toast.makeText(getActivity(),"jdjdj"+longitud,Toast.LENGTH_LONG).show();
+                                                    ventana ventana = new ventana(getContext());
+                                                    datos_ventana datos_ventana =new datos_ventana();
+                                                    datos_ventana.setDetalle(nombrelugar);
+                                                    datos_ventana.setNombre(nombrelugar);
+                                                    datos_ventana.setImage(imagen);
+
+                                                    marker.setTag(datos_ventana);
                                                     nmap.moveCamera(CameraUpdateFactory.newLatLng(LA));
                                                 }
 
@@ -195,7 +223,7 @@ Toast.makeText(getActivity(),"ss",Toast.LENGTH_LONG).show();
                                                 e.printStackTrace();
                                             }
                                         } else {
-                                            Toast.makeText(getActivity(),"ss",Toast.LENGTH_LONG).show();
+                                            Toast.makeText(getActivity(),"NO HAY INCIDENTES DE LOTES VALDÍOS ",Toast.LENGTH_LONG).show();
                                         }
                                     }
                                 });
@@ -226,9 +254,17 @@ Toast.makeText(getActivity(),"ss",Toast.LENGTH_LONG).show();
                                                     Double latitud = row.getDouble("Latitud");
                                                     Double longitud = row.getDouble("Longitud");
                                                     String nombrelugar = row.getString("Zona");
+                                                    String imagen=row.getString("imagen");
                                                     LatLng LA = new LatLng(latitud, longitud);
-                                                    nmap.addMarker(new MarkerOptions().position(new LatLng(latitud, longitud)).title(nombrelugar).icon(BitmapDescriptorFactory.fromResource(R.drawable.vandalismo)));
+                                                marker=    nmap.addMarker(new MarkerOptions().position(new LatLng(latitud, longitud)).title(nombrelugar).icon(BitmapDescriptorFactory.fromResource(R.drawable.vandalismo)));
                                                     //    Toast.makeText(getActivity(),"jdjdj"+longitud,Toast.LENGTH_LONG).show();
+                                                    ventana ventana = new ventana(getContext());
+                                                    datos_ventana datos_ventana =new datos_ventana();
+                                                    datos_ventana.setDetalle(nombrelugar);
+                                                    datos_ventana.setNombre(nombrelugar);
+                                                    datos_ventana.setImage(imagen);
+
+                                                    marker.setTag(datos_ventana);
                                                     nmap.moveCamera(CameraUpdateFactory.newLatLng(LA));
                                                 }
 
@@ -236,7 +272,7 @@ Toast.makeText(getActivity(),"ss",Toast.LENGTH_LONG).show();
                                                 e.printStackTrace();
                                             }
                                         } else {
-                                            Toast.makeText(getActivity(),"ss",Toast.LENGTH_LONG).show();
+                                            Toast.makeText(getActivity(),"NO HAY INCIDENTES DE VANDALISMO ",Toast.LENGTH_LONG).show();
                                         }
                                     }
                                 });
@@ -267,9 +303,17 @@ Toast.makeText(getActivity(),"ss",Toast.LENGTH_LONG).show();
                                                     Double latitud = row.getDouble("Latitud");
                                                     Double longitud = row.getDouble("Longitud");
                                                     String nombrelugar = row.getString("Zona");
+                                                    String imagen=row.getString("imagen");
                                                     LatLng LA = new LatLng(latitud, longitud);
-                                                    nmap.addMarker(new MarkerOptions().position(new LatLng(latitud, longitud)).title(nombrelugar).icon(BitmapDescriptorFactory.fromResource(R.drawable.robo)));
+                                                    marker=nmap.addMarker(new MarkerOptions().position(new LatLng(latitud, longitud)).title(nombrelugar).icon(BitmapDescriptorFactory.fromResource(R.drawable.robo)));
                                                     //    Toast.makeText(getActivity(),"jdjdj"+longitud,Toast.LENGTH_LONG).show();
+                                                    ventana ventana = new ventana(getContext());
+                                                    datos_ventana datos_ventana =new datos_ventana();
+                                                    datos_ventana.setDetalle(nombrelugar);
+                                                    datos_ventana.setNombre(nombrelugar);
+                                                    datos_ventana.setImage(imagen);
+
+                                                    marker.setTag(datos_ventana);
                                                     nmap.moveCamera(CameraUpdateFactory.newLatLng(LA));
                                                 }
 
@@ -277,7 +321,7 @@ Toast.makeText(getActivity(),"ss",Toast.LENGTH_LONG).show();
                                                 e.printStackTrace();
                                             }
                                         } else {
-                                            Toast.makeText(getActivity(),"ss",Toast.LENGTH_LONG).show();
+                                            Toast.makeText(getActivity(),"NO HAY INCIDENTES DE ROBO ",Toast.LENGTH_LONG).show();
                                         }
                                     }
                                 });
@@ -308,9 +352,17 @@ Toast.makeText(getActivity(),"ss",Toast.LENGTH_LONG).show();
                                                     Double latitud = row.getDouble("Latitud");
                                                     Double longitud = row.getDouble("Longitud");
                                                     String nombrelugar = row.getString("Zona");
+                                                    String imagen=row.getString("imagen");
                                                     LatLng LA = new LatLng(latitud, longitud);
-                                                    nmap.addMarker(new MarkerOptions().position(new LatLng(latitud, longitud)).title(nombrelugar).icon(BitmapDescriptorFactory.fromResource(R.drawable.quema)));
+                                                   marker= nmap.addMarker(new MarkerOptions().position(new LatLng(latitud, longitud)).title(nombrelugar).icon(BitmapDescriptorFactory.fromResource(R.drawable.quema)));
                                                     //    Toast.makeText(getActivity(),"jdjdj"+longitud,Toast.LENGTH_LONG).show();
+                                                    ventana ventana = new ventana(getContext());
+                                                    datos_ventana datos_ventana =new datos_ventana();
+                                                    datos_ventana.setDetalle(nombrelugar);
+                                                    datos_ventana.setNombre(nombrelugar);
+                                                    datos_ventana.setImage(imagen);
+
+                                                    marker.setTag(datos_ventana);
                                                     nmap.moveCamera(CameraUpdateFactory.newLatLng(LA));
                                                 }
 
@@ -318,7 +370,7 @@ Toast.makeText(getActivity(),"ss",Toast.LENGTH_LONG).show();
                                                 e.printStackTrace();
                                             }
                                         } else {
-                                            Toast.makeText(getActivity(),"ss",Toast.LENGTH_LONG).show();
+                                            Toast.makeText(getActivity(),"NO HAY INCIDENTES DE QUEMA DE BASURA",Toast.LENGTH_LONG).show();
                                         }
                                     }
                                 });
@@ -348,9 +400,17 @@ Toast.makeText(getActivity(),"ss",Toast.LENGTH_LONG).show();
                                                     Double latitud = row.getDouble("Latitud");
                                                     Double longitud = row.getDouble("Longitud");
                                                     String nombrelugar = row.getString("Zona");
+                                                    String imagen=row.getString("imagen");
                                                     LatLng LA = new LatLng(latitud, longitud);
-                                                    nmap.addMarker(new MarkerOptions().position(new LatLng(latitud, longitud)).title(nombrelugar).icon(BitmapDescriptorFactory.fromResource(R.drawable.accidentes)));
+                                                    marker=nmap.addMarker(new MarkerOptions().position(new LatLng(latitud, longitud)).title(nombrelugar).icon(BitmapDescriptorFactory.fromResource(R.drawable.accidentes)));
                                                     //    Toast.makeText(getActivity(),"jdjdj"+longitud,Toast.LENGTH_LONG).show();
+                                                    ventana ventana = new ventana(getContext());
+                                                    datos_ventana datos_ventana =new datos_ventana();
+                                                    datos_ventana.setDetalle(nombrelugar);
+                                                    datos_ventana.setNombre(nombrelugar);
+                                                    datos_ventana.setImage(imagen);
+
+                                                    marker.setTag(datos_ventana);
                                                     nmap.moveCamera(CameraUpdateFactory.newLatLng(LA));
                                                 }
 
@@ -358,7 +418,7 @@ Toast.makeText(getActivity(),"ss",Toast.LENGTH_LONG).show();
                                                 e.printStackTrace();
                                             }
                                         } else {
-                                            Toast.makeText(getActivity(),"ss",Toast.LENGTH_LONG).show();
+                                            Toast.makeText(getActivity(),"NO HAY INCIDENTES DE ACIIDENTES AUTOMOVILISTICOS ",Toast.LENGTH_LONG).show();
                                         }
                                     }
                                 });
@@ -389,9 +449,17 @@ Toast.makeText(getActivity(),"ss",Toast.LENGTH_LONG).show();
                                                     Double latitud = row.getDouble("Latitud");
                                                     Double longitud = row.getDouble("Longitud");
                                                     String nombrelugar = row.getString("Zona");
+                                                    String imagen=row.getString("imagen");
                                                     LatLng LA = new LatLng(latitud, longitud);
-                                                    nmap.addMarker(new MarkerOptions().position(new LatLng(latitud, longitud)).title(nombrelugar).icon(BitmapDescriptorFactory.fromResource(R.drawable.otros)));
+                                                    marker=nmap.addMarker(new MarkerOptions().position(new LatLng(latitud, longitud)).title(nombrelugar).icon(BitmapDescriptorFactory.fromResource(R.drawable.otros)));
                                                     //    Toast.makeText(getActivity(),"jdjdj"+longitud,Toast.LENGTH_LONG).show();
+                                                    ventana ventana = new ventana(getContext());
+                                                    datos_ventana datos_ventana =new datos_ventana();
+                                                    datos_ventana.setDetalle(nombrelugar);
+                                                    datos_ventana.setNombre(nombrelugar);
+                                                    datos_ventana.setImage(imagen);
+
+                                                    marker.setTag(datos_ventana);
                                                     nmap.moveCamera(CameraUpdateFactory.newLatLng(LA));
                                                 }
 
@@ -399,7 +467,7 @@ Toast.makeText(getActivity(),"ss",Toast.LENGTH_LONG).show();
                                                 e.printStackTrace();
                                             }
                                         } else {
-                                            Toast.makeText(getActivity(),"ss",Toast.LENGTH_LONG).show();
+                                            Toast.makeText(getActivity(),"NO HAY INCIDENTES DE OTROS     ",Toast.LENGTH_LONG).show();
                                         }
                                     }
                                 });
@@ -476,96 +544,129 @@ this.respuesta=mapa_preferencias.getString("respuesta_mapa","");
 
 
 
-
+ String no="";
 
 
                             try {
                                // nmap.clear();
                                // String vaaaa=enviar_filtro_incidencia();
+
+
                                 JSONArray array = new JSONArray(respuesta);
                                 for (int i =0; i<array.length(); i++){
                                     JSONObject row = array.getJSONObject(i);
+
                                 Double    latitud = row.getDouble("Latitud");
                                 Double    longitud = row.getDouble("Longitud");
-                                 String   nombrelugar = row.getString("Zona");
+                                 final String   nombrelugar = row.getString("Zona");
                                  int incidente= row.getInt("id_peligro");
+                                 String imagen=row.getString("imagen");
+                                 String gay="sskjkjs";
+no=nombrelugar;
+                                final datos_ventana datos_ventana =new datos_ventana();
 
-datos_ventana.setHotel(nombrelugar.toString());
-                                    ventana vetana=new ventana(getActivity());
-                                    nmap.setInfoWindowAdapter(vetana);
+//datos_ventana.setHotel(nombrelugar.toString());
+                                    ventana ventana = new ventana(getContext());
+                                    //ventana vetana=new ventana(getActivity());
+                                    nmap.setInfoWindowAdapter(ventana);
+                                   // ventana.onInfoWindowClick(marker);
+
+
 LatLng LA=new LatLng(latitud,longitud);
 MarkerOptions markerOptions= new MarkerOptions();
+
+                                  // datos_ventana.setImage(imagen);
+                                 //   datos_ventana.setHotel(nombrelugar);
 
 switch (incidente)
 {
     case 4:
-        nmap.addMarker(markerOptions.position(new LatLng(latitud, longitud)).title(nombrelugar).icon(BitmapDescriptorFactory.fromResource(R.drawable.baches)));
+     marker=   nmap.addMarker( new MarkerOptions().position(new LatLng(latitud, longitud)).title(nombrelugar).icon(BitmapDescriptorFactory.fromResource(R.drawable.baches)));
      /*   marker=nmap.addMarker(markerOptions);
         datos_ventana.setHotel(nombrelugar);
         marker.setTag(datos_ventana);
         marker.showInfoWindow();*/
         break;
     case 5:
-        nmap.addMarker(markerOptions.position(new LatLng(latitud, longitud)).title(nombrelugar).icon(BitmapDescriptorFactory.fromResource(R.drawable.maltrato)));
+    marker= nmap.addMarker(new MarkerOptions().position(new LatLng(latitud, longitud)).title(nombrelugar).icon(BitmapDescriptorFactory.fromResource(R.drawable.maltrato)));
        /* marker=nmap.addMarker(markerOptions);datos_ventana.setHotel(nombrelugar);
 
         marker.setTag(datos_ventana);
         marker.showInfoWindow();*/
         break;
     case 6:
-        nmap.addMarker(markerOptions.position(new LatLng(latitud, longitud)).title(nombrelugar).icon(BitmapDescriptorFactory.fromResource(R.drawable.lotes)));
+    marker=    nmap.addMarker(new MarkerOptions().position(new LatLng(latitud, longitud)).title(nombrelugar).icon(BitmapDescriptorFactory.fromResource(R.drawable.lotes)));
       /*  marker=nmap.addMarker(markerOptions);
         datos_ventana.setHotel(nombrelugar);
         marker.setTag(datos_ventana);
         marker.showInfoWindow();*/
         break;
     case 7:
-        nmap.addMarker(markerOptions.position(new LatLng(latitud, longitud)).title(nombrelugar).icon(BitmapDescriptorFactory.fromResource(R.drawable.vandalismo)));
+    marker=    nmap.addMarker(new MarkerOptions().position(new LatLng(latitud, longitud)).title(nombrelugar).icon(BitmapDescriptorFactory.fromResource(R.drawable.vandalismo)));
     /*    marker=nmap.addMarker(markerOptions);
         datos_ventana.setHotel(nombrelugar);
         marker.setTag(datos_ventana);
         marker.showInfoWindow();*/
         break;
     case 8:
-        nmap.addMarker(markerOptions.position(new LatLng(latitud, longitud)).title(nombrelugar).icon(BitmapDescriptorFactory.fromResource(R.drawable.robo)));
+    marker=    nmap.addMarker(new MarkerOptions().position(new LatLng(latitud, longitud)).title(nombrelugar).icon(BitmapDescriptorFactory.fromResource(R.drawable.robo)));
   /*      marker=nmap.addMarker(markerOptions);
         datos_ventana.setHotel(nombrelugar);
         marker.setTag(datos_ventana);
         marker.showInfoWindow();*/
         break;
     case 9:
-        nmap.addMarker(markerOptions.position(new LatLng(latitud, longitud)).title(nombrelugar).icon(BitmapDescriptorFactory.fromResource(R.drawable.quema)));
+    marker=    nmap.addMarker(new MarkerOptions().position(new LatLng(latitud, longitud)).title(nombrelugar).icon(BitmapDescriptorFactory.fromResource(R.drawable.quema)));
         /*marker=nmap.addMarker(markerOptions);
         datos_ventana.setHotel(nombrelugar);
         marker.setTag(datos_ventana);
         marker.showInfoWindow();*/
         break;
     case 10:
-        nmap.addMarker(markerOptions.position(new LatLng(latitud, longitud)).title(nombrelugar).icon(BitmapDescriptorFactory.fromResource(R.drawable.accidentes)));
-        marker=nmap.addMarker(markerOptions);
+       marker= nmap.addMarker(new MarkerOptions().position(new LatLng(latitud, longitud)).title(nombrelugar).icon(BitmapDescriptorFactory.fromResource(R.drawable.accidentes)));
+       // marker=nmap.addMarker(markerOptions);
       /*  datos_ventana.setHotel(nombrelugar);
         marker.setTag(datos_ventana);
         marker.showInfoWindow();*/
         break;
     case 11:
-        nmap.addMarker(markerOptions.position(new LatLng(latitud, longitud)).title(nombrelugar).icon(BitmapDescriptorFactory.fromResource(R.drawable.otros)));
+    marker=    nmap.addMarker(new MarkerOptions().position(new LatLng(latitud, longitud)).title(nombrelugar).icon(BitmapDescriptorFactory.fromResource(R.drawable.otros)));
 
         break;
 
 
 }
-                                    marker=nmap.addMarker(markerOptions);
-                                    datos_ventana.setHotel(nombrelugar);
+
+
+                                //    marker=nmap.addMarker(markerOptions);
+
+                                   datos_ventana.setDetalle(nombrelugar);
+datos_ventana.setNombre(nombrelugar);
+datos_ventana.setImage(imagen);
+                                    nmap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+                                        @Override
+                                        public void onInfoWindowClick(Marker marker1) {
+                                            marker=marker1;
+                                            datos_ventana da = ( datos_ventana)marker1.getTag();
+
+                                                Toast.makeText(getActivity(), "kjdkjdkjd"+((datos_ventana) marker1.getTag()).getDetalle()+"mamda"+((datos_ventana) marker1.getTag()).getNombre(), Toast.LENGTH_LONG).show();
+                                                                         }
+                                    });
+//Toast.makeText(getActivity(),""+datos_ventana.getFood().toString(),Toast.LENGTH_LONG).show();
                                     marker.setTag(datos_ventana);
                                     marker.showInfoWindow();
                                //     Toast.makeText(getActivity(),"jdjdj"+longitud,Toast.LENGTH_LONG).show();
                                     Double latitudj=20.9673702;
                                     double longitudj=-89.59258569999997;
-//Toast.makeText(getActivity(),""+incidente,Toast.LENGTH_LONG).show();
+//Toast.makeText(getActivity(),""+datos_ventana.getHotel()+" "+datos_ventana.getImage(),Toast.LENGTH_LONG).show();
                                     LatLng LAj=new LatLng(latitudj,longitudj);
                                     CameraUpdate miubicacion=CameraUpdateFactory.newLatLngZoom(LAj,12);
                                     nmap.moveCamera(miubicacion);
+
+
+
                                 }
+
 
                             } catch (JSONException e) {
                                 e.printStackTrace();

@@ -5,9 +5,9 @@ package com.example.joel.proyecto_incidencias;
  */
 
 public class datos_ventana {
-    private String image;
-    private String hotel;
-    private String food;
+    public String image;
+    public String nombre;
+    public String detalle;
     public String getImage() {
         return image;
     }
@@ -16,20 +16,20 @@ public class datos_ventana {
         this.image = image;
     }
 
-    public String getHotel() {
-        return hotel;
+    public String getNombre() {
+        return nombre;
     }
 
-    public void setHotel(String hotel) {
-        this.hotel = hotel;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
-    public String getFood() {
-        return food;
+    public String getDetalle() {
+        return detalle;
     }
 
-    public void setFood(String food) {
-        this.food = food;
+    public void setDetalle(String detalle) {
+        this.detalle = detalle;
     }
 
 

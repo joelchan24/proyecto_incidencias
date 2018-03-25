@@ -147,7 +147,7 @@ public class Login extends AppCompatActivity {
         int respuesta=0;
         StringBuilder resul=null;
         try {
-            url=new URL("http://incidenciaspro.gearhostpreview.com/sos_service.asmx/login?correo="+correo+"&contraseña="+contraseña);
+            url=new URL("http://proyectoinciencias.gearhostpreview.com/sos_service.asmx/login?correo="+correo+"&contraseña="+contraseña);
             HttpURLConnection conec=(HttpURLConnection)url.openConnection();
             respuesta=conec.getResponseCode();
             resul=new StringBuilder();
