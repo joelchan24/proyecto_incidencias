@@ -5,6 +5,7 @@ import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 /**
@@ -19,18 +20,21 @@ public class ejemplo extends DialogFragment {
 
          View content = getActivity().getLayoutInflater().inflate(R.layout.ejemplo,null);
 
-        content.findViewById(R.id.btn_toas);
 
-        content.findViewById(R.id.rbt);
+    final     TextView texto=(TextView)content.findViewById(R.id.tve);
+
+
+        //content.findViewById(R.id.rbt);
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setView(content);
                 builder.setMessage("jOEL")
+
                 // Add action buttons
                 .setPositiveButton("Joel 1"/*Mensaje para el botón positivo*/, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
                         //Código para cuando se haga click en positiv
-                        Toast.makeText(getActivity(),"gay",Toast.LENGTH_LONG).show();
+                        Toast.makeText(getActivity(),"gay"+texto.getText().toString(),Toast.LENGTH_LONG).show();
                     }
                 })
                 .setNegativeButton("Joel2"/*Mensaje para el botón negativo*/, new DialogInterface.OnClickListener() {
@@ -39,9 +43,11 @@ public class ejemplo extends DialogFragment {
                         //Código para cuando se haga click en negativo
                     }
                 });
+
         return builder.create();
 
 
     }
+
 
 }

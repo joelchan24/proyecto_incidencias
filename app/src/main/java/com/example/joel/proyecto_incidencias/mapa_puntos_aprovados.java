@@ -1,19 +1,27 @@
 package com.example.joel.proyecto_incidencias;
 
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
-
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
+import com.google.android.gms.location.places.Places;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -24,6 +32,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -54,6 +63,9 @@ String baches;
     Marker marker;
     private Spinner spinner;
     int num=4;
+    String nombreincidencia;
+    String comentario;
+
 
     private OnFragmentInteractionListener mListener;
 
@@ -66,6 +78,12 @@ String baches;
                              Bundle savedInstanceState) {
 
         vista= inflater.inflate(R.layout.fragment_mapa_puntos_aprovados, container, false);
+        //localizador
+       // mgogle = new GoogleApiClient.Builder(getContext()).addApi(Places)
+
+
+
+        //
         List<SocialNetwork> items = new ArrayList<SocialNetwork>(9);
         items.add(new SocialNetwork(getString(R.string.todo), R.drawable.logosos));
         items.add(new SocialNetwork(getString(R.string.baches), R.drawable.baches));
@@ -77,7 +95,7 @@ String baches;
         items.add(new SocialNetwork(getString(R.string.acci), R.drawable.accidentes));
         items.add(new SocialNetwork(getString(R.string.otr), R.drawable.otros));
 
-        spinner = (Spinner)vista.findViewById(R.id.spinner);
+        spinner = (Spinner)vista.findViewById(R.id.spinner_mapa);
         spinner.setAdapter(new SocialNetworkSpinnerAdapter(getActivity(),items));
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -106,12 +124,16 @@ String baches;
                                                     Double longitud = row.getDouble("Longitud");
                                                     String nombrelugar = row.getString("Zona");
                                                     String imagen=row.getString("imagen");
+                                                     nombreincidencia=row.getString("Peligro");
+                                                    comentario=row.getString("comentario");
                                                     LatLng LA = new LatLng(latitud, longitud);
                                          marker=           nmap.addMarker(new MarkerOptions().position(new LatLng(latitud, longitud)).title(nombrelugar).icon(BitmapDescriptorFactory.fromResource(R.drawable.baches)));
                                                     //    Toast.makeText(getActivity(),"jdjdj"+longitud,Toast.LENGTH_LONG).show();
                                                     ventana ventana = new ventana(getContext());
                                                     datos_ventana datos_ventana =new datos_ventana();
-                                                    datos_ventana.setDetalle(nombrelugar);
+                                                    datos_ventana.setComentario(comentario);
+                                                    datos_ventana.setNombre_incidente(nombreincidencia);
+                                                    datos_ventana.setDetalle(nombreincidencia);
                                                     datos_ventana.setNombre(nombrelugar);
                                                     datos_ventana.setImage(imagen);
 
@@ -156,12 +178,16 @@ String baches;
                                                     Double longitud = row.getDouble("Longitud");
                                                     String nombrelugar = row.getString("Zona");
                                                     String imagen=row.getString("imagen");
+                                                    nombreincidencia=row.getString("Peligro");
+                                                    comentario=row.getString("comentario");
                                                     LatLng LA = new LatLng(latitud, longitud);
                                          marker=           nmap.addMarker(new MarkerOptions().position(new LatLng(latitud, longitud)).title(nombrelugar).icon(BitmapDescriptorFactory.fromResource(R.drawable.maltrato)));
                                                     //    Toast.makeText(getActivity(),"jdjdj"+longitud,Toast.LENGTH_LONG).show();
                                                     ventana ventana = new ventana(getContext());
                                                     datos_ventana datos_ventana =new datos_ventana();
-                                                    datos_ventana.setDetalle(nombrelugar);
+                                                    datos_ventana.setComentario(comentario);
+                                                    datos_ventana.setNombre_incidente(nombreincidencia);
+                                                    datos_ventana.setDetalle(nombreincidencia);
                                                     datos_ventana.setNombre(nombrelugar);
                                                     datos_ventana.setImage(imagen);
 
@@ -206,13 +232,17 @@ Toast.makeText(getActivity(),"NO HAY INCIDENTES DE MALTRATO ANIMAL ",Toast.LENGT
                                                     Double longitud = row.getDouble("Longitud");
                                                     String nombrelugar = row.getString("Zona");
                                                     String imagen=row.getString("imagen");
+                                                    nombreincidencia=row.getString("Peligro");
+                                                    comentario=row.getString("comentario");
                                                     LatLng LA = new LatLng(latitud, longitud);
                                                 marker=    nmap.addMarker(new MarkerOptions().position(new LatLng(latitud, longitud)).title(nombrelugar).icon(BitmapDescriptorFactory.fromResource(R.drawable.lotes)));
                                                     //    Toast.makeText(getActivity(),"jdjdj"+longitud,Toast.LENGTH_LONG).show();
                                                     ventana ventana = new ventana(getContext());
                                                     datos_ventana datos_ventana =new datos_ventana();
-                                                    datos_ventana.setDetalle(nombrelugar);
+                                                    datos_ventana.setDetalle(nombreincidencia);
                                                     datos_ventana.setNombre(nombrelugar);
+                                                    datos_ventana.setComentario(comentario);
+                                                    datos_ventana.setNombre_incidente(nombreincidencia);
                                                     datos_ventana.setImage(imagen);
 
                                                     marker.setTag(datos_ventana);
@@ -255,13 +285,17 @@ Toast.makeText(getActivity(),"NO HAY INCIDENTES DE MALTRATO ANIMAL ",Toast.LENGT
                                                     Double longitud = row.getDouble("Longitud");
                                                     String nombrelugar = row.getString("Zona");
                                                     String imagen=row.getString("imagen");
+                                                    nombreincidencia=row.getString("Peligro");
+                                                    comentario=row.getString("comentario");
                                                     LatLng LA = new LatLng(latitud, longitud);
                                                 marker=    nmap.addMarker(new MarkerOptions().position(new LatLng(latitud, longitud)).title(nombrelugar).icon(BitmapDescriptorFactory.fromResource(R.drawable.vandalismo)));
                                                     //    Toast.makeText(getActivity(),"jdjdj"+longitud,Toast.LENGTH_LONG).show();
                                                     ventana ventana = new ventana(getContext());
                                                     datos_ventana datos_ventana =new datos_ventana();
-                                                    datos_ventana.setDetalle(nombrelugar);
+                                                    datos_ventana.setDetalle(nombreincidencia);
                                                     datos_ventana.setNombre(nombrelugar);
+                                                    datos_ventana.setComentario(comentario);
+                                                    datos_ventana.setNombre_incidente(nombreincidencia);
                                                     datos_ventana.setImage(imagen);
 
                                                     marker.setTag(datos_ventana);
@@ -304,12 +338,16 @@ Toast.makeText(getActivity(),"NO HAY INCIDENTES DE MALTRATO ANIMAL ",Toast.LENGT
                                                     Double longitud = row.getDouble("Longitud");
                                                     String nombrelugar = row.getString("Zona");
                                                     String imagen=row.getString("imagen");
+                                                    nombreincidencia=row.getString("Peligro");
+                                                    comentario=row.getString("comentario");
                                                     LatLng LA = new LatLng(latitud, longitud);
                                                     marker=nmap.addMarker(new MarkerOptions().position(new LatLng(latitud, longitud)).title(nombrelugar).icon(BitmapDescriptorFactory.fromResource(R.drawable.robo)));
                                                     //    Toast.makeText(getActivity(),"jdjdj"+longitud,Toast.LENGTH_LONG).show();
                                                     ventana ventana = new ventana(getContext());
                                                     datos_ventana datos_ventana =new datos_ventana();
-                                                    datos_ventana.setDetalle(nombrelugar);
+                                                    datos_ventana.setDetalle(nombreincidencia);
+                                                    datos_ventana.setComentario(comentario);
+                                                    datos_ventana.setNombre_incidente(nombreincidencia);
                                                     datos_ventana.setNombre(nombrelugar);
                                                     datos_ventana.setImage(imagen);
 
@@ -353,12 +391,16 @@ Toast.makeText(getActivity(),"NO HAY INCIDENTES DE MALTRATO ANIMAL ",Toast.LENGT
                                                     Double longitud = row.getDouble("Longitud");
                                                     String nombrelugar = row.getString("Zona");
                                                     String imagen=row.getString("imagen");
+                                                    nombreincidencia=row.getString("Peligro");
+                                                    comentario=row.getString("comentario");
                                                     LatLng LA = new LatLng(latitud, longitud);
                                                    marker= nmap.addMarker(new MarkerOptions().position(new LatLng(latitud, longitud)).title(nombrelugar).icon(BitmapDescriptorFactory.fromResource(R.drawable.quema)));
                                                     //    Toast.makeText(getActivity(),"jdjdj"+longitud,Toast.LENGTH_LONG).show();
                                                     ventana ventana = new ventana(getContext());
                                                     datos_ventana datos_ventana =new datos_ventana();
-                                                    datos_ventana.setDetalle(nombrelugar);
+                                                    datos_ventana.setDetalle(nombreincidencia);
+                                                    datos_ventana.setComentario(comentario);
+                                                    datos_ventana.setNombre_incidente(nombreincidencia);
                                                     datos_ventana.setNombre(nombrelugar);
                                                     datos_ventana.setImage(imagen);
 
@@ -401,12 +443,16 @@ Toast.makeText(getActivity(),"NO HAY INCIDENTES DE MALTRATO ANIMAL ",Toast.LENGT
                                                     Double longitud = row.getDouble("Longitud");
                                                     String nombrelugar = row.getString("Zona");
                                                     String imagen=row.getString("imagen");
+                                                    nombreincidencia=row.getString("Peligro");
+                                                    comentario=row.getString("comentario");
                                                     LatLng LA = new LatLng(latitud, longitud);
                                                     marker=nmap.addMarker(new MarkerOptions().position(new LatLng(latitud, longitud)).title(nombrelugar).icon(BitmapDescriptorFactory.fromResource(R.drawable.accidentes)));
                                                     //    Toast.makeText(getActivity(),"jdjdj"+longitud,Toast.LENGTH_LONG).show();
                                                     ventana ventana = new ventana(getContext());
                                                     datos_ventana datos_ventana =new datos_ventana();
-                                                    datos_ventana.setDetalle(nombrelugar);
+                                                    datos_ventana.setDetalle(nombreincidencia);
+                                                    datos_ventana.setComentario(comentario);
+                                                    datos_ventana.setNombre_incidente(nombreincidencia);
                                                     datos_ventana.setNombre(nombrelugar);
                                                     datos_ventana.setImage(imagen);
 
@@ -450,12 +496,16 @@ Toast.makeText(getActivity(),"NO HAY INCIDENTES DE MALTRATO ANIMAL ",Toast.LENGT
                                                     Double longitud = row.getDouble("Longitud");
                                                     String nombrelugar = row.getString("Zona");
                                                     String imagen=row.getString("imagen");
+                                                    nombreincidencia=row.getString("Peligro");
+                                                     comentario=row.getString("comentario");
                                                     LatLng LA = new LatLng(latitud, longitud);
                                                     marker=nmap.addMarker(new MarkerOptions().position(new LatLng(latitud, longitud)).title(nombrelugar).icon(BitmapDescriptorFactory.fromResource(R.drawable.otros)));
                                                     //    Toast.makeText(getActivity(),"jdjdj"+longitud,Toast.LENGTH_LONG).show();
                                                     ventana ventana = new ventana(getContext());
                                                     datos_ventana datos_ventana =new datos_ventana();
-                                                    datos_ventana.setDetalle(nombrelugar);
+                                                    datos_ventana.setDetalle(nombreincidencia);
+                                                    datos_ventana.setComentario(comentario);
+                                                    datos_ventana.setNombre_incidente(nombreincidencia);
                                                     datos_ventana.setNombre(nombrelugar);
                                                     datos_ventana.setImage(imagen);
 
@@ -561,7 +611,9 @@ this.respuesta=mapa_preferencias.getString("respuesta_mapa","");
                                  final String   nombrelugar = row.getString("Zona");
                                  int incidente= row.getInt("id_peligro");
                                  String imagen=row.getString("imagen");
-                                 String gay="sskjkjs";
+                                  nombreincidencia=row.getString("Peligro");
+                                    comentario=row.getString("comentario");
+
 no=nombrelugar;
                                 final datos_ventana datos_ventana =new datos_ventana();
 
@@ -640,16 +692,22 @@ switch (incidente)
 
                                 //    marker=nmap.addMarker(markerOptions);
 
-                                   datos_ventana.setDetalle(nombrelugar);
+                                   datos_ventana.setDetalle(nombreincidencia);
 datos_ventana.setNombre(nombrelugar);
 datos_ventana.setImage(imagen);
+datos_ventana.setComentario(comentario);
+datos_ventana.setNombre_incidente(nombreincidencia);
                                     nmap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
                                         @Override
                                         public void onInfoWindowClick(Marker marker1) {
-                                            marker=marker1;
-                                            datos_ventana da = ( datos_ventana)marker1.getTag();
 
-                                                Toast.makeText(getActivity(), "kjdkjdkjd"+((datos_ventana) marker1.getTag()).getDetalle()+"mamda"+((datos_ventana) marker1.getTag()).getNombre(), Toast.LENGTH_LONG).show();
+                                            datos_ventana da = ( datos_ventana)marker1.getTag();
+String nombreincidencia=((datos_ventana) marker1.getTag()).getNombre_incidente();
+String comentario=((datos_ventana) marker1.getTag()).getComentario();
+String foto=((datos_ventana) marker1.getTag()).getImage();
+String lugar=((datos_ventana) marker1.getTag()).getNombre();
+
+                                                mostrar_ventana(nombreincidencia,comentario,foto,lugar).show();
                                                                          }
                                     });
 //Toast.makeText(getActivity(),""+datos_ventana.getFood().toString(),Toast.LENGTH_LONG).show();
@@ -686,7 +744,7 @@ datos_ventana.setImage(imagen);
         StringBuilder resul=null;
         try {
             //http://fhkuku182-001-site1.atempurl.com/Grantour.asmx/CargarLugares
-            url=new URL("http://incidencias2.gearhostpreview.com/sos_service.asmx/filtros_de_niveles?id_peligro="+va);
+            url=new URL("http://proyectoinciencias.gearhostpreview.com/sos_service.asmx/filtros_de_incidencias_aprovados?id_peligro="+va);
             HttpURLConnection conec=(HttpURLConnection)url.openConnection();
             respuesta=conec.getResponseCode();
             resul=new StringBuilder();
@@ -741,6 +799,33 @@ datos_ventana.setImage(imagen);
         nmap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
         nmap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
         nmap.addMarker(new MarkerOptions().position(new LatLng(20.9169054,-89.94771109999999)).title("kimchil"));*/
+
+    public AlertDialog mostrar_ventana(final String nombre_incidencia,String comentario,String foto,String lugar)
+    {
+        AlertDialog.Builder   builder= new AlertDialog.Builder(getActivity());
+        LayoutInflater inflater=getActivity().getLayoutInflater();
+        View  v=inflater.inflate(R.layout.ejemplo,null);
+
+        builder.setView(v)
+        .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+TextView txtcomentario=(TextView)v.findViewById(R.id.tvt_comentario);
+TextView nombreinci=(TextView)v.findViewById(R.id.txt_tipoincidente);
+        ImageView fotoaler=(ImageView)v.findViewById(R.id.img_alert);
+        TextView lug=(TextView)v.findViewById(R.id.tvt_lugar);
+        txtcomentario.setText(comentario);
+        nombreinci.setText(nombre_incidencia);
+        lug.setText(lugar);
+        Picasso.get().load(foto).into(fotoaler);
+
+
+        return  builder.create();
+    }
+
 
 
 

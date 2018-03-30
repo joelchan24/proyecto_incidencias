@@ -5,9 +5,29 @@ package com.example.joel.proyecto_incidencias;
  */
 
 public class datos_ventana {
+    public String comentario;
+    public  String nombre_incidente;
     public String image;
     public String nombre;
     public String detalle;
+
+    public String getComentario() {
+        return comentario;
+    }
+
+    public void setComentario(String comentario) {
+        this.comentario = comentario;
+    }
+
+    public String getNombre_incidente() {
+        return nombre_incidente;
+    }
+
+    public void setNombre_incidente(String nombre_incidente) {
+        this.nombre_incidente = nombre_incidente;
+    }
+
+
     public String getImage() {
         return image;
     }

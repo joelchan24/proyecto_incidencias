@@ -9,7 +9,7 @@
 
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
 
 
@@ -23,7 +23,7 @@
     app:layout_constraintTop_toTopOf="parent"-->
     <ImageView
         android:id="@+id/pic"
-        android:layout_width="80dp"
+        android:layout_width="100dp"
         android:layout_height="80dp"
         android:layout_marginTop="8dp"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -34,6 +34,7 @@
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+
         android:singleLine="false"
         app:layout_constraintTop_toBottomOf="@+id/pic" />
     </LinearLayout>
