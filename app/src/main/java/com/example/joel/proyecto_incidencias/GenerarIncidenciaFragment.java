@@ -78,7 +78,7 @@ import static android.content.ContentValues.TAG;
  * Use the {@link GenerarIncidenciaFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class GenerarIncidenciaFragment extends Fragment implements OnMapReadyCallback,GoogleMap.OnMarkerDragListener, com.android.volley.Response.Listener<JSONObject>, com.android.volley.Response.ErrorListener {
+public class GenerarIncidenciaFragment extends Fragment implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener,com.android.volley.Response.Listener<JSONObject>, com.android.volley.Response.ErrorListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -89,6 +89,8 @@ public class GenerarIncidenciaFragment extends Fragment implements OnMapReadyCal
     JsonObjectRequest jsonObject;
     int id_usuario;
     String dat;
+    String zona_string;
+    String comentario_straing;
     GoogleMap ngogle;
     MapView mapa;
     Marker marcadorgay;
@@ -110,7 +112,7 @@ Spinner spinner;
     private final String ruta_fotos = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/todopro/";
 
     private File file = new File(ruta_fotos);
-    CharSequence[] arreglo={"BACHES","MALTRATO ANIMAL","LOTES BALDÍOS","VANDALISMO ","ROBO","QUEMA DE BASURA","ACCIDENTES AUTOMOVILÍSTICOS","OTROS"};
+
     CharSequence[] array={"4","5","6","7","8","9","10","11"};
 
 
@@ -250,30 +252,14 @@ requestQueue= Volley.newRequestQueue(getContext());
          guardar.setOnClickListener(new View.OnClickListener() {
              @Override
              public void onClick(View view) {
-                 Toast.makeText(getActivity(),""+dat+" "+id_usuario,Toast.LENGTH_LONG).show();
-//enviarpost();
-                 cargar_webservice(marcadorgay.getPosition().longitude,marcadorgay.getPosition().latitude,zona.getText().toString(),id_usuario,id_insidencia,comentario.getText().toString(),foto_string);
-              //   Toast.makeText(getActivity(),""+id_usuario,Toast.LENGTH_LONG).show();
+
+
+                 comentario_straing=comentario.getText().toString();
+                 cargar_webservice(longitud,latitud,zona_string.toString(),id_usuario,id_insidencia,comentario_straing.toString(),foto_string);
+
              }
          });
-      Button button=vista_crearincidencias.findViewById(R.id.btn_ejem);
-      button.setOnClickListener(new View.OnClickListener() {
-          @Override
-          public void onClick(View view) {
-              PlacePicker.IntentBuilder builder=new PlacePicker.IntentBuilder();
-              Intent intent;
-              try {
-                  intent=builder.build(getActivity());
-                  startActivityForResult(intent,PLACE_PICKER_REQUEST);
-              } catch (GooglePlayServicesRepairableException e) {
-                  e.printStackTrace();
-              } catch (GooglePlayServicesNotAvailableException e) {
-                  e.printStackTrace();
-              }
-           //   seleccionar(view);
 
-          }
-      });
         mapa=vista_crearincidencias.findViewById(R.id.mvp_mapita);
         if(mapa!=null)
         {
@@ -316,126 +302,112 @@ requestQueue= Volley.newRequestQueue(getContext());
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-if(requestCode==PLACE_PICKER_REQUEST)
-{
-    if(resultCode==RESULT_OK)
-    {
-        Place place=PlacePicker.getPlace(getActivity(),data);
-        String adrees=String.format("place  :"+place.getAddress()+" longitud : "+place.getLatLng().longitude+" latitud: "+place.getLatLng().latitude);
-        latitud=place.getLatLng().latitude;
-        longitud=place.getLatLng().longitude;
-        zona.setText(place.getAddress());
-        Toast.makeText(getActivity(),adrees,Toast.LENGTH_LONG).show();
-        LatLng LA=new LatLng(latitud,longitud);
-        marcadorgay=   ngogle.addMarker(new MarkerOptions().position(LA).title(zona.getText().toString()).snippet("ssss"));
-        CameraUpdate miubicacion=CameraUpdateFactory.newLatLngZoom(LA,15);
-        ngogle.moveCamera(miubicacion);
+        if (requestCode == PLACE_PICKER_REQUEST && resultCode == RESULT_OK && acciones == "mapa") {
 
-    }
-}
+            Place place = PlacePicker.getPlace(getActivity(), data);
+            String adrees = String.format("place  :" + place.getAddress() + " longitud : " + place.getLatLng().longitude + " latitud: " + place.getLatLng().latitude);
+            latitud = place.getLatLng().latitude;
+            longitud = place.getLatLng().longitude;
+            zona.setText(place.getAddress());
+            zona_string = place.getAddress().toString();
+            Toast.makeText(getActivity(), adrees, Toast.LENGTH_LONG).show();
+            LatLng LA = new LatLng(latitud, longitud);
+            marcadorgay = ngogle.addMarker(new MarkerOptions().position(LA).title(zona.getText().toString()).snippet("ssss"));
+            CameraUpdate miubicacion = CameraUpdateFactory.newLatLngZoom(LA, 15);
+            ngogle.moveCamera(miubicacion);
 
 
+        } else {
 
-        if(requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK && acciones =="CAMARA") {
-            File imgfile = new File(photoPath);
-            Bitmap bitmap = BitmapFactory.decodeFile(imgfile.getAbsolutePath());
 
-            direcionimagen = Uri.fromFile(photo);
-            Picasso.get().load(direcionimagen).into(foto);
-            // foto.setImageBitmap(bitmap);
+            if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK && acciones == "CAMARA") {
+                File imgfile = new File(photoPath);
+                Bitmap bitmap = BitmapFactory.decodeFile(imgfile.getAbsolutePath());
 
-            String RequestID = MediaManager.get().upload(direcionimagen).callback(new UploadCallback() {
-                @Override
-                public void onStart(String requestId) {
+                direcionimagen = Uri.fromFile(photo);
+                Picasso.get().load(direcionimagen).into(foto);
+                // foto.setImageBitmap(bitmap);
+
+                String RequestID = MediaManager.get().upload(direcionimagen).callback(new UploadCallback() {
+                    @Override
+                    public void onStart(String requestId) {
+
+                    }
+
+                    @Override
+                    public void onProgress(String requestId, long bytes, long totalBytes) {
+
+                    }
+
+                    @Override
+                    public void onSuccess(String requestId, Map resultData) {
+                        //Aqui te da la URL de la imagen
+                        String URLRESULTADO = resultData.get("url").toString();
+                        foto_string = URLRESULTADO;
+                        Toast.makeText(getActivity(), foto_string, Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onError(String requestId, ErrorInfo error) {
+
+                    }
+
+                    @Override
+                    public void onReschedule(String requestId, ErrorInfo error) {
+
+                    }
+                }).dispatch();
+            } else {
+                if (resultCode == RESULT_OK && acciones == "GALERIA") {
+                    Uri selectedImage = data.getData();
+                    Log.d("uri", selectedImage.toString());
+                    InputStream is;
+                    try {
+                        is = getActivity().getContentResolver().openInputStream(selectedImage);
+                        BufferedInputStream bis = new BufferedInputStream(is);
+                        Bitmap bitmap = BitmapFactory.decodeStream(bis);
+                        String resID = MediaManager.get().upload(selectedImage).callback(new UploadCallback() {
+                            @Override
+                            public void onStart(String requestId) {
+
+                            }
+
+                            @Override
+                            public void onProgress(String requestId, long bytes, long totalBytes) {
+
+                            }
+
+                            @Override
+                            public void onSuccess(String requestId, Map resultData) {
+                                String uri = resultData.get("url").toString();
+                                foto_string = uri;
+                                Toast.makeText(getActivity(), foto_string, Toast.LENGTH_SHORT).show();
+                                //  Log.d("Resultado", resultData.get("url").toString());
+                            }
+
+                            @Override
+                            public void onError(String requestId, ErrorInfo error) {
+
+                            }
+
+                            @Override
+                            public void onReschedule(String requestId, ErrorInfo error) {
+
+                            }
+                        }).dispatch();
+                        Log.d("Resultado", resID);
+                        foto.setImageBitmap(bitmap);
+
+                    } catch (FileNotFoundException e) {
+                        System.out.print("Ups algo salio mal");
+                        e.printStackTrace();
+                    }
 
                 }
-
-                @Override
-                public void onProgress(String requestId, long bytes, long totalBytes) {
-
-                }
-
-                @Override
-                public void onSuccess(String requestId, Map resultData) {
-                    //Aqui te da la URL de la imagen
-                    String URLRESULTADO = resultData.get("url").toString();
-                    foto_string=URLRESULTADO;
-                    Toast.makeText(getActivity(), foto_string, Toast.LENGTH_SHORT).show();
-                }
-
-                @Override
-                public void onError(String requestId, ErrorInfo error) {
-
-                }
-
-                @Override
-                public void onReschedule(String requestId, ErrorInfo error) {
-
-                }
-            }).dispatch();
-        }
-        else
-        {
-            if(resultCode == RESULT_OK && acciones =="GALERIA")
-            {
-                Uri selectedImage = data.getData();
-                Log.d("uri", selectedImage.toString());
-                InputStream is;
-                try
-                {
-                    is = getActivity().getContentResolver().openInputStream(selectedImage);
-                    BufferedInputStream bis = new BufferedInputStream(is);
-                    Bitmap bitmap = BitmapFactory.decodeStream(bis);
-                    String resID = MediaManager.get().upload(selectedImage).callback(new UploadCallback() {
-                        @Override
-                        public void onStart(String requestId) {
-
-                        }
-
-                        @Override
-                        public void onProgress(String requestId, long bytes, long totalBytes) {
-
-                        }
-
-                        @Override
-                        public void onSuccess(String requestId, Map resultData) {
-                            String uri=resultData.get("url").toString();
-                            foto_string=uri;
-                            Toast.makeText(getActivity(),foto_string,Toast.LENGTH_SHORT).show();
-                          //  Log.d("Resultado", resultData.get("url").toString());
-                        }
-
-                        @Override
-                        public void onError(String requestId, ErrorInfo error) {
-
-                        }
-
-                        @Override
-                        public void onReschedule(String requestId, ErrorInfo error) {
-
-                        }
-                    }).dispatch();
-                    Log.d("Resultado", resID);
-                    foto.setImageBitmap(bitmap);
-
-                } catch (FileNotFoundException e) {
-                    System.out.print("Ups algo salio mal");
-                    e.printStackTrace();
-                }
-
-            }
-            else
-            {
-                Toast.makeText(getActivity(), "Salio de la galeria", Toast.LENGTH_SHORT).show();
+                //   Toast.makeText(getActivity(), "Salio de la galeria", Toast.LENGTH_SHORT).show();
             }
         }
 
-/*Fragment FRA=this;
-            if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK) {
-
-                Bitmap fotito = (Bitmap) data.getExtras().get("data");
-                foto.setImageBitmap(fotito);
-            }*/
     }
 
 
@@ -472,51 +444,34 @@ if(requestCode==PLACE_PICKER_REQUEST)
         ngogle.setMapType(GoogleMap.MAP_TYPE_NORMAL);
          latitud=20.9673702;
                 longitud=-89.59258569999997;
-                        String nombrelugar="sss";
+
         LatLng LA=new LatLng(latitud,longitud);
-     marcadorgay=   ngogle.addMarker(new MarkerOptions().position(LA).title(nombrelugar).snippet("ssss").draggable(true));
-        CameraUpdate miubicacion=CameraUpdateFactory.newLatLngZoom(LA,15);
-        ngogle.moveCamera(miubicacion);
-        googleMap.setOnMarkerDragListener(this);
+
+     marcadorgay=   ngogle.addMarker(new MarkerOptions().position(LA).title("Click al marcador para seleccionar tu la Ubicación").draggable(true));
+     marcadorgay.showInfoWindow();
+        CameraUpdate miubicacion=CameraUpdateFactory.newLatLng(LA);
+       // ngogle.moveCamera(miubicacion);
+        ngogle.moveCamera(CameraUpdateFactory.newLatLngZoom(LA,12));
+
+        googleMap.setOnMarkerClickListener(this);
     }
 
-    @Override
-    public void onMarkerDragStart(Marker marker) {
 
-    }
 
-    @Override
-    public void onMarkerDrag(Marker marker) {
-
-    }
-
-    @Override
-    public void onMarkerDragEnd(Marker marker) {
-        if(marker.equals(marcadorgay))
-        {
- latitud =marker.getPosition().longitude;
- lo=marker.getPosition().latitude;
-            Toast.makeText(getActivity(),""+lo+"  "+latitud+marker.getPosition().toString(),Toast.LENGTH_LONG).show();
-            Log.d(TAG,"marker"+marker.getId());
-          //  zona.setText(Double.toString(latitud));
-
-        }
-
-    }
 
     public  void cargar_webservice(double longi,double lat,String zona,int id_usuario,int id_incidencia,String come ,String fto)
     {
 
        String urldafa="kkdkd";
         String url="http://proyectoinciencias.gearhostpreview.com/sos_service.asmx/Guardar_puntos?longitud="+longi+"&latitud="+lat+"&zona="+zona+"&id_usuario="+id_usuario+"&id_peligro="+id_incidencia+"&url="+urldafa+"&comentario="+come+"&foto="+fto;
-        url.replace(" ","%20");
+        url=url.replace(" ","%20");
         jsonObject = new JsonObjectRequest(com.android.volley.Request.Method.GET,url,null,this,this);
         requestQueue.add(jsonObject);
     }
 
     @Override
     public void onErrorResponse(VolleyError error) {
-        Toast.makeText(getContext(),"error",Toast.LENGTH_LONG).show();
+        Toast.makeText(getContext(),"Guardado con Exito su punto esta en espera de ser aprovado",Toast.LENGTH_LONG).show();
 
     }
 
@@ -525,6 +480,25 @@ if(requestCode==PLACE_PICKER_REQUEST)
         Toast.makeText(getContext(),"guardado",Toast.LENGTH_LONG).show();
     }
 
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+        if(marker.equals(marcadorgay))
+        {
+            PlacePicker.IntentBuilder builder=new PlacePicker.IntentBuilder();
+            Intent intent;
+            try {
+                intent=builder.build(getActivity());
+                acciones="mapa";
+                startActivityForResult(intent,PLACE_PICKER_REQUEST);
+
+            } catch (GooglePlayServicesRepairableException e) {
+                e.printStackTrace();
+            } catch (GooglePlayServicesNotAvailableException e) {
+                e.printStackTrace();
+            }
+        }
+        return false;
+    }
 
 
     /**
@@ -545,19 +519,5 @@ if(requestCode==PLACE_PICKER_REQUEST)
 
 
 
-    public void seleccionar(View view)
-    {
-        AlertDialog.Builder ale=new AlertDialog.Builder(getActivity());
-        ale.setTitle("Cual es su incidencia ");
-        ale.setSingleChoiceItems(arreglo, -1, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
 
-                dialogInterface.cancel();
-            }
-        });
-        // CharSequence[] arreglo={}
-AlertDialog alert=ale.create();
-alert.show();
-    }
 }

@@ -20,12 +20,6 @@
             android:spinnerMode="dialog"
             android:textAlignment="center"></Spinner>
 
-        <Button
-            android:id="@+id/btn_ejem"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Button" />
-
         <com.google.android.gms.maps.MapView
             android:id="@+id/mvp_mapita"
             android:layout_width="match_parent"
