@@ -6,50 +6,81 @@
     android:layout_height="match_parent"
     tools:context="com.example.joel.proyecto_incidencias.GenerarIncidenciaFragment">
 
-
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="match_parent"
+        android:visibility="visible">
 
-        <Spinner
-            android:id="@+id/spiner_generar"
-
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:spinnerMode="dialog"
-            android:textAlignment="center"></Spinner>
-
-        <com.google.android.gms.maps.MapView
-            android:id="@+id/mvp_mapita"
-            android:layout_width="match_parent"
-            android:layout_height="197dp" />
-
-        <EditText
-            android:id="@+id/txt_dadada"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="zona" />
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp
+"
+            android:layout_marginTop="5dp"
+            android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/txt_comentario"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="Comentario" />
+            <Spinner
+                android:id="@+id/spiner_generar"
 
-        <Button
-            android:id="@+id/btn_guardar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Guardar" />
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="8dp"
+                android:spinnerMode="dialog"
+                android:textAlignment="center"></Spinner>
 
-        <ImageButton
-            android:id="@+id/btn_foto"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:src="@drawable/camera" />
-    </LinearLayout>
+            <TextView
+                android:id="@+id/txt_dadada"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="6dp"
+                android:ems="10"
+                android:hint="zona"
 
+                android:textSize="20dp" />
+
+            <com.google.android.gms.maps.MapView
+                android:id="@+id/mvp_mapita"
+                android:layout_width="match_parent"
+                android:layout_height="197dp"
+                android:layout_marginBottom="6dp" />
+
+
+            <EditText
+                android:id="@+id/txt_comentario"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_marginBottom="6dp"
+                android:ems="10"
+                android:hint="Comentario"
+                android:background="@drawable/radiuscorner"
+                android:inputType="textMultiLine"
+                android:scrollbars="vertical" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="78dp"
+                android:orientation="horizontal">
+
+
+                <ImageButton
+                    android:id="@+id/btn_foto"
+                    android:layout_width="130dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:src="@drawable/camera" />
+
+                <Button
+                    android:id="@+id/btn_guardar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:gravity="bottom"
+                    android:text="Guardar" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
 </FrameLayout>

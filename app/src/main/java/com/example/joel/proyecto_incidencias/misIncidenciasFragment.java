@@ -82,6 +82,109 @@ Spinner spinner;
                 int posicion =i;
                 switch (i)
                 {case 0:
+                    Thread hilotodo90 = new Thread() {
+                        @Override
+                        public void run() {
+                            respuesta = incidencias_usuario(id_usuario);
+                            getActivity().runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    int con = OBJJson(respuesta);
+                                    nmap.clear();
+                                    if (con > 0) {
+                                        try {
+
+                                            JSONArray array = new JSONArray(respuesta);
+                                            for (int i = 0; i < array.length(); i++) {
+                                                JSONObject row = array.getJSONObject(i);
+                                                Double latitud = row.getDouble("Latitud");
+                                                Double longitud = row.getDouble("Longitud");
+                                                String nombrelugar = row.getString("Zona");
+                                                String imagen=row.getString("imagen");
+                                                int incidente= row.getInt("id_peligro");
+                                                LatLng LA = new LatLng(latitud, longitud);
+                                                switch (incidente)
+                                                {
+                                                    case 4:
+                                                        marcador=   nmap.addMarker( new MarkerOptions().position(new LatLng(latitud, longitud)).title(nombrelugar).icon(BitmapDescriptorFactory.fromResource(R.drawable.baches)));
+     /*   marker=nmap.addMarker(markerOptions);
+        datos_ventana.setHotel(nombrelugar);
+        marker.setTag(datos_ventana);
+        marker.showInfoWindow();*/
+                                                        break;
+                                                    case 5:
+                                                        marcador= nmap.addMarker(new MarkerOptions().position(new LatLng(latitud, longitud)).title(nombrelugar).icon(BitmapDescriptorFactory.fromResource(R.drawable.maltrato)));
+       /* marker=nmap.addMarker(markerOptions);datos_ventana.setHotel(nombrelugar);
+
+        marker.setTag(datos_ventana);
+        marker.showInfoWindow();*/
+                                                        break;
+                                                    case 6:
+                                                        marcador=    nmap.addMarker(new MarkerOptions().position(new LatLng(latitud, longitud)).title(nombrelugar).icon(BitmapDescriptorFactory.fromResource(R.drawable.lotes)));
+      /*  marker=nmap.addMarker(markerOptions);
+        datos_ventana.setHotel(nombrelugar);
+        marker.setTag(datos_ventana);
+        marker.showInfoWindow();*/
+                                                        break;
+                                                    case 7:
+                                                        marcador=    nmap.addMarker(new MarkerOptions().position(new LatLng(latitud, longitud)).title(nombrelugar).icon(BitmapDescriptorFactory.fromResource(R.drawable.vandalismo)));
+    /*    marker=nmap.addMarker(markerOptions);
+        datos_ventana.setHotel(nombrelugar);
+        marker.setTag(datos_ventana);
+        marker.showInfoWindow();*/
+                                                        break;
+                                                    case 8:
+                                                        marcador=    nmap.addMarker(new MarkerOptions().position(new LatLng(latitud, longitud)).title(nombrelugar).icon(BitmapDescriptorFactory.fromResource(R.drawable.robo)));
+  /*      marker=nmap.addMarker(markerOptions);
+        datos_ventana.setHotel(nombrelugar);
+        marker.setTag(datos_ventana);
+        marker.showInfoWindow();*/
+                                                        break;
+                                                    case 9:
+                                                        marcador=    nmap.addMarker(new MarkerOptions().position(new LatLng(latitud, longitud)).title(nombrelugar).icon(BitmapDescriptorFactory.fromResource(R.drawable.quema)));
+        /*marker=nmap.addMarker(markerOptions);
+        datos_ventana.setHotel(nombrelugar);
+        marker.setTag(datos_ventana);
+        marker.showInfoWindow();*/
+                                                        break;
+                                                    case 10:
+                                                        marcador= nmap.addMarker(new MarkerOptions().position(new LatLng(latitud, longitud)).title(nombrelugar).icon(BitmapDescriptorFactory.fromResource(R.drawable.accidentes)));
+                                                        // marker=nmap.addMarker(markerOptions);
+      /*  datos_ventana.setHotel(nombrelugar);
+        marker.setTag(datos_ventana);
+        marker.showInfoWindow();*/
+                                                        break;
+                                                    case 11:
+                                                        marcador=    nmap.addMarker(new MarkerOptions().position(new LatLng(latitud, longitud)).title(nombrelugar).icon(BitmapDescriptorFactory.fromResource(R.drawable.otros)));
+
+                                                        break;
+
+
+                                                }
+                                                //    Toast.makeText(getActivity(),"jdjdj"+longitud,Toast.LENGTH_LONG).show();
+                                                ventana ventana = new ventana(getContext());
+                                                datos_ventana datos_ventana =new datos_ventana();
+                                                datos_ventana.setDetalle(nombrelugar);
+                                                datos_ventana.setNombre(nombrelugar);
+                                                datos_ventana.setImage(imagen);
+                                                marcador.setTag(datos_ventana);
+                                                nmap.moveCamera(CameraUpdateFactory.newLatLng(LA));
+                                            }
+
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
+                                    } else {
+                                        Toast.makeText(getActivity(),"NO HAY INCIDENTES DE VACHES ",Toast.LENGTH_LONG).show();
+                                    }
+                                }
+                            });
+                        }
+
+
+                        //  Toast.makeText(getActivity(),"gay",Toast.LENGTH_SHORT).show();
+                    };
+                    hilotodo90.start();
                     break;
                     case 1:
                         Thread hilotodo = new Thread() {
@@ -581,7 +684,7 @@ nmap.moveCamera(miubicacion);
         StringBuilder resul=null;
         try {
             //http://fhkuku182-001-site1.atempurl.com/Grantour.asmx/CargarLugares
-            url=new URL("http://proyectoinciencias.gearhostpreview.com/sos_service.asmx/filtros_de_incidencias_porusuario?id_peligro="+va+"&id_usuario="+id_usuario);
+            url=new URL("http://proyectoinciencias.gearhostpreview.com/sos_service.asmx/mostrar_puntos_aprovados_usuario?id="+id_usuario);
             HttpURLConnection conec=(HttpURLConnection)url.openConnection();
             respuesta=conec.getResponseCode();
             resul=new StringBuilder();

@@ -42,6 +42,10 @@ public class MainActivityMenu extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        EstadisticasFragment mapa_puntos_aprovado1s= new EstadisticasFragment();
+
+        FragmentTransaction fragmentTransaction= getFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.contenedor,mapa_puntos_aprovado1s).commit();
         MediaManager.init(this,Configuracion());
         //mandar preferencia de los mapas
         preferencias_usuarios=getSharedPreferences(MyFRERERNCES,Context.MODE_PRIVATE);

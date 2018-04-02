@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -44,6 +45,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
@@ -101,13 +103,15 @@ public class GenerarIncidenciaFragment extends Fragment implements OnMapReadyCal
     int   id_insidencia;
 // static final int REQUEST_IMAGE_CAPTURE = 123;
     String acciones;
-TextView zona,comentario;
+TextView zona;
+EditText comentario;
 Uri direcionimagen;
 String photoPath;
 File photo;
+int iglogbal;
     ImageButton foto;
 Bitmap ima;
-
+int iconovalor=R.drawable.baches;
 Spinner spinner;
     private final String ruta_fotos = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/todopro/";
 
@@ -187,7 +191,54 @@ Spinner spinner;
             public void onItemSelected(AdapterView <?> adapterView, View view, int i, long l) {
                 valor=array[i].toString();
                 id_insidencia=Integer.parseInt(valor);
+                iglogbal=i;
                 Toast.makeText(getActivity()," "+((SocialNetwork)adapterView.getItemAtPosition(i)).getNombre() +" "+id_insidencia,Toast.LENGTH_LONG).show();
+                latitud=20.9673702;
+                longitud=-89.59258569999997;
+
+                LatLng LA=new LatLng(latitud,longitud);
+                ngogle.clear();
+                switch (iglogbal)
+                {
+
+                    case 0 :
+                        marcadorgay = ngogle.addMarker(new MarkerOptions().position(LA).title("Click al marcador para seleccionar tu la Ubicación").icon(BitmapDescriptorFactory.fromResource(R.drawable.baches)));
+                        marcadorgay.showInfoWindow();
+                        break;
+                    case 1 :
+                        marcadorgay = ngogle.addMarker(new MarkerOptions().position(LA).title("Click al marcador para seleccionar tu la Ubicación").icon(BitmapDescriptorFactory.fromResource(R.drawable.maltrato)));
+                        marcadorgay.showInfoWindow();
+                        break;
+                    case 2 :
+                        marcadorgay = ngogle.addMarker(new MarkerOptions().position(LA).title("Click al marcador para seleccionar tu la Ubicación").icon(BitmapDescriptorFactory.fromResource(R.drawable.lotes)));
+                        marcadorgay.showInfoWindow();
+                        break;
+                    case 3 :
+                        marcadorgay = ngogle.addMarker(new MarkerOptions().position(LA).title("Click al marcador para seleccionar tu la Ubicación").icon(BitmapDescriptorFactory.fromResource(R.drawable.vandalismo)));
+                        marcadorgay.showInfoWindow();
+                        break;
+                    case 4 :
+                        marcadorgay = ngogle.addMarker(new MarkerOptions().position(LA).title("Click al marcador para seleccionar tu la Ubicación").icon(BitmapDescriptorFactory.fromResource(R.drawable.robo)));
+                        marcadorgay.showInfoWindow();
+                        break;
+                    case 5 :
+                        marcadorgay = ngogle.addMarker(new MarkerOptions().position(LA).title("Click al marcador para seleccionar tu la Ubicación").icon(BitmapDescriptorFactory.fromResource(R.drawable.quema)));
+                        marcadorgay.showInfoWindow();
+                        break;
+                    case 6 :
+                        marcadorgay = ngogle.addMarker(new MarkerOptions().position(LA).title("Click al marcador para seleccionar tu la Ubicación").icon(BitmapDescriptorFactory.fromResource(R.drawable.accidentes)));
+                        marcadorgay.showInfoWindow();
+                        break;
+                    case 7 :
+                        marcadorgay = ngogle.addMarker(new MarkerOptions().position(LA).title("Click al marcador para seleccionar tu la Ubicación").icon(BitmapDescriptorFactory.fromResource(R.drawable.otros)));
+                        marcadorgay.showInfoWindow();
+                        break;
+
+                }
+
+                CameraUpdate miubicacion=CameraUpdateFactory.newLatLng(LA);
+                // ngogle.moveCamera(miubicacion);
+                ngogle.moveCamera(CameraUpdateFactory.newLatLngZoom(LA,12));
 
             }
 
@@ -200,7 +251,7 @@ Spinner spinner;
 
         id_usuario = getArguments().getInt("id");
          zona=(TextView)vista_crearincidencias.findViewById(R.id.txt_dadada);
-         comentario=(TextView)vista_crearincidencias.findViewById(R.id.txt_comentario);
+         comentario=(EditText) vista_crearincidencias.findViewById(R.id.txt_comentario);
          foto=(ImageButton)vista_crearincidencias.findViewById(R.id.btn_foto);
         foto.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -312,7 +363,35 @@ requestQueue= Volley.newRequestQueue(getContext());
             zona_string = place.getAddress().toString();
             Toast.makeText(getActivity(), adrees, Toast.LENGTH_LONG).show();
             LatLng LA = new LatLng(latitud, longitud);
-            marcadorgay = ngogle.addMarker(new MarkerOptions().position(LA).title(zona.getText().toString()).snippet("ssss"));
+            ngogle.clear();
+            switch (id_insidencia)
+            {
+                case 4 :
+                    marcadorgay = ngogle.addMarker(new MarkerOptions().position(LA).title(zona.getText().toString()).snippet("ssss").icon(BitmapDescriptorFactory.fromResource(R.drawable.baches)));
+                    break;
+                case 5 :
+                    marcadorgay = ngogle.addMarker(new MarkerOptions().position(LA).icon(BitmapDescriptorFactory.fromResource(R.drawable.maltrato)));
+                    break;
+                case 6 :
+                    marcadorgay = ngogle.addMarker(new MarkerOptions().position(LA).icon(BitmapDescriptorFactory.fromResource(R.drawable.lotes)));
+                    break;
+                case 7 :
+                    marcadorgay = ngogle.addMarker(new MarkerOptions().position(LA).icon(BitmapDescriptorFactory.fromResource(R.drawable.vandalismo)));
+                    break;
+                case 8 :
+                    marcadorgay = ngogle.addMarker(new MarkerOptions().position(LA).icon(BitmapDescriptorFactory.fromResource(R.drawable.robo)));
+                    break;
+                case 9 :
+                    marcadorgay = ngogle.addMarker(new MarkerOptions().position(LA).icon(BitmapDescriptorFactory.fromResource(R.drawable.quema)));
+                    break;
+                case 10 :
+                    marcadorgay = ngogle.addMarker(new MarkerOptions().position(LA).icon(BitmapDescriptorFactory.fromResource(R.drawable.accidentes)));
+                    break;
+                case 11 :
+                    marcadorgay = ngogle.addMarker(new MarkerOptions().position(LA).icon(BitmapDescriptorFactory.fromResource(R.drawable.otros)));
+                    break;
+            }
+
             CameraUpdate miubicacion = CameraUpdateFactory.newLatLngZoom(LA, 15);
             ngogle.moveCamera(miubicacion);
 
@@ -442,16 +521,10 @@ requestQueue= Volley.newRequestQueue(getContext());
         MapsInitializer.initialize(getContext());
         ngogle=googleMap;
         ngogle.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-         latitud=20.9673702;
-                longitud=-89.59258569999997;
 
-        LatLng LA=new LatLng(latitud,longitud);
 
-     marcadorgay=   ngogle.addMarker(new MarkerOptions().position(LA).title("Click al marcador para seleccionar tu la Ubicación").draggable(true));
-     marcadorgay.showInfoWindow();
-        CameraUpdate miubicacion=CameraUpdateFactory.newLatLng(LA);
-       // ngogle.moveCamera(miubicacion);
-        ngogle.moveCamera(CameraUpdateFactory.newLatLngZoom(LA,12));
+    // marcadorgay=   ngogle.addMarker(new MarkerOptions().position(LA).title("Click al marcador para seleccionar tu la Ubicación").draggable(true));
+
 
         googleMap.setOnMarkerClickListener(this);
     }

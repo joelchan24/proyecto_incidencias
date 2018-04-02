@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.FragmentTabHost;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,6 +33,8 @@ public class EstadisticasFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View vista_frag=inflater.inflate(R.layout.fragment_estadisticas, container, false);
+        FragmentTabHost host=(FragmentTabHost)vista_frag.findViewById(R.id.tabhost);
+     //  host.setup(getActivity(),getSupportFra,R.id.tabhost);
 
         return  vista_frag;
     }
