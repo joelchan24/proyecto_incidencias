@@ -1,6 +1,8 @@
 package com.example.joel.proyecto_incidencias;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
 //import android.support.v4.app.Fragment;
@@ -9,7 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.app.Fragment;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdate;
@@ -22,6 +26,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -50,6 +55,10 @@ Spinner spinner;
     Marker marcador;
     String respuesta;
     int id_usuario;
+    String nombreincidencia;
+    String comentario;
+    String imagen;
+  String  nombrelugar;
     private OnFragmentInteractionListener mListener;
 
     public misIncidenciasFragment() {
@@ -99,8 +108,9 @@ Spinner spinner;
                                                 JSONObject row = array.getJSONObject(i);
                                                 Double latitud = row.getDouble("Latitud");
                                                 Double longitud = row.getDouble("Longitud");
-                                                String nombrelugar = row.getString("Zona");
-                                                String imagen=row.getString("imagen");
+                                                 nombrelugar = row.getString("Zona");
+                                                 imagen=row.getString("imagen");
+
                                                 int incidente= row.getInt("id_peligro");
                                                 LatLng LA = new LatLng(latitud, longitud);
                                                 switch (incidente)
@@ -164,7 +174,7 @@ Spinner spinner;
                                                 //    Toast.makeText(getActivity(),"jdjdj"+longitud,Toast.LENGTH_LONG).show();
                                                 ventana ventana = new ventana(getContext());
                                                 datos_ventana datos_ventana =new datos_ventana();
-                                                datos_ventana.setDetalle(nombrelugar);
+                                                datos_ventana.setDetalle(nombreincidencia);
                                                 datos_ventana.setNombre(nombrelugar);
                                                 datos_ventana.setImage(imagen);
                                                 marcador.setTag(datos_ventana);
@@ -206,15 +216,30 @@ Spinner spinner;
                                                     Double longitud = row.getDouble("Longitud");
                                                     String nombrelugar = row.getString("Zona");
                                                     String imagen=row.getString("imagen");
+                                                 //   nombreincidencia=row.getString("Peligro");
+                                                    comentario=row.getString("comentario");
                                                     LatLng LA = new LatLng(latitud, longitud);
                                                 marcador=    nmap.addMarker(new MarkerOptions().position(new LatLng(latitud, longitud)).title(nombrelugar).icon(BitmapDescriptorFactory.fromResource(R.drawable.baches)));
                                                     //    Toast.makeText(getActivity(),"jdjdj"+longitud,Toast.LENGTH_LONG).show();
                                                     ventana ventana = new ventana(getContext());
                                                     datos_ventana datos_ventana =new datos_ventana();
-                                                    datos_ventana.setDetalle(nombrelugar);
+                                                    datos_ventana.setComentario(comentario);
+                                                    datos_ventana.setNombre_incidente(nombreincidencia);
+                                                  //  datos_ventana.setDetalle(nombreincidencia);
                                                     datos_ventana.setNombre(nombrelugar);
                                                     datos_ventana.setImage(imagen);
+
                                                     marcador.setTag(datos_ventana);
+                                                    nmap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+                                                        @Override
+                                                        public void onInfoWindowClick(Marker marker1) {
+                                                            String nombreincidencia = ((datos_ventana) marcador.getTag()).getNombre_incidente();
+                                                            String comentario = ((datos_ventana) marcador.getTag()).getComentario();
+                                                            String foto = ((datos_ventana) marcador.getTag()).getImage();
+                                                            String lugar = ((datos_ventana) marcador.getTag()).getNombre();
+                                                            mostrar_ventana(nombreincidencia,comentario,foto,lugar).show();
+                                                        }
+                                                    });
                                                     nmap.moveCamera(CameraUpdateFactory.newLatLng(LA));
                                                 }
 
@@ -253,14 +278,19 @@ Spinner spinner;
                                                     Double longitud = row.getDouble("Longitud");
                                                     String nombrelugar = row.getString("Zona");
                                                     String imagen=row.getString("imagen");
+                                                 //   nombreincidencia=row.getString("Peligro");
+                                                    comentario=row.getString("comentario");
                                                     LatLng LA = new LatLng(latitud, longitud);
                                               marcador=      nmap.addMarker(new MarkerOptions().position(new LatLng(latitud, longitud)).title(nombrelugar).icon(BitmapDescriptorFactory.fromResource(R.drawable.maltrato)));
                                                     //    Toast.makeText(getActivity(),"jdjdj"+longitud,Toast.LENGTH_LONG).show();
                                                     ventana ventana = new ventana(getContext());
                                                     datos_ventana datos_ventana =new datos_ventana();
-                                                    datos_ventana.setDetalle(nombrelugar);
+                                                    datos_ventana.setComentario(comentario);
+                                                    datos_ventana.setNombre_incidente(nombreincidencia);
+                                                    //datos_ventana.setDetalle(nombreincidencia);
                                                     datos_ventana.setNombre(nombrelugar);
                                                     datos_ventana.setImage(imagen);
+
                                                     marcador.setTag(datos_ventana);
                                                     nmap.moveCamera(CameraUpdateFactory.newLatLng(LA));
                                                 }
@@ -301,14 +331,19 @@ Spinner spinner;
                                                     Double longitud = row.getDouble("Longitud");
                                                     String nombrelugar = row.getString("Zona");
                                                     String imagen=row.getString("imagen");
+                                                   // nombreincidencia=row.getString("Peligro");
+                                                    comentario=row.getString("comentario");
                                                     LatLng LA = new LatLng(latitud, longitud);
                                                 marcador=    nmap.addMarker(new MarkerOptions().position(new LatLng(latitud, longitud)).title(nombrelugar).icon(BitmapDescriptorFactory.fromResource(R.drawable.lotes)));
                                                     //    Toast.makeText(getActivity(),"jdjdj"+longitud,Toast.LENGTH_LONG).show();
                                                     ventana ventana = new ventana(getContext());
                                                     datos_ventana datos_ventana =new datos_ventana();
-                                                    datos_ventana.setDetalle(nombrelugar);
+                                                    datos_ventana.setComentario(comentario);
+                                                    datos_ventana.setNombre_incidente(nombreincidencia);
+                                                  //  datos_ventana.setDetalle(nombreincidencia);
                                                     datos_ventana.setNombre(nombrelugar);
                                                     datos_ventana.setImage(imagen);
+
                                                     marcador.setTag(datos_ventana);
                                                     nmap.moveCamera(CameraUpdateFactory.newLatLng(LA));
                                                 }
@@ -350,14 +385,19 @@ Spinner spinner;
                                                     Double longitud = row.getDouble("Longitud");
                                                     String nombrelugar = row.getString("Zona");
                                                     String imagen=row.getString("imagen");
+                                                    nombreincidencia=row.getString("Peligro");
+                                             //       comentario=row.getString("comentario");
                                                     LatLng LA = new LatLng(latitud, longitud);
                                                  marcador=   nmap.addMarker(new MarkerOptions().position(new LatLng(latitud, longitud)).title(nombrelugar).icon(BitmapDescriptorFactory.fromResource(R.drawable.vandalismo)));
                                                     //    Toast.makeText(getActivity(),"jdjdj"+longitud,Toast.LENGTH_LONG).show();
                                                     ventana ventana = new ventana(getContext());
                                                     datos_ventana datos_ventana =new datos_ventana();
-                                                    datos_ventana.setDetalle(nombrelugar);
+                                                    datos_ventana.setComentario(comentario);
+                                                    datos_ventana.setNombre_incidente(nombreincidencia);
+                                                //    datos_ventana.setDetalle(nombreincidencia);
                                                     datos_ventana.setNombre(nombrelugar);
                                                     datos_ventana.setImage(imagen);
+
                                                     marcador.setTag(datos_ventana);
                                                     nmap.moveCamera(CameraUpdateFactory.newLatLng(LA));
                                                 }
@@ -398,14 +438,19 @@ Spinner spinner;
                                                     Double longitud = row.getDouble("Longitud");
                                                     String nombrelugar = row.getString("Zona");
                                                     String imagen=row.getString("imagen");
+                                               //     nombreincidencia=row.getString("Peligro");
+                                                    comentario=row.getString("comentario");
                                                     LatLng LA = new LatLng(latitud, longitud);
                                                     marcador=nmap.addMarker(new MarkerOptions().position(new LatLng(latitud, longitud)).title(nombrelugar).icon(BitmapDescriptorFactory.fromResource(R.drawable.robo)));
                                                     //    Toast.makeText(getActivity(),"jdjdj"+longitud,Toast.LENGTH_LONG).show();
                                                     ventana ventana = new ventana(getContext());
                                                     datos_ventana datos_ventana =new datos_ventana();
-                                                    datos_ventana.setDetalle(nombrelugar);
+                                                    datos_ventana.setComentario(comentario);
+                                                    datos_ventana.setNombre_incidente(nombreincidencia);
+                                                  //  datos_ventana.setDetalle(nombreincidencia);
                                                     datos_ventana.setNombre(nombrelugar);
                                                     datos_ventana.setImage(imagen);
+
                                                     marcador.setTag(datos_ventana);
                                                     nmap.moveCamera(CameraUpdateFactory.newLatLng(LA));
                                                 }
@@ -446,14 +491,19 @@ Spinner spinner;
                                                     Double longitud = row.getDouble("Longitud");
                                                     String nombrelugar = row.getString("Zona");
                                                     String imagen=row.getString("imagen");
+                                                 //   nombreincidencia=row.getString("Peligro");
+                                                    comentario=row.getString("comentario");
                                                     LatLng LA = new LatLng(latitud, longitud);
                                                     marcador=nmap.addMarker(new MarkerOptions().position(new LatLng(latitud, longitud)).title(nombrelugar).icon(BitmapDescriptorFactory.fromResource(R.drawable.quema)));
                                                     //    Toast.makeText(getActivity(),"jdjdj"+longitud,Toast.LENGTH_LONG).show();
                                                     ventana ventana = new ventana(getContext());
                                                     datos_ventana datos_ventana =new datos_ventana();
-                                                    datos_ventana.setDetalle(nombrelugar);
+                                                    datos_ventana.setComentario(comentario);
+                                                    datos_ventana.setNombre_incidente(nombreincidencia);
+                                                  //  datos_ventana.setDetalle(nombreincidencia);
                                                     datos_ventana.setNombre(nombrelugar);
                                                     datos_ventana.setImage(imagen);
+
                                                     marcador.setTag(datos_ventana);
                                                     nmap.moveCamera(CameraUpdateFactory.newLatLng(LA));
                                                 }
@@ -494,14 +544,19 @@ Spinner spinner;
                                                     Double longitud = row.getDouble("Longitud");
                                                     String nombrelugar = row.getString("Zona");
                                                     String imagen=row.getString("imagen");
+                                                  //  nombreincidencia=row.getString("Peligro");
+                                                    comentario=row.getString("comentario");
                                                     LatLng LA = new LatLng(latitud, longitud);
                                                     marcador=nmap.addMarker(new MarkerOptions().position(new LatLng(latitud, longitud)).title(nombrelugar).icon(BitmapDescriptorFactory.fromResource(R.drawable.accidentes)));
                                                     //    Toast.makeText(getActivity(),"jdjdj"+longitud,Toast.LENGTH_LONG).show();
                                                     ventana ventana = new ventana(getContext());
                                                     datos_ventana datos_ventana =new datos_ventana();
-                                                    datos_ventana.setDetalle(nombrelugar);
+                                                    datos_ventana.setComentario(comentario);
+                                                    datos_ventana.setNombre_incidente(nombreincidencia);
+                                                   // datos_ventana.setDetalle(nombreincidencia);
                                                     datos_ventana.setNombre(nombrelugar);
                                                     datos_ventana.setImage(imagen);
+
                                                     marcador.setTag(datos_ventana);
                                                     nmap.moveCamera(CameraUpdateFactory.newLatLng(LA));
                                                 }
@@ -541,16 +596,23 @@ Spinner spinner;
                                                     Double longitud = row.getDouble("Longitud");
                                                     String nombrelugar = row.getString("Zona");
                                                     String imagen=row.getString("imagen");
+                                                   // nombreincidencia=row.getString("Peligro");
+                                                    comentario=row.getString("comentario");
                                                     LatLng LA = new LatLng(latitud, longitud);
                                            marcador=         nmap.addMarker(new MarkerOptions().position(new LatLng(latitud, longitud)).title(nombrelugar).icon(BitmapDescriptorFactory.fromResource(R.drawable.otros)));
                                                     //    Toast.makeText(getActivity(),"jdjdj"+longitud,Toast.LENGTH_LONG).show();
                                                     ventana ventana = new ventana(getContext());
                                                     datos_ventana datos_ventana =new datos_ventana();
-                                                    datos_ventana.setDetalle(nombrelugar);
+                                                    datos_ventana.setComentario(comentario);
+                                                    datos_ventana.setNombre_incidente(nombreincidencia);
+                                              //      datos_ventana.setDetalle(nombreincidencia);
                                                     datos_ventana.setNombre(nombrelugar);
                                                     datos_ventana.setImage(imagen);
+
                                                     marcador.setTag(datos_ventana);
+
                                                     nmap.moveCamera(CameraUpdateFactory.newLatLng(LA));
+
                                                 }
 
                                             } catch (JSONException e) {
@@ -632,9 +694,25 @@ Spinner spinner;
         nmap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         LatLng LA=new LatLng(20.9673702,-89.59258569999997);
         CameraUpdate miubicacion= CameraUpdateFactory.newLatLngZoom(LA,12);
-        ventana ventana = new ventana(getContext());
+        ventana ventana1 = new ventana(getContext());
+     /*   datos_ventana datos_ventana= new datos_ventana();
+      //  datos_ventana.setDetalle(nombreincidencia);
+        datos_ventana.setNombre(nombrelugar);
+        datos_ventana.setImage(imagen);
+        datos_ventana.setComentario(comentario);
+        datos_ventana.setNombre_incidente(nombreincidencia);*/
+        nmap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+            @Override
+            public void onInfoWindowClick(Marker marker1) {
+                String nombreincidencia = ((datos_ventana) marcador.getTag()).getNombre_incidente();
+                String comentario = ((datos_ventana) marcador.getTag()).getComentario();
+                String foto = ((datos_ventana) marcador.getTag()).getImage();
+                String lugar = ((datos_ventana) marcador.getTag()).getNombre();
+                mostrar_ventana(nombreincidencia,comentario,foto,lugar).show();
+            }
+        });
         //ventana vetana=new ventana(getActivity());
-        nmap.setInfoWindowAdapter(ventana);
+        nmap.setInfoWindowAdapter(ventana1);
 nmap.moveCamera(miubicacion);
     }
 
@@ -737,5 +815,30 @@ nmap.moveCamera(miubicacion);
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+    public AlertDialog mostrar_ventana(final String nombre_incidencia, String comentario, String foto, String lugar)
+    {
+        AlertDialog.Builder   builder= new AlertDialog.Builder(getActivity());
+        LayoutInflater inflater=getActivity().getLayoutInflater();
+        View  v=inflater.inflate(R.layout.ejemplo,null);
+
+        builder.setView(v)
+                .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                });
+        TextView txtcomentario=(TextView)v.findViewById(R.id.tvt_comentario);
+        TextView nombreinci=(TextView)v.findViewById(R.id.txt_tipoincidente);
+        ImageView fotoaler=(ImageView)v.findViewById(R.id.img_alert);
+        TextView lug=(TextView)v.findViewById(R.id.tvt_lugar);
+        txtcomentario.setText(comentario);
+        nombreinci.setText(nombre_incidencia);
+        lug.setText(lugar);
+        Picasso.get().load(foto).into(fotoaler);
+
+
+        return  builder.create();
     }
 }

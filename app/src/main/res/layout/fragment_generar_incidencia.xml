@@ -1,10 +1,11 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/txt_zona"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.joel.proyecto_incidencias.GenerarIncidenciaFragment">
+
 
     <ScrollView
         android:layout_width="match_parent"
@@ -20,6 +21,7 @@
 "
             android:layout_marginTop="5dp"
             android:orientation="vertical">
+
 
             <Spinner
                 android:id="@+id/spiner_generar"
@@ -52,9 +54,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:layout_marginBottom="6dp"
+                android:background="@drawable/radiuscorner"
                 android:ems="10"
                 android:hint="Comentario"
-                android:background="@drawable/radiuscorner"
                 android:inputType="textMultiLine"
                 android:scrollbars="vertical" />
 
@@ -83,4 +85,4 @@
 
         </LinearLayout>
     </ScrollView>
-</FrameLayout>
+</RelativeLayout>

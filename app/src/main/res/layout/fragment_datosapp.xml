@@ -1,0 +1,38 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.joel.proyecto_incidencias.datosappFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TODO PROTEGIDO SOS"
+            android:textAlignment="center" />
+
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:text="Todo Protegido SOS es un proyecto que dará paso hacia un nuevo concepto de protección. Dicho de este modo se creara un sistema de seguridad donde tu usuario puedes alertar mediante diferentes canales a tus contactos de confianza en cuestión de segundos en caso de estar en involucrado en alguna situación que atente contra tu integridad.
+
+De igual modo entraras a una comunidad que buscara protegerse a sí misma mediante la creación de denominados puntos de peligro que servirán para indicar que lugares pueden ponerte en peligro al momento de salir a la calle. Estos tendrán categorías establecidas las cuales estarán distribuidas por toda tu ciudad. Todo protegido SOS se encuentra disponible actualmente para plataforma la Web y dispositivos Android."
+            android:textAlignment="center"
+            android:textSize="15dp" />
+    </LinearLayout>
+</FrameLayout>

@@ -1,7 +1,9 @@
 package com.example.joel.proyecto_incidencias;
 
+import android.app.AlertDialog;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -23,6 +25,8 @@ import com.cloudinary.android.MediaManager;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -34,15 +38,17 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MainActivityMenu extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener ,mapa_puntos_aprovados.OnFragmentInteractionListener,EstadisticasFragment.OnFragmentInteractionListener,GpuntosFragment.OnFragmentInteractionListener,misIncidenciasFragment.OnFragmentInteractionListener,MisdatosFragment.OnFragmentInteractionListener,GenerarIncidenciaFragment.OnFragmentInteractionListener,contenedorFragment.OnFragmentInteractionListener{
+        implements NavigationView.OnNavigationItemSelectedListener ,mapa_puntos_aprovados.OnFragmentInteractionListener,EstadisticasFragment.OnFragmentInteractionListener,GpuntosFragment.OnFragmentInteractionListener,misIncidenciasFragment.OnFragmentInteractionListener,MisdatosFragment.OnFragmentInteractionListener,GenerarIncidenciaFragment.OnFragmentInteractionListener,contenedorFragment.OnFragmentInteractionListener,Estadisticas22Fragment.OnFragmentInteractionListener,Estadisticas33Fragment.OnFragmentInteractionListener,datosappFragment.OnFragmentInteractionListener{
     SharedPreferences preferencias_puntos;
     SharedPreferences preferencias_usuarios;
     public  static  final  String MyFRERERNCES="MyPreferences";
     int id_usuairo;
+    clase_traedatos clase_traedatos= new clase_traedatos();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EstadisticasFragment mapa_puntos_aprovado1s= new EstadisticasFragment();
+        CargarDatosestadisticas1();
+        mapa_puntos_aprovados mapa_puntos_aprovado1s= new mapa_puntos_aprovados();
 
         FragmentTransaction fragmentTransaction= getFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.contenedor,mapa_puntos_aprovado1s).commit();
@@ -134,48 +140,99 @@ public class MainActivityMenu extends AppCompatActivity
         if (id == R.id.nav_camera) {
 
             CargarDatosLugares();
-            mapa_puntos_aprovados conte= new mapa_puntos_aprovados();
+            mapa_puntos_aprovados conte = new mapa_puntos_aprovados();
          /*   Bundle bundle=new Bundle();
             String ba=enviar_Baches().toString();
             bundle.putString("baches",ba);
             conte.setArguments(bundle);*/
-            FragmentTransaction fragmentTransaction= getFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.contenedor,conte).commit();
+            FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.contenedor, conte).commit();
 
             // Handle the camera action
         } else if (id == R.id.nav_gallery) {
-            Bundle bundle= new Bundle();
-            bundle.putInt("id",id_usuairo);
-            misIncidenciasFragment gpuntosFragment=new misIncidenciasFragment();
-            FragmentTransaction fragmentTransaction= getFragmentManager().beginTransaction();
+            Bundle bundle = new Bundle();
+            bundle.putInt("id", id_usuairo);
+            misIncidenciasFragment gpuntosFragment = new misIncidenciasFragment();
+            FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
             gpuntosFragment.setArguments(bundle);
-            fragmentTransaction.replace(R.id.contenedor,gpuntosFragment).commit();
+            fragmentTransaction.replace(R.id.contenedor, gpuntosFragment).commit();
             //fragmentTransaction.addToBackStack(null);
 
 
         } else if (id == R.id.nav_slideshow) {
             Bundle bundle = new Bundle();
-            bundle.putInt("id",id_usuairo);
-GenerarIncidenciaFragment generarIncidenciaFragment= new GenerarIncidenciaFragment();
-generarIncidenciaFragment.setArguments(bundle);
-          //  getSupportFragmentManager().beginTransaction().add(R.id.contenedor,generarIncidenciaFragment).commit();
-            FragmentTransaction fragmentTransaction= getFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.contenedor,generarIncidenciaFragment).commit();
-        } else if (id == R.id.nav_manage) {
-EstadisticasFragment estadisticasFragment= new EstadisticasFragment();
-            FragmentTransaction fragmentTransaction= getFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.contenedor,estadisticasFragment).commit();
-        } else if (id == R.id.nav_share) {
+            bundle.putInt("id", id_usuairo);
+            GenerarIncidenciaFragment generarIncidenciaFragment = new GenerarIncidenciaFragment();
+            generarIncidenciaFragment.setArguments(bundle);
+            //  getSupportFragmentManager().beginTransaction().add(R.id.contenedor,generarIncidenciaFragment).commit();
+            FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.contenedor, generarIncidenciaFragment).commit();
+        } else if (id == R.id.grafica1) {
+            CargarDatosestadisticas1();
+            EstadisticasFragment estadisticasFragment = new EstadisticasFragment();
+            Bundle bundle = new Bundle();
+            bundle.putInt("0", clase_traedatos.getDato0());
+            bundle.putInt("1", clase_traedatos.getDato1());
+            bundle.putInt("2", clase_traedatos.getDato2());
+            bundle.putInt("3", clase_traedatos.getDato3());
+            bundle.putInt("4", clase_traedatos.getDato4());
+            bundle.putInt("5", clase_traedatos.getDato5());
+            bundle.putInt("6", clase_traedatos.getDato6());
+            bundle.putInt("7", clase_traedatos.getDato7());
+            estadisticasFragment.setArguments(bundle);
+            FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.contenedor, estadisticasFragment).commit();
+        } else if (id == R.id.grafica2) {
+            CargarDatosestadisticas1();
+            Estadisticas22Fragment ususu = new Estadisticas22Fragment();
+            Bundle bundle = new Bundle();
+            bundle.putInt("0", clase_traedatos.getDato0());
+            bundle.putInt("1", clase_traedatos.getDato1());
+            bundle.putInt("2", clase_traedatos.getDato2());
+            bundle.putInt("3", clase_traedatos.getDato3());
+            bundle.putInt("4", clase_traedatos.getDato4());
+            bundle.putInt("5", clase_traedatos.getDato5());
+            bundle.putInt("6", clase_traedatos.getDato6());
+            bundle.putInt("7", clase_traedatos.getDato7());
+            ususu.setArguments(bundle);
+            FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.contenedor, ususu).commit();
+
+        } else if (id == R.id.datosapp){
+            datosappFragment datosappFragment1 = new datosappFragment();
+    FragmentTransaction fragmentTransaction= getFragmentManager().beginTransaction();
+    fragmentTransaction.replace(R.id.contenedor,datosappFragment1).commit();
+
 
         } else if (id == R.id.nav_send) {
 MisdatosFragment misdatosFragment= new MisdatosFragment();
             FragmentTransaction fragmentTransaction= getFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.contenedor,misdatosFragment).commit();
+        }else if(id==R.id.grafica3){
+            CargarDatosestadisticas1();
+            Bundle bundle= new Bundle();
+            Estadisticas33Fragment estadisticas33Fragment= new Estadisticas33Fragment();
+            bundle.putInt("0",clase_traedatos.getDato0());
+            bundle.putInt("1",clase_traedatos.getDato1());
+            bundle.putInt("2",clase_traedatos.getDato2());
+            bundle.putInt("3",clase_traedatos.getDato3());
+            bundle.putInt("4",clase_traedatos.getDato4());
+            bundle.putInt("5",clase_traedatos.getDato5());
+            bundle.putInt("6",clase_traedatos.getDato6());
+            bundle.putInt("7",clase_traedatos.getDato7());
+            bundle.putString("8",clase_traedatos.getPeligro0());
+            bundle.putString("9",clase_traedatos.getPeligro1());
+            bundle.putString("10",clase_traedatos.getPeligro2());
+            bundle.putString("11",clase_traedatos.getPeligro3());
+            bundle.putString("12",clase_traedatos.getPeligro4());
+            bundle.putString("13",clase_traedatos.getPeligro5());
+            bundle.putString("14",clase_traedatos.getPeligro6());
+            bundle.putString("15",clase_traedatos.getPeligro7());
+            estadisticas33Fragment.setArguments(bundle);
+            FragmentTransaction fragmentTransaction= getFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.contenedor,estadisticas33Fragment).commit();
         }else if(id==R.id.nav_send1){
-SharedPreferences.Editor editor=preferencias_usuarios.edit();
-editor.clear().commit();
-            Intent intent= new Intent(getApplicationContext(),Login.class);
-            startActivity(intent);
+cerra();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -252,14 +309,91 @@ editor.clear().commit();
         return  resul.toString();
 
     }
-    public  String enviar_Baches()  {
+    public void CargarDatosestadisticas1(){
+        Thread hilo = new Thread(){
+            @Override
+            public void run() {
+                final String   resp = enviarpost_esta1();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        int con=OBJJsonS(resp);
+                        if(con>0)
+                        {
+
+                            try {
+                                JSONArray array = new JSONArray(resp);
+for (int i=0;i<array.length();i++) {
+    JSONObject jsonObject = array.getJSONObject(i);
+    {
+switch (i)
+{
+    case 0:
+        clase_traedatos.setPeligro0(jsonObject.getString("Peligro"));
+        clase_traedatos.setDato0(jsonObject.getInt("total"));
+    break;
+    case 1:
+        clase_traedatos.setPeligro1(jsonObject.getString("Peligro"));
+        clase_traedatos.setDato1(jsonObject.getInt("total"));
+        break;
+    case 2:
+        clase_traedatos.setPeligro2(jsonObject.getString("Peligro"));
+        clase_traedatos.setDato2(jsonObject.getInt("total"));
+        break;
+    case 3:
+        clase_traedatos.setPeligro3(jsonObject.getString("Peligro"));
+        clase_traedatos.setDato3(jsonObject.getInt("total"));
+        break;
+
+    case 4:
+        clase_traedatos.setPeligro4(jsonObject.getString("Peligro"));
+        clase_traedatos.setDato4(jsonObject.getInt("total"));
+        break;
+    case 5:
+        clase_traedatos.setPeligro5(jsonObject.getString("Peligro"));
+        clase_traedatos.setDato5(jsonObject.getInt("total"));
+        break;
+    case 6:
+        clase_traedatos.setPeligro6(jsonObject.getString("Peligro"));
+        clase_traedatos.setDato6(jsonObject.getInt("total"));
+        break;
+    case 7:
+        clase_traedatos.setPeligro7(jsonObject.getString("Peligro"));
+        clase_traedatos.setDato7(jsonObject.getInt("total"));
+        break;
+
+}
+
+
+
+    }
+}
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
+                        }
+                        else
+                        {
+                            Toast.makeText(getApplicationContext(),"usuarios o password incorrectos",Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+
+
+            }
+        };
+        hilo.start();
+    }
+    public  String enviarpost_esta1()  {
         URL url=null;
         String linea="";
         int respuesta=0;
         StringBuilder resul=null;
         try {
             //http://fhkuku182-001-site1.atempurl.com/Grantour.asmx/CargarLugares
-            url=new URL("http://incidencias2.gearhostpreview.com/sos_service.asmx/filtros_de_niveles?id_peligro=4");
+            url=new URL("http://proyectoinciencias.gearhostpreview.com/sos_service.asmx/estadisticas1");
             HttpURLConnection conec=(HttpURLConnection)url.openConnection();
             respuesta=conec.getResponseCode();
             resul=new StringBuilder();
@@ -336,4 +470,25 @@ editor.clear().commit();
         return   resul.toString();
 
     }*/
+  public  void  cerra() {
+      AlertDialog.Builder builder = new AlertDialog.Builder(this);
+      builder.setMessage("¿Desea cerrar sesión?")
+              .setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                  public void onClick(DialogInterface dialog, int id) {
+                      // FIRE ZE MISSILES!
+                      SharedPreferences.Editor editor = preferencias_usuarios.edit();
+                      editor.clear().commit();
+                      Intent intent = new Intent(getApplicationContext(), Login.class);
+                      startActivity(intent);
+                  }
+              })
+              .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                  public void onClick(DialogInterface dialog, int id) {
+                      // User cancelled the dialog
+                  }
+              });
+      // Create the AlertDialog object and return it
+      builder.create();
+      builder.show();
+  }
 }

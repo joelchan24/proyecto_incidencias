@@ -13,8 +13,8 @@
     <string name="lotes">Lotes Baldíos</string>
     <string name="van">Vandalismo</string>
     <string name="Robo">Robo</string>
-    <string name="Quema">Quema de Basura</string>
-    <string name="acci">Aciidentes </string>
+    <string name="Quema">Incendios</string>
+    <string name="acci">Accidentes </string>
     <string name="otr">Otros</string>
 
     <!-- TODO: Remove or change this placeholder text -->

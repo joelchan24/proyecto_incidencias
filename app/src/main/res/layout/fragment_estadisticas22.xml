@@ -1,0 +1,26 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#ffff"
+    tools:context="com.example.joel.proyecto_incidencias.Estadisticas22Fragment">
+
+    <!-- TODO: Update blank fragment layout -->
+
+  <com.github.mikephil.charting.charts.HorizontalBarChart
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:layout_marginBottom="10dp"
+      android:layout_marginTop="10dp"
+      android:layout_marginRight="10dp"
+      android:layout_marginLeft="10dp"
+      android:id="@+id/barchar"
+
+
+      >
+
+  </com.github.mikephil.charting.charts.HorizontalBarChart>
+
+
+</FrameLayout>

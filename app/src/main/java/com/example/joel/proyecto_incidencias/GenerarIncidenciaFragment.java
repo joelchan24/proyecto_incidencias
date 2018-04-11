@@ -1,6 +1,7 @@
 package com.example.joel.proyecto_incidencias;
 
 import android.app.Fragment;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -101,6 +102,7 @@ public class GenerarIncidenciaFragment extends Fragment implements OnMapReadyCal
     double longitud;
     String foto_string;
     int   id_insidencia;
+    ProgressDialog dialog;
 // static final int REQUEST_IMAGE_CAPTURE = 123;
     String acciones;
 TextView zona;
@@ -400,11 +402,15 @@ requestQueue= Volley.newRequestQueue(getContext());
 
 
             if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK && acciones == "CAMARA") {
+
                 File imgfile = new File(photoPath);
                 Bitmap bitmap = BitmapFactory.decodeFile(imgfile.getAbsolutePath());
 
                 direcionimagen = Uri.fromFile(photo);
                 Picasso.get().load(direcionimagen).into(foto);
+                dialog = new ProgressDialog(getContext());
+                dialog.setMessage("Guardando Imagen");
+                dialog.show();
                 // foto.setImageBitmap(bitmap);
 
                 String RequestID = MediaManager.get().upload(direcionimagen).callback(new UploadCallback() {
@@ -423,7 +429,8 @@ requestQueue= Volley.newRequestQueue(getContext());
                         //Aqui te da la URL de la imagen
                         String URLRESULTADO = resultData.get("url").toString();
                         foto_string = URLRESULTADO;
-                        Toast.makeText(getActivity(), foto_string, Toast.LENGTH_SHORT).show();
+                      //  Toast.makeText(getActivity(), foto_string, Toast.LENGTH_SHORT).show();
+                        dialog.hide();
                     }
 
                     @Override
@@ -445,6 +452,11 @@ requestQueue= Volley.newRequestQueue(getContext());
                         is = getActivity().getContentResolver().openInputStream(selectedImage);
                         BufferedInputStream bis = new BufferedInputStream(is);
                         Bitmap bitmap = BitmapFactory.decodeStream(bis);
+
+                        foto.setImageBitmap(bitmap);
+                        dialog = new ProgressDialog(getContext());
+                        dialog.setMessage("Guardando Imagen");
+                        dialog.show();
                         String resID = MediaManager.get().upload(selectedImage).callback(new UploadCallback() {
                             @Override
                             public void onStart(String requestId) {
@@ -460,6 +472,7 @@ requestQueue= Volley.newRequestQueue(getContext());
                             public void onSuccess(String requestId, Map resultData) {
                                 String uri = resultData.get("url").toString();
                                 foto_string = uri;
+                                dialog.hide();
                                 Toast.makeText(getActivity(), foto_string, Toast.LENGTH_SHORT).show();
                                 //  Log.d("Resultado", resultData.get("url").toString());
                             }
@@ -475,7 +488,7 @@ requestQueue= Volley.newRequestQueue(getContext());
                             }
                         }).dispatch();
                         Log.d("Resultado", resID);
-                        foto.setImageBitmap(bitmap);
+
 
                     } catch (FileNotFoundException e) {
                         System.out.print("Ups algo salio mal");
