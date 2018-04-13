@@ -258,7 +258,7 @@ Spinner spinner;
         foto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final  CharSequence[] arreglo = {"Camara", "Galeria"};
+                final  CharSequence[] arreglo = {"Cámara", "Galería"};
                 android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(getActivity());
                 builder.setTitle("Selecciona");
                 builder.setSingleChoiceItems(arreglo, -1, new DialogInterface.OnClickListener() {

@@ -38,12 +38,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MainActivityMenu extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener ,mapa_puntos_aprovados.OnFragmentInteractionListener,EstadisticasFragment.OnFragmentInteractionListener,GpuntosFragment.OnFragmentInteractionListener,misIncidenciasFragment.OnFragmentInteractionListener,MisdatosFragment.OnFragmentInteractionListener,GenerarIncidenciaFragment.OnFragmentInteractionListener,contenedorFragment.OnFragmentInteractionListener,Estadisticas22Fragment.OnFragmentInteractionListener,Estadisticas33Fragment.OnFragmentInteractionListener,datosappFragment.OnFragmentInteractionListener{
+        implements NavigationView.OnNavigationItemSelectedListener ,mapa_puntos_aprovados.OnFragmentInteractionListener,EstadisticasFragment.OnFragmentInteractionListener,GpuntosFragment.OnFragmentInteractionListener,misIncidenciasFragment.OnFragmentInteractionListener,MisdatosFragment.OnFragmentInteractionListener,GenerarIncidenciaFragment.OnFragmentInteractionListener,contenedorFragment.OnFragmentInteractionListener,Estadisticas22Fragment.OnFragmentInteractionListener,Estadisticas33Fragment.OnFragmentInteractionListener,datosappFragment.OnFragmentInteractionListener,ListaAprovadosFragment.OnFragmentInteractionListener,ListaNoaprovadosfragment.OnFragmentInteractionListener{
     SharedPreferences preferencias_puntos;
     SharedPreferences preferencias_usuarios;
     public  static  final  String MyFRERERNCES="MyPreferences";
     int id_usuairo;
+    String respondiendo_car_aprovados;
     clase_traedatos clase_traedatos= new clase_traedatos();
+    String respondiendo_no_aprovados;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -167,21 +169,25 @@ public class MainActivityMenu extends AppCompatActivity
             //  getSupportFragmentManager().beginTransaction().add(R.id.contenedor,generarIncidenciaFragment).commit();
             FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.contenedor, generarIncidenciaFragment).commit();
-        } else if (id == R.id.grafica1) {
-            CargarDatosestadisticas1();
-            EstadisticasFragment estadisticasFragment = new EstadisticasFragment();
-            Bundle bundle = new Bundle();
-            bundle.putInt("0", clase_traedatos.getDato0());
-            bundle.putInt("1", clase_traedatos.getDato1());
-            bundle.putInt("2", clase_traedatos.getDato2());
-            bundle.putInt("3", clase_traedatos.getDato3());
-            bundle.putInt("4", clase_traedatos.getDato4());
-            bundle.putInt("5", clase_traedatos.getDato5());
-            bundle.putInt("6", clase_traedatos.getDato6());
-            bundle.putInt("7", clase_traedatos.getDato7());
-            estadisticasFragment.setArguments(bundle);
+        } else if (id == R.id.list_aprovados) {
+            cargar_aprovados_car();
+            ListaAprovadosFragment listaAprovadosFragment= new ListaAprovadosFragment();
+            Bundle bundle= new Bundle();
+            bundle.putString("aprobados",respondiendo_car_aprovados);
+            bundle.putInt("id",id_usuairo)
+            ;
             FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.contenedor, estadisticasFragment).commit();
+            listaAprovadosFragment.setArguments(bundle);
+            fragmentTransaction.replace(R.id.contenedor, listaAprovadosFragment).commit();
+        }else if (id == R.id.list_no) {
+            Bundle bundle= new Bundle();
+            bundle.putString("no_aprobados",respondiendo_no_aprovados);
+            bundle.putInt("id",id_usuairo);
+            ListaNoaprovadosfragment listaAprovadosFragment= new ListaNoaprovadosfragment();
+            listaAprovadosFragment.setArguments(bundle);
+            FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.contenedor, listaAprovadosFragment).commit();
+
         } else if (id == R.id.grafica2) {
             CargarDatosestadisticas1();
             Estadisticas22Fragment ususu = new Estadisticas22Fragment();
@@ -266,6 +272,60 @@ cerra();
                             SharedPreferences.Editor editor = preferencias_puntos.edit();
                             editor.putString("respuesta_mapa",respondiendo);
                             editor.commit();
+
+                        }
+                        else
+                        {
+                            Toast.makeText(getApplicationContext(),"usuarios o password incorrectos",Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+
+
+            }
+        };
+        hilo.start();
+    }
+    public void cargar_aprovados_car(){
+        Thread hilo = new Thread(){
+            @Override
+            public void run() {
+                final String   resp = enviarcard_aprovados1();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        int con=OBJJsonS(resp);
+                        if(con>0)
+                        {
+                             respondiendo_car_aprovados = resp;
+
+
+                        }
+                        else
+                        {
+                            Toast.makeText(getApplicationContext(),"usuarios o password incorrectos",Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+
+
+            }
+        };
+        hilo.start();
+    }
+    public void cargar_no_aprovados_car(){
+        Thread hilo = new Thread(){
+            @Override
+            public void run() {
+                final String   resp = enviarcard_NO_aprovados1();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        int con=OBJJsonS(resp);
+                        if(con>0)
+                        {
+                             respondiendo_no_aprovados = resp;
+
 
                         }
                         else
@@ -491,4 +551,62 @@ switch (i)
       builder.create();
       builder.show();
   }
+    public  String enviarcard_aprovados1()  {
+        URL url=null;
+        String linea="";
+        int respuesta=0;
+        StringBuilder resul=null;
+        try {
+            //http://fhkuku182-001-site1.atempurl.com/Grantour.asmx/CargarLugares
+            url=new URL("http://proyectoinciencias.gearhostpreview.com/sos_service.asmx/filtros_de_incidencias_porusuario_aprovados_cardview?id_usuario="+id_usuairo);
+            HttpURLConnection conec=(HttpURLConnection)url.openConnection();
+            respuesta=conec.getResponseCode();
+            resul=new StringBuilder();
+            if(respuesta==HttpURLConnection.HTTP_OK)
+            {
+                InputStream in= new BufferedInputStream(conec.getInputStream());
+                BufferedReader reader= new BufferedReader(new InputStreamReader(in));
+
+                while ((linea=reader.readLine())!=null)
+                {
+                    resul.append(linea);
+                }
+
+            }
+        }catch (Exception e)
+        {
+
+        }
+        return  resul.toString();
+
+    }
+    public  String enviarcard_NO_aprovados1()  {
+        URL url=null;
+        String linea="";
+        int respuesta=0;
+        StringBuilder resul=null;
+        try {
+            //http://fhkuku182-001-site1.atempurl.com/Grantour.asmx/CargarLugares
+            url=new URL("http://proyectoinciencias.gearhostpreview.com/sos_service.asmx/filtros_de_incidencias_porusuario_NO_aprovados_cardview?id_usuario="+id_usuairo);
+            HttpURLConnection conec=(HttpURLConnection)url.openConnection();
+            respuesta=conec.getResponseCode();
+            resul=new StringBuilder();
+            if(respuesta==HttpURLConnection.HTTP_OK)
+            {
+                InputStream in= new BufferedInputStream(conec.getInputStream());
+                BufferedReader reader= new BufferedReader(new InputStreamReader(in));
+
+                while ((linea=reader.readLine())!=null)
+                {
+                    resul.append(linea);
+                }
+
+            }
+        }catch (Exception e)
+        {
+
+        }
+        return  resul.toString();
+
+    }
 }

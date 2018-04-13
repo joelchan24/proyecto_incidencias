@@ -5,11 +5,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
 
     tools:context="com.example.joel.proyecto_incidencias.EstadisticasFragment">
-    <com.androidplot.xy.XYPlot
+  <!--  <com.androidplot.xy.XYPlot
         style="@style/APDefacto.Light"
         android:id="@+id/grafica1"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="300dp"
+        android:layout_height="150dp"
         android:layout_marginBottom="10dp"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="10dp"
@@ -24,7 +24,21 @@
 
 
 
-    />
+    />-->
+
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/puntos"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_alignStart="@+id/grafica1"
+        android:layout_below="@+id/grafica1"
+
+        >
+    </com.github.mikephil.charting.charts.LineChart>
     <!--
     <TabHost
         android:layout_width="373dp"
@@ -47,7 +61,7 @@
 
             <FrameLayout
                 android:id="@android:id/tabcontent"
-                android:layout_width="match_parent"
+                android:layout_w5dth="match_parent"
                 android:layout_height="match_parent"
 
 >

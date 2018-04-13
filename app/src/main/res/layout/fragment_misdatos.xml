@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
+android:background="#ffff"
     tools:context="com.example.joel.proyecto_incidencias.MisdatosFragment">
 
     <!-- TODO: Update blank fragment layout -->
@@ -20,21 +20,22 @@
         android:id="@+id/imageView2"
         android:layout_width="87dp"
         android:layout_height="74dp"
-        android:src="@drawable/logosos"
-        android:layout_marginLeft="150dp"/>
+        android:layout_marginLeft="130dp"
+
+        android:src="@drawable/logosos" />
 
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/quema"
-        android:layout_marginLeft="165dp"
-        android:layout_marginTop="20dp"/>
+        android:layout_marginLeft="145dp"
+        android:layout_marginTop="20dp"
+        android:src="@android:drawable/ic_menu_edit" />
 
     <TextView
         android:id="@+id/tvt_coreo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Correo"
+        android:text="Nombre de Usuario"
         android:layout_marginTop="40dp"/>
 
     <EditText
@@ -48,7 +49,7 @@
         android:id="@+id/textView4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Nombre de Usuario" />
+        android:text="Correo" />
 
     <EditText
         android:id="@+id/editText2"
@@ -70,11 +71,25 @@
         android:ems="10"
         android:inputType="textPersonName" />
 
+    <TextView
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Contraseña" />
+
+    <EditText
+        android:id="@+id/txt_confirma"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName" />
+
     <Button
         android:id="@+id/btn_editar"
+        android:background="@drawable/botonshape"
         style="@style/Widget.AppCompat.Button.Small"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Button" />
+        android:text="Guardar" />
 </LinearLayout>
 </FrameLayout>

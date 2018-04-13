@@ -71,6 +71,9 @@
                     android:layout_width="130dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:padding="20dp"
+                    android:scaleType="fitCenter"
                     android:src="@drawable/camera" />
 
                 <Button
@@ -78,8 +81,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="3"
-                    android:gravity="bottom"
-                    android:text="Guardar" />
+
+                    android:background="@drawable/botonshape"
+                    android:text="Guardar"
+
+                    android:textAlignment="center" />
 
             </LinearLayout>
 

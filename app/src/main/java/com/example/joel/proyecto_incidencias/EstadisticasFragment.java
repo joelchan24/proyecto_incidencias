@@ -4,7 +4,6 @@ import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.DashPathEffect;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -17,12 +16,12 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.androidplot.util.PixelUtils;
-import com.androidplot.xy.CatmullRomInterpolator;
-import com.androidplot.xy.LineAndPointFormatter;
-import com.androidplot.xy.SimpleXYSeries;
-import com.androidplot.xy.XYPlot;
-import com.androidplot.xy.XYSeries;
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.utils.ColorTemplate;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -34,7 +33,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.Arrays;
+import java.util.ArrayList;
 
 //import android.support.v4.app.Fragment;
 
@@ -50,7 +49,7 @@ public class EstadisticasFragment extends Fragment implements com.android.volley
     private OnFragmentInteractionListener mListener;
     String respuesta;
 
-    XYPlot grafica;
+
     View vista_frag;
 
     RequestQueue requestQueue;
@@ -75,26 +74,60 @@ clase_traedatos clase_traedatos=new clase_traedatos();
         //web service
       // requestQueue= Volley.newRequestQueue(getContext());
      //    CargarWebserivice();
-        grafica=(XYPlot)vista_frag.findViewById(R.id.grafica1);
-      //  final Number[] domainLabels = {1, 2, 3, 6, 7, 8, 9, 10, 13, 14};
-
-       Number [] daros={1,4,6,6,7,4,5,6};
-
-        int val1;
-        val[0]=getArguments().getInt("0");
+     /*   val[0]=getArguments().getInt("0");
         val[1]=getArguments().getInt("1");
         val[2]=getArguments().getInt("2");
         val[3]=getArguments().getInt("3");
         val[4]=getArguments().getInt("4");
         val[5]=getArguments().getInt("5");
         val[6]=getArguments().getInt("6");
-        val[7]=getArguments().getInt("7");
+        val[7]=getArguments().getInt("7");*/
+        LineChart lineChart= (LineChart)vista_frag.findViewById(R.id.puntos);
+        ArrayList<Entry> entries=new ArrayList <>();
+        entries.add(new Entry(getArguments().getInt("0"),0));
+        entries.add(new Entry(getArguments().getInt("1"),1));
+        entries.add(new Entry(getArguments().getInt("2"),2));
+        entries.add(new Entry(getArguments().getInt("3"),3));
+        entries.add(new Entry(getArguments().getInt("4"),4));
+        entries.add(new Entry(getArguments().getInt("5"),5));
+        entries.add(new Entry(getArguments().getInt("6"),6));
+        entries.add(new Entry(getArguments().getInt("7"),7));
+       LineDataSet lineDataSet= new LineDataSet(entries,"d");
+       lineChart.setBorderColor(Color.BLUE);
+
+       ArrayList<String> labels=new ArrayList <>();
+        labels.add("Accidente");
+        labels.add("Baches");
+        labels.add("Incendio");
+        labels.add("Lotes Baldíos");
+        labels.add("Maltrato animal");
+        labels.add("Otros");
+        labels.add("Robo");
+        labels.add("Vandalismo");
+        lineDataSet.setDrawFilled(true);
+        lineDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
+        LineData lineData= new LineData(labels,lineDataSet);
+        XAxis xAxis=lineChart.getXAxis();
+        xAxis.setLabelsToSkip(0);
+        xAxis.setLabelRotationAngle(20);
+        xAxis.setTextSize(9);
+
+        lineChart.setData(lineData);
+        lineChart.setHorizontalScrollBarEnabled(true
+        );
+      /*  grafica=(XYPlot)vista_frag.findViewById(R.id.grafica1);
+      //  final Number[] domainLabels = {1, 2, 3, 6, 7, 8, 9, 10, 13, 14};
+
+       Number [] daros={1,4,6,6,7,4,5,6};
+
+        int val1;
 
 
-/*for(int i=0;i<=val.length;i++)
+
+*//*for(int i=0;i<=val.length;i++)
 {
     Toast.makeText(getActivity(),val[i].toString(),Toast.LENGTH_LONG).show();
-}*/
+}*//*
 
        XYSeries serie1=new SimpleXYSeries(Arrays.asList(daros), SimpleXYSeries.ArrayFormat.Y_VALS_ONLY,"serie1");
 
@@ -113,7 +146,7 @@ clase_traedatos clase_traedatos=new clase_traedatos();
         );
         grafica.addSeries(serie2,serie1format2);
         grafica.addSeries(serie1,serie1format);
-      /*  grafica.getGraph().getLineLabelStyle(XYGraphWidget.Edge.BOTTOM).setFormat(new Format() {
+      *//*  grafica.getGraph().getLineLabelStyle(XYGraphWidget.Edge.BOTTOM).setFormat(new Format() {
             @Override
             public StringBuffer format(Object obj, StringBuffer toAppendTo, FieldPosition pos) {
                 int i = Math.round(((Number) obj).floatValue());
@@ -123,7 +156,7 @@ clase_traedatos clase_traedatos=new clase_traedatos();
             public Object parseObject(String source, ParsePosition pos) {
                 return null;
             }
-        });*/
+        });*//*
         serie1format2.setInterpolationParams(
                 new CatmullRomInterpolator.Params(20, CatmullRomInterpolator.Type.Centripetal));
         serie1format.getLinePaint().setPathEffect(new DashPathEffect(new float[] {
@@ -131,7 +164,7 @@ clase_traedatos clase_traedatos=new clase_traedatos();
                 // always use DP when specifying pixel sizes, to keep things consistent across devices:
                 PixelUtils.dpToPix(20),
                 PixelUtils.dpToPix(15)}, 0));
-        //  Integer[] val = new Integer[5];
+        //  Integer[] val = new Integer[5];*/
         //
 
 

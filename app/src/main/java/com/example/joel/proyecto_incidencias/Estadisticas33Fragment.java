@@ -53,14 +53,22 @@ dataset.setColors(ColorTemplate.COLORFUL_COLORS);
 
 
 ArrayList<String>labels=new ArrayList <>();
-        labels.add(getArguments().getString("8"));
+        labels.add("Accidente");
+        labels.add("Baches");
+        labels.add("Incendio");
+        labels.add("Lotes Baldíos");
+        labels.add("Maltrato animal");
+        labels.add("Otros");
+        labels.add("Robo");
+        labels.add("Vandalismo");
+        /*  labels.add(getArguments().getString("8"));
         labels.add(getArguments().getString("9"));
         labels.add(getArguments().getString("10"));
         labels.add(getArguments().getString("11"));
         labels.add(getArguments().getString("12"));
         labels.add(getArguments().getString("13"));
         labels.add(getArguments().getString("14"));
-        labels.add(getArguments().getString("15"));
+        labels.add(getArguments().getString("15"));*/
 
         PieData data = new PieData(labels, dataset);
         pieChart.setData(data);

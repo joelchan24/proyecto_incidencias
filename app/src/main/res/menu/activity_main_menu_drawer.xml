@@ -18,20 +18,32 @@
             android:title="Generar Incidencia" />
 
     </group>
-    <item android:title="Gráficas">
+    <item android:title="lista de puntos">
         <menu>
             <item
-                android:id="@+id/grafica1"
-                android:icon="@drawable/grafiuca_puntis"
-                android:title="Gráfica 1" />
+                android:id="@+id/list_aprovados"
+                android:icon="@drawable/verdarero_apro"
+                android:title="Lista aprovados" />
+            <item
+                android:id="@+id/list_no"
+                android:icon="@drawable/no_apro"
+                android:title="Lista No aprovados " />
+
+
+        </menu>
+    </item>
+
+    <item android:title="Gráficas">
+        <menu>
+
             <item
                 android:id="@+id/grafica2"
                 android:icon="@drawable/grafica_barras"
-                android:title="Gráfica 2" />
+                android:title="Gráfica Barras " />
             <item
                 android:id="@+id/grafica3"
                 android:icon="@drawable/grafica_circulo"
-                android:title="Gráfica 3" />
+                android:title="Gráfica circular " />
 
         </menu>
     </item>
