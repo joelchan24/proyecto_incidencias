@@ -9,6 +9,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+
+import com.squareup.picasso.Picasso;
 
 //import android.support.v4.app.Fragment;
 
@@ -26,6 +30,7 @@ Button buttomntoas;
 String dat;
 
     public MisdatosFragment() {
+
         // Required empty public constructor
     }
 
@@ -34,8 +39,17 @@ String dat;
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View vista=inflater.inflate(R.layout.fragment_misdatos, container, false);
+        EditText correo=(EditText)vista.findViewById(R.id.txt_correo_mis_datos);
+        EditText nombre=(EditText)vista.findViewById(R.id.txt_nombre_usuario);
+        EditText contraseña=(EditText)vista.findViewById(R.id.txx_contraseña_datos);
+        EditText contraseña2=(EditText)vista.findViewById(R.id.txt_conbtras2);
+        ImageView foto=(ImageView) vista.findViewById(R.id.img_mis_datos);
 
-
+correo.setText(getArguments().getString("cor"));
+        nombre.setText(getArguments().getString("nom"));
+        contraseña2.setText(getArguments().getString("con"));
+        contraseña.setText(getArguments().getString("con"));
+        Picasso.get().load(getArguments().getString("fot")).into(foto);
         return vista;
     }
 

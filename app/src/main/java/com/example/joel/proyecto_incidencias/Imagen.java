@@ -45,8 +45,8 @@ public class Imagen extends AppCompatActivity {
                 is=getContentResolver().openInputStream(selectedImage);
                 BufferedInputStream bis=new BufferedInputStream(is);
                 Bitmap bitmap= BitmapFactory.decodeStream(bis);
-                ImageView iv=(ImageView)findViewById(R.id.imagenview);
-                iv.setImageBitmap(bitmap);
+               // ImageView iv=(ImageView)findViewById(R.id.b);
+               // iv.setImageBitmap(bitmap);
 
 
             }catch (FileNotFoundException e){

@@ -1,10 +1,16 @@
 package com.example.joel.proyecto_incidencias;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -27,6 +33,7 @@ public class Login extends AppCompatActivity {
     String nombre;
     String correo;
     String foto;
+    String contraseña;
     int id;
     public  static  final  String MyFRERERNCES="MyPreferences";
     SharedPreferences sharedPreferences;
@@ -35,10 +42,13 @@ public class Login extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        checkStoragePermission();
+        checkStoragePermission1();
         txt_contra=(EditText)findViewById(R.id.txt_contraseña);
         txt_correo=(EditText)findViewById(R.id.txt_correo);
         btn_entrar=(Button)findViewById(R.id.btn_login);
        sharedPreferences=getSharedPreferences(MyFRERERNCES, Context.MODE_PRIVATE);
+
 
       /*  if(sharedPreferences!=null)
         {
@@ -98,45 +108,50 @@ public class Login extends AppCompatActivity {
         btn_entrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               // Toast.makeText(getApplicationContext(),"gay",Toast.LENGTH_LONG).show();
-                Thread hilo = new Thread(){
-                    @Override
-                    public void run() {
-                        final String   resp = enviarpost(txt_correo.getText().toString(),txt_contra.getText().toString());
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                int con=OBJJson(resp);
-                                if(con>0)
-                                {
-                                    //intaciamos prefrencias
-                                   SharedPreferences.Editor editor=sharedPreferences.edit();
-
-                                    Toast.makeText(getApplicationContext(),"Bienvenido "+nombre,Toast.LENGTH_SHORT).show();
-                                  Intent intent= new Intent(Login.this,MainActivityMenu.class);
-                                  intent.putExtra("nombre",nombre);
-                                  intent.putExtra("cor",correo);
-                                    intent.putExtra("foto",foto);
-                                    intent.putExtra("ID",id);
-                                    editor.putString("correo_pre",correo);
-                                    editor.putString("contra_pre",txt_contra.getText().toString());
-                                    editor.commit();
-                                    Toast.makeText(getApplicationContext(),"Bienvenido "+nombre,Toast.LENGTH_SHORT).show();
-                                  Toast.makeText(getApplicationContext(),"prerencisass "+sharedPreferences.getString("correo_pre","")+sharedPreferences.getString("contra_pre",""),Toast.LENGTH_SHORT).show();
-                                    startActivity(intent);
+                // Toast.makeText(getApplicationContext(),"gay",Toast.LENGTH_LONG).show();
+                if (TextUtils.isEmpty(txt_contra.getText().toString().trim()) || TextUtils.isEmpty(txt_correo.getText().toString().trim())) {
+                    txt_correo.setError("ingrese su correo");
+                    txt_contra.setError("ingrese su contraseña");
+                } else {
+                    Thread hilo = new Thread() {
+                        @Override
+                        public void run() {
+                            final String resp = enviarpost(txt_correo.getText().toString(), txt_contra.getText().toString());
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    int con = OBJJson(resp);
+                                    if (con > 0) {
 
 
+                                        //intaciamos prefrencias
+                                        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+                                        Toast.makeText(getApplicationContext(), "Bienvenido " + nombre, Toast.LENGTH_SHORT).show();
+                                        Intent intent = new Intent(Login.this, MainActivityMenu.class);
+                                        intent.putExtra("nombre", nombre);
+                                        intent.putExtra("cor", correo);
+                                        intent.putExtra("foto", foto);
+                                        intent.putExtra("ID", id);
+                                        intent.putExtra("con",contraseña);
+                                        editor.putString("correo_pre", correo);
+                                        editor.putString("contra_pre", txt_contra.getText().toString());
+                                        editor.commit();
+                                        Toast.makeText(getApplicationContext(), "Bienvenido " + nombre, Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getApplicationContext(), "prerencisass " + sharedPreferences.getString("correo_pre", "") + sharedPreferences.getString("contra_pre", ""), Toast.LENGTH_SHORT).show();
+                                        startActivity(intent);
+
+
+                                    } else {
+                                        Toast.makeText(getApplicationContext(), "Correo o contraseña incorrectos", Toast.LENGTH_SHORT).show();
+                                    }
                                 }
-                                else
-                                {
-                                    Toast.makeText(getApplicationContext(),"Correo o contraseña incorrectos",Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        });
-                    }
+                            });
+                        }
 
-                };
-                hilo.start();
+                    };
+                    hilo.start();
+                }
             }
         });
 
@@ -146,6 +161,7 @@ public class Login extends AppCompatActivity {
         String linea="";
         int respuesta=0;
         StringBuilder resul=null;
+
         try {
             url=new URL("http://proyectoinciencias.gearhostpreview.com/sos_service.asmx/login?correo="+correo+"&contraseña="+contraseña);
             HttpURLConnection conec=(HttpURLConnection)url.openConnection();
@@ -186,6 +202,7 @@ public class Login extends AppCompatActivity {
                     nombre=row.getString("Nombre");
                     foto=row.getString("foto");
                     id=row.getInt("ID");
+                    contraseña=row.getString("contraseña");
                 }
             }
 
@@ -202,6 +219,26 @@ public class Login extends AppCompatActivity {
 
 
 
+    }
+    private void checkStoragePermission(){
+        int permissionCheck= ContextCompat.checkSelfPermission(
+                this, Manifest.permission.READ_EXTERNAL_STORAGE);
+        if(permissionCheck != PackageManager.PERMISSION_GRANTED){
+            Log.i("Mensaje", "No se puede ller la memoria interna.");
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 225);
+        }else{
+            Log.i("Mensaje", "Tienes perimso para leer la memoria interna");
+        }
+    }
+    private void checkStoragePermission1(){
+        int permissionCheck= ContextCompat.checkSelfPermission(
+                this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        if(permissionCheck != PackageManager.PERMISSION_GRANTED){
+            Log.i("Mensaje", "No se puede ller la memoria interna.");
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 225);
+        }else{
+            Log.i("Mensaje", "Tienes perimso para leer la memoria interna");
+        }
     }
 
 }

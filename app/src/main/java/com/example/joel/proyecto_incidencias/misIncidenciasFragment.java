@@ -59,6 +59,7 @@ Spinner spinner;
     String comentario;
     String imagen;
   String  nombrelugar;
+    int posicion;
     private OnFragmentInteractionListener mListener;
 
     public misIncidenciasFragment() {
@@ -88,7 +89,7 @@ Spinner spinner;
             @Override
             public void onItemSelected(AdapterView <?> adapterView, View view, int i, long l) {
               //  Toast.makeText(adapterView.getContext(), ((SocialNetwork) adapterView.getItemAtPosition(i)).getNombre()+i, Toast.LENGTH_SHORT).show();
-                int posicion =i;
+                 posicion =i;
                 switch (i)
                 {case 0:
                     Thread hilotodo90 = new Thread() {
@@ -110,7 +111,7 @@ Spinner spinner;
                                                 Double longitud = row.getDouble("Longitud");
                                                  nombrelugar = row.getString("Zona");
                                                  imagen=row.getString("imagen");
-
+                                                nombreincidencia=row.getString("Peligro");
                                                 int incidente= row.getInt("id_peligro");
                                                 LatLng LA = new LatLng(latitud, longitud);
                                                 switch (incidente)
@@ -278,7 +279,7 @@ Spinner spinner;
                                                     Double longitud = row.getDouble("Longitud");
                                                     String nombrelugar = row.getString("Zona");
                                                     String imagen=row.getString("imagen");
-                                                 //   nombreincidencia=row.getString("Peligro");
+                                                   nombreincidencia=row.getString("Peligro");
                                                     comentario=row.getString("comentario");
                                                     LatLng LA = new LatLng(latitud, longitud);
                                               marcador=      nmap.addMarker(new MarkerOptions().position(new LatLng(latitud, longitud)).title(nombrelugar).icon(BitmapDescriptorFactory.fromResource(R.drawable.maltrato)));
@@ -287,7 +288,7 @@ Spinner spinner;
                                                     datos_ventana datos_ventana =new datos_ventana();
                                                     datos_ventana.setComentario(comentario);
                                                     datos_ventana.setNombre_incidente(nombreincidencia);
-                                                    //datos_ventana.setDetalle(nombreincidencia);
+                                                    datos_ventana.setDetalle(nombreincidencia);
                                                     datos_ventana.setNombre(nombrelugar);
                                                     datos_ventana.setImage(imagen);
 
@@ -299,7 +300,7 @@ Spinner spinner;
                                                 e.printStackTrace();
                                             }
                                         } else {
-                                            Toast.makeText(getActivity(),"NO HAY INCIDENTES DE VACHES ",Toast.LENGTH_LONG).show();
+                                            Toast.makeText(getActivity(),"NO HAY INCIDENTES DE MAlTRATO ANIMAL ",Toast.LENGTH_LONG).show();
                                         }
                                     }
                                 });
@@ -352,7 +353,7 @@ Spinner spinner;
                                                 e.printStackTrace();
                                             }
                                         } else {
-                                            Toast.makeText(getActivity(),"NO HAY INCIDENTES DE MALTRATO ANIMAL ",Toast.LENGTH_LONG).show();
+                                            Toast.makeText(getActivity(),"NO HAY INCIDENTES DE  LOTES VALDÍOS ",Toast.LENGTH_LONG).show();
                                         }
                                     }
                                 });
@@ -394,7 +395,7 @@ Spinner spinner;
                                                     datos_ventana datos_ventana =new datos_ventana();
                                                     datos_ventana.setComentario(comentario);
                                                     datos_ventana.setNombre_incidente(nombreincidencia);
-                                                //    datos_ventana.setDetalle(nombreincidencia);
+                                                  datos_ventana.setDetalle(nombreincidencia);
                                                     datos_ventana.setNombre(nombrelugar);
                                                     datos_ventana.setImage(imagen);
 
@@ -406,7 +407,7 @@ Spinner spinner;
                                                 e.printStackTrace();
                                             }
                                         } else {
-                                            Toast.makeText(getActivity(),"NO HAY INCIDENTES DE LOTES VALDÍOS ",Toast.LENGTH_LONG).show();
+                                            Toast.makeText(getActivity(),"NO HAY INCIDENTES DE VANDALISMO ",Toast.LENGTH_LONG).show();
                                         }
                                     }
                                 });
@@ -447,7 +448,7 @@ Spinner spinner;
                                                     datos_ventana datos_ventana =new datos_ventana();
                                                     datos_ventana.setComentario(comentario);
                                                     datos_ventana.setNombre_incidente(nombreincidencia);
-                                                  //  datos_ventana.setDetalle(nombreincidencia);
+                                                    datos_ventana.setDetalle(nombreincidencia);
                                                     datos_ventana.setNombre(nombrelugar);
                                                     datos_ventana.setImage(imagen);
 
@@ -459,7 +460,7 @@ Spinner spinner;
                                                 e.printStackTrace();
                                             }
                                         } else {
-                                            Toast.makeText(getActivity(),"NO HAY INCIDENTES DE VANDALISMO ",Toast.LENGTH_LONG).show();
+                                            Toast.makeText(getActivity(),"NO HAY INCIDENTES DE ROBO ",Toast.LENGTH_LONG).show();
                                         }
                                     }
                                 });
@@ -491,7 +492,7 @@ Spinner spinner;
                                                     Double longitud = row.getDouble("Longitud");
                                                     String nombrelugar = row.getString("Zona");
                                                     String imagen=row.getString("imagen");
-                                                 //   nombreincidencia=row.getString("Peligro");
+                                                    nombreincidencia=row.getString("Peligro");
                                                     comentario=row.getString("comentario");
                                                     LatLng LA = new LatLng(latitud, longitud);
                                                     marcador=nmap.addMarker(new MarkerOptions().position(new LatLng(latitud, longitud)).title(nombrelugar).icon(BitmapDescriptorFactory.fromResource(R.drawable.quema)));
@@ -500,7 +501,7 @@ Spinner spinner;
                                                     datos_ventana datos_ventana =new datos_ventana();
                                                     datos_ventana.setComentario(comentario);
                                                     datos_ventana.setNombre_incidente(nombreincidencia);
-                                                  //  datos_ventana.setDetalle(nombreincidencia);
+                                                   datos_ventana.setDetalle(nombreincidencia);
                                                     datos_ventana.setNombre(nombrelugar);
                                                     datos_ventana.setImage(imagen);
 
@@ -512,7 +513,7 @@ Spinner spinner;
                                                 e.printStackTrace();
                                             }
                                         } else {
-                                            Toast.makeText(getActivity(),"NO HAY INCIDENTES DE ROBO ",Toast.LENGTH_LONG).show();
+                                            Toast.makeText(getActivity(),"NO HAY INCIDENTES DE INCENDIOS ",Toast.LENGTH_LONG).show();
                                         }
                                     }
                                 });
@@ -544,7 +545,7 @@ Spinner spinner;
                                                     Double longitud = row.getDouble("Longitud");
                                                     String nombrelugar = row.getString("Zona");
                                                     String imagen=row.getString("imagen");
-                                                  //  nombreincidencia=row.getString("Peligro");
+                                                    nombreincidencia=row.getString("Peligro");
                                                     comentario=row.getString("comentario");
                                                     LatLng LA = new LatLng(latitud, longitud);
                                                     marcador=nmap.addMarker(new MarkerOptions().position(new LatLng(latitud, longitud)).title(nombrelugar).icon(BitmapDescriptorFactory.fromResource(R.drawable.accidentes)));
@@ -553,7 +554,7 @@ Spinner spinner;
                                                     datos_ventana datos_ventana =new datos_ventana();
                                                     datos_ventana.setComentario(comentario);
                                                     datos_ventana.setNombre_incidente(nombreincidencia);
-                                                   // datos_ventana.setDetalle(nombreincidencia);
+                                                    datos_ventana.setDetalle(nombreincidencia);
                                                     datos_ventana.setNombre(nombrelugar);
                                                     datos_ventana.setImage(imagen);
 
@@ -565,7 +566,7 @@ Spinner spinner;
                                                 e.printStackTrace();
                                             }
                                         } else {
-                                            Toast.makeText(getActivity(),"NO HAY INCIDENTES DE QUEMA DE BASURA",Toast.LENGTH_LONG).show();
+                                            Toast.makeText(getActivity(),"NO HAY INCIDENTES DE ACCIDENTES ",Toast.LENGTH_LONG).show();
                                         }
                                     }
                                 });
@@ -596,7 +597,7 @@ Spinner spinner;
                                                     Double longitud = row.getDouble("Longitud");
                                                     String nombrelugar = row.getString("Zona");
                                                     String imagen=row.getString("imagen");
-                                                   // nombreincidencia=row.getString("Peligro");
+                                                   nombreincidencia=row.getString("Peligro");
                                                     comentario=row.getString("comentario");
                                                     LatLng LA = new LatLng(latitud, longitud);
                                            marcador=         nmap.addMarker(new MarkerOptions().position(new LatLng(latitud, longitud)).title(nombrelugar).icon(BitmapDescriptorFactory.fromResource(R.drawable.otros)));
@@ -605,7 +606,7 @@ Spinner spinner;
                                                     datos_ventana datos_ventana =new datos_ventana();
                                                     datos_ventana.setComentario(comentario);
                                                     datos_ventana.setNombre_incidente(nombreincidencia);
-                                              //      datos_ventana.setDetalle(nombreincidencia);
+                                                  datos_ventana.setDetalle(nombreincidencia);
                                                     datos_ventana.setNombre(nombrelugar);
                                                     datos_ventana.setImage(imagen);
 
@@ -619,7 +620,7 @@ Spinner spinner;
                                                 e.printStackTrace();
                                             }
                                         } else {
-                                            Toast.makeText(getActivity(),"NO HAY INCIDENTES DE ACIIDENTES AUTOMOVILISTICOS ",Toast.LENGTH_LONG).show();
+                                            Toast.makeText(getActivity(),"NO HAY INCIDENTES DE OTROS ",Toast.LENGTH_LONG).show();
                                         }
                                     }
                                 });
@@ -701,7 +702,7 @@ Spinner spinner;
         datos_ventana.setImage(imagen);
         datos_ventana.setComentario(comentario);
         datos_ventana.setNombre_incidente(nombreincidencia);*/
-        nmap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+      /*  nmap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
             @Override
             public void onInfoWindowClick(Marker marker1) {
                 String nombreincidencia = ((datos_ventana) marcador.getTag()).getNombre_incidente();
@@ -710,8 +711,8 @@ Spinner spinner;
                 String lugar = ((datos_ventana) marcador.getTag()).getNombre();
                 mostrar_ventana(nombreincidencia,comentario,foto,lugar).show();
             }
-        });
-        //ventana vetana=new ventana(getActivity());
+        });*/
+        ventana vetana=new ventana(getActivity());
         nmap.setInfoWindowAdapter(ventana1);
 nmap.moveCamera(miubicacion);
     }

@@ -17,14 +17,15 @@ android:background="#ffff"
     android:orientation="vertical">
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/img_mis_datos"
         android:layout_width="87dp"
         android:layout_height="74dp"
         android:layout_marginLeft="130dp"
 
-        android:src="@drawable/logosos" />
+         />
 
     <ImageButton
+        android:id="@+id/btm_cambiar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="145dp"
@@ -32,27 +33,27 @@ android:background="#ffff"
         android:src="@android:drawable/ic_menu_edit" />
 
     <TextView
-        android:id="@+id/tvt_coreo"
+        android:id="@+id/txt_jjhjs"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Nombre de Usuario"
         android:layout_marginTop="40dp"/>
 
     <EditText
-        android:id="@+id/editText"
+        android:id="@+id/txt_nombre_usuario"
         android:layout_width="381dp"
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPersonName" />
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/s"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Correo" />
 
     <EditText
-        android:id="@+id/editText2"
+        android:id="@+id/txt_correo_mis_datos"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -65,7 +66,7 @@ android:background="#ffff"
         android:text="Contraseña" />
 
     <EditText
-        android:id="@+id/editText3"
+        android:id="@+id/txx_contraseña_datos"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -78,7 +79,7 @@ android:background="#ffff"
         android:text="Contraseña" />
 
     <EditText
-        android:id="@+id/txt_confirma"
+        android:id="@+id/txt_conbtras2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -90,6 +91,7 @@ android:background="#ffff"
         style="@style/Widget.AppCompat.Button.Small"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="9dp"
         android:text="Guardar" />
 </LinearLayout>
 </FrameLayout>

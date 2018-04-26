@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -99,6 +101,9 @@ String baches;
                 int posicion =i;
                 switch (i)
                 {
+                  //  case 0:
+                  //      break;
+
                     case 1:
                         Thread hilo = new Thread() {
                             @Override
@@ -816,8 +821,51 @@ TextView nombreinci=(TextView)v.findViewById(R.id.txt_tipoincidente);
         txtcomentario.setText(comentario);
         nombreinci.setText(nombre_incidencia);
         lug.setText(lugar);
-        Picasso.get().load(foto).into(fotoaler);
+        Picasso.get().load(foto).resize(100,150).centerCrop().into(fotoaler);
+        Button btn_llamada =(Button)v.findViewById(R.id.sss);
+        btn_llamada.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               // Toast.makeText(getActivity(),"prueva"+nombre_incidencia,Toast.LENGTH_SHORT).show();
+               // Intent intent = new Intent(Intent.ACTION_CALL);
+               // intent.setData(Uri.parse("tel:9993569735"));
+               // startActivity(intent);
+                Intent intent=new Intent();
+                intent.setAction(Intent.ACTION_DIAL);
+                switch (nombre_incidencia) {
+                    case "BACHES":
+                        intent.setData(Uri.parse("tel:090"));
+                    break;
+                        case "MALTRATO ANIMAL":
+                            intent.setData(Uri.parse("tel:086"));
+                    break;
+                    case "LOTES BALDÍOS" :
+                        intent.setData(Uri.parse("tel:9898998767"));
+                        break;
+                        case "VANDALISMO ":
+                            intent.setData(Uri.parse("tel:980"));
+                            break;
+                            case "ROBO":
+                                intent.setData(Uri.parse("tel:98899889"));
+                                break;
+                                case "INCENDIOS":
+                                    intent.setData(Uri.parse("tel:024"));
+                                    break;
+                    case "ACCIDENTES AUTOMOVILÍSTICOS":
+                        intent.setData(Uri.parse("tel:089"));
+                        break;
+                    case "OTROS":
+                        intent.setData(Uri.parse("tel:98989898"));
+                        break;
 
+
+                }
+
+
+                getActivity().startActivity(intent);
+
+            }
+        });
 
         return  builder.create();
     }

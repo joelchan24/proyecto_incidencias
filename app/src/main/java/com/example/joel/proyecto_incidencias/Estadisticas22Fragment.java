@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.HorizontalBarChart;
 import com.github.mikephil.charting.data.BarData;
@@ -15,8 +14,6 @@ import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
 import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -96,46 +93,7 @@ public class Estadisticas22Fragment extends Fragment {
         barEntries.add(new BarEntry(getArguments().getInt("5"),5,"aaaa"));
         barEntries.add(new BarEntry(getArguments().getInt("6"),6,"aaaa"));
         barEntries.add(new BarEntry(getArguments().getInt("7"),7,"aaaa"));
-        Thread hilo7 = new Thread() {
-            @Override
-            public void run() {
-                respuesta = enviarpost();
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        int con = OBJJson(respuesta);
 
-                        if (con > 0) {
-                            try {
-
-                                JSONArray array = new JSONArray(respuesta);
-
-                                for (int i = 0; i < array.length(); i++) {
-                                    JSONObject row = array.getJSONObject(i);
-
-                                  //  = row.getInt("total");
-
-
-                                    //    Toast.makeText(getActivity(),"     "+val[i],Toast.LENGTH_LONG).show();
-
-                                }
-
-
-
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        } else {
-                            Toast.makeText(getActivity(),"NO HAY INCIDENTES DE OTROS     ",Toast.LENGTH_LONG).show();
-                        }
-                    }
-                });
-            }
-
-
-            //  Toast.makeText(getActivity(),"gay",Toast.LENGTH_SHORT).show();
-        };
-        hilo7.start();
         BarDataSet barDataSet= new BarDataSet(barEntries,"datos");
         barDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
         barDataSet.setDrawValues(true);

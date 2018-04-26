@@ -21,7 +21,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.cloudinary.android.MediaManager;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -34,8 +33,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
 
 public class MainActivityMenu extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener ,mapa_puntos_aprovados.OnFragmentInteractionListener,EstadisticasFragment.OnFragmentInteractionListener,GpuntosFragment.OnFragmentInteractionListener,misIncidenciasFragment.OnFragmentInteractionListener,MisdatosFragment.OnFragmentInteractionListener,GenerarIncidenciaFragment.OnFragmentInteractionListener,contenedorFragment.OnFragmentInteractionListener,Estadisticas22Fragment.OnFragmentInteractionListener,Estadisticas33Fragment.OnFragmentInteractionListener,datosappFragment.OnFragmentInteractionListener,ListaAprovadosFragment.OnFragmentInteractionListener,ListaNoaprovadosfragment.OnFragmentInteractionListener{
@@ -46,6 +43,10 @@ public class MainActivityMenu extends AppCompatActivity
     String respondiendo_car_aprovados;
     clase_traedatos clase_traedatos= new clase_traedatos();
     String respondiendo_no_aprovados;
+    String nombre_usuario;
+    String correo_usuario;
+    String fot;
+    String contra;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,7 +55,7 @@ public class MainActivityMenu extends AppCompatActivity
 
         FragmentTransaction fragmentTransaction= getFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.contenedor,mapa_puntos_aprovado1s).commit();
-        MediaManager.init(this,Configuracion());
+      //  MediaManager.init(this,Configuracion());
         //mandar preferencia de los mapas
         preferencias_usuarios=getSharedPreferences(MyFRERERNCES,Context.MODE_PRIVATE);
         preferencias_puntos = getApplicationContext().getSharedPreferences("puntos", Context.MODE_PRIVATE);
@@ -66,10 +67,12 @@ public class MainActivityMenu extends AppCompatActivity
         TextView cor = (TextView) view.findViewById(R.id.txv_correo);
         Bundle datos_traidos= getIntent().getExtras();
         if(datos_traidos!=null) {
-            String nombre_usuario = (String) datos_traidos.get("nombre");
-            String correo_usuario = (String) datos_traidos.get("cor");
-            String fot=(String)datos_traidos.get("foto");
-        id_usuairo=(int)datos_traidos.get("ID");
+             nombre_usuario = (String) datos_traidos.get("nombre");
+             correo_usuario = (String) datos_traidos.get("cor");
+             fot=(String)datos_traidos.get("foto");
+             contra=(String)datos_traidos.get("con");
+
+            id_usuairo=(int)datos_traidos.get("ID");
             cor.setText(correo_usuario);
             nom.setText(nombre_usuario);
             Picasso.get().load(fot).into(imagenusuario);
@@ -170,7 +173,7 @@ public class MainActivityMenu extends AppCompatActivity
             FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.contenedor, generarIncidenciaFragment).commit();
         } else if (id == R.id.list_aprovados) {
-            cargar_aprovados_car();
+           // cargar_aprovados_car();
             ListaAprovadosFragment listaAprovadosFragment= new ListaAprovadosFragment();
             Bundle bundle= new Bundle();
             bundle.putString("aprobados",respondiendo_car_aprovados);
@@ -212,6 +215,13 @@ public class MainActivityMenu extends AppCompatActivity
 
         } else if (id == R.id.nav_send) {
 MisdatosFragment misdatosFragment= new MisdatosFragment();
+Bundle bundle = new Bundle();
+bundle.putString("nom",nombre_usuario);
+bundle.putString("fot",fot);
+bundle.putString("cor",correo_usuario);
+bundle.putString("con",contra)
+;
+misdatosFragment.setArguments(bundle);
             FragmentTransaction fragmentTransaction= getFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.contenedor,misdatosFragment).commit();
         }else if(id==R.id.grafica3){
@@ -245,14 +255,14 @@ cerra();
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-    public static Map Configuracion()
+   /* public static Map Configuracion()
     {
         Map Config = new HashMap();
         Config.put("cloud_name", "dlyngnwmw");
         Config.put("api_key", "362846149476767");
         Config.put("api_secret", "x8gH0p8MD_4hTCJ0aR6xZWq8mo0");
         return Config;
-    }
+    }*/
     @Override
     public void onFragmentInteraction(Uri uri) {
         
@@ -286,7 +296,7 @@ cerra();
         };
         hilo.start();
     }
-    public void cargar_aprovados_car(){
+    /*public void cargar_aprovados_car(){
         Thread hilo = new Thread(){
             @Override
             public void run() {
@@ -312,34 +322,8 @@ cerra();
             }
         };
         hilo.start();
-    }
-    public void cargar_no_aprovados_car(){
-        Thread hilo = new Thread(){
-            @Override
-            public void run() {
-                final String   resp = enviarcard_NO_aprovados1();
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        int con=OBJJsonS(resp);
-                        if(con>0)
-                        {
-                             respondiendo_no_aprovados = resp;
+    }*/
 
-
-                        }
-                        else
-                        {
-                            Toast.makeText(getApplicationContext(),"usuarios o password incorrectos",Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-
-
-            }
-        };
-        hilo.start();
-    }
     public  String enviarpost()  {
         URL url=null;
         String linea="";

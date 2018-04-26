@@ -17,149 +17,150 @@
     android:orientation="vertical"
 
     android:background="#03A9F4">
-        <RelativeLayout
-            android:layout_margin="25dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#FFFFFF">
 
-            <ImageView
-                android:id="@+id/imagenview"
-                android:layout_width="130dp"
-                android:layout_height="130dp"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="23dp"
-                android:background="@drawable/cv"
-                app:srcCompat="@drawable/camera" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="25dp"
+        android:background="#FFFFFF">
 
+        <ImageButton
+            android:id="@+id/btngaleria"
+            android:layout_width="130dp"
+            android:layout_height="130dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="23dp"
+            android:adjustViewBounds="true"
 
-            <EditText
-                android:id="@+id/txtnombreR"
-                android:layout_width="290dp"
-                android:layout_height="40dp"
-                android:layout_below="@+id/imagenview"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/radiuscorner"
-                android:drawableLeft="@drawable/ic_account_circle_black_24dp"
-                android:drawablePadding="8dp"
-                android:ems="10"
-                android:hint="Nombre"
-                android:inputType="textPersonName" />
-
-            <EditText
-                android:id="@+id/txtapellidoR"
-                android:layout_width="290dp"
-                android:layout_height="40dp"
-                android:layout_below="@+id/txtnombreR"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/radiuscorner"
-                android:drawableLeft="@drawable/ic_person_black_24dp"
-                android:drawablePadding="8dp"
-                android:ems="10"
-                android:hint="Apellidos"
-                android:inputType="textPersonName" />
-
-            <EditText
-                android:id="@+id/txtcorreoR"
-                android:layout_width="290dp"
-                android:layout_height="40dp"
-                android:layout_below="@+id/txtapellidoR"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/radiuscorner"
-                android:drawableLeft="@drawable/ic_email_black_24dp"
-                android:drawablePadding="8dp"
-                android:ems="10"
-                android:hint="Correo Eletronico"
-                android:inputType="textEmailAddress" />
-
-            <EditText
-                android:id="@+id/txtcontraseñaR"
-                android:layout_width="290dp"
-                android:layout_height="40dp"
-                android:layout_below="@+id/txtcorreoR"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/radiuscorner"
-                android:drawableLeft="@drawable/ic_lock_black_24dp"
-                android:drawablePadding="8dp"
-                android:ems="10"
-                android:hint="Contraseña"
-                android:inputType="textPersonName" />
+            android:scaleType="fitCenter"
+            android:background="@drawable/cv"
+            app:srcCompat="@drawable/camera" />
 
 
-            <EditText
-                android:id="@+id/txtfechaR"
-                android:layout_width="290dp"
-                android:layout_height="40dp"
-                android:layout_below="@+id/txtcontraseñaR"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/radiuscorner"
-                android:drawableLeft="@drawable/ic_date_range_black_24dp"
-                android:drawablePadding="8dp"
-                android:ems="10"
-                android:hint="Fecha de nacimiento"
-                android:inputType="date" />
+        <EditText
+            android:id="@+id/txtnombreR"
+            android:layout_width="290dp"
+            android:layout_height="40dp"
+            android:layout_below="@+id/btngaleria"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/radiuscorner"
+            android:drawableLeft="@drawable/ic_account_circle_black_24dp"
+            android:drawablePadding="8dp"
+            android:ems="10"
+            android:hint="Nombre"
+            android:inputType="textPersonName" />
+
+        <EditText
+            android:id="@+id/txtapellidoR"
+            android:layout_width="290dp"
+            android:layout_height="40dp"
+            android:layout_below="@+id/txtnombreR"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/radiuscorner"
+            android:drawableLeft="@drawable/ic_person_black_24dp"
+            android:drawablePadding="8dp"
+            android:ems="10"
+            android:hint="Apellidos"
+            android:inputType="textPersonName" />
+
+        <EditText
+            android:id="@+id/txtcorreoR"
+            android:layout_width="290dp"
+            android:layout_height="40dp"
+            android:layout_below="@+id/txtapellidoR"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/radiuscorner"
+            android:drawableLeft="@drawable/ic_email_black_24dp"
+            android:drawablePadding="8dp"
+            android:ems="10"
+            android:hint="Correo Eletronico"
+            android:inputType="textEmailAddress" />
+
+        <EditText
+            android:id="@+id/txtcontraseñaR"
+            android:layout_width="290dp"
+            android:layout_height="40dp"
+            android:layout_below="@+id/txtcorreoR"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/radiuscorner"
+            android:drawableLeft="@drawable/ic_lock_black_24dp"
+            android:drawablePadding="8dp"
+            android:ems="10"
+            android:hint="Contraseña"
+            android:inputType="textPersonName" />
+
+        <ImageButton
+            android:layout_width="40dp"
+            android:layout_height="45dp"
+android:id="@+id/ima"
+            android:layout_above="@+id/sexo"
+            android:layout_alignStart="@+id/sexo"
+            android:src="@drawable/ic_date_range_black_24dp" />
+
+        <EditText
+            android:id="@+id/txtfechaR"
+            android:layout_width="240dp"
+            android:layout_height="40dp"
+            android:layout_alignEnd="@+id/txtcontraseñaR"
+            android:layout_below="@+id/txtcontraseñaR"
+            android:layout_marginTop="21dp"
+            android:background="@drawable/radiuscorner"
+            android:drawablePadding="8dp"
+            android:ems="10"
+            android:hint="Fecha de nacimiento"
+            android:inputType="date" />
 
 
-            <Spinner
-                android:id="@+id/editText9"
-                android:layout_width="280dp"
-                android:layout_height="40dp"
-                android:layout_below="@+id/txtfechaR"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/radiuscorner"
-                android:drawableLeft="@drawable/ic_wc_black_24dp"
-                android:drawablePadding="8dp"
-                android:ems="10"
-                android:hint="Sexo"
-                android:inputType="textPersonName" />
+        <Spinner
+            android:id="@+id/sexo"
+            android:layout_width="280dp"
+            android:layout_height="40dp"
+            android:layout_below="@+id/txtfechaR"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
 
-            <View
-                android:id="@+id/view"
-                android:layout_width="fill_parent"
-                android:layout_height="2dp"
-                android:layout_alignParentStart="true"
-                android:layout_below="@+id/editText9"
-                android:layout_marginTop="20dp"
-                android:background="#03A9F4" />
+
+            android:ems="10"
+
+            />
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="fill_parent"
+            android:layout_height="2dp"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/sexo"
+            android:layout_marginTop="20dp"
             android:background="#03A9F4" />
+        android:background="#03A9F4" />
 
-            <TextView
-                android:id="@+id/view2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/view"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="20dp"
-                android:text="Llena todos los campos y presiona" />
+        <TextView
+            android:id="@+id/view2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/view"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:text="Llena todos los campos y presiona" />
 
-            <Button
-                android:id="@+id/buttonregiR"
-                android:layout_width="300dp"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/view2"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/botonshape"
-                android:text="registrarse"
-                android:textColor="@android:color/white" />
-
-            <Button
-                android:id="@+id/btngaleria"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_above="@+id/txtapellidoR"
-                android:layout_marginBottom="46dp"
-                android:layout_toEndOf="@+id/imagenview" />
+        <Button
+            android:id="@+id/buttonregiR"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/view2"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/botonshape"
+            android:text="registrarse"
+            android:textColor="@android:color/white" />
 
 
-        </RelativeLayout>
+    </RelativeLayout>
 </LinearLayout>
 
     </ScrollView>

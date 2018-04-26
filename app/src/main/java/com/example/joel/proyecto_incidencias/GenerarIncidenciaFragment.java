@@ -1,19 +1,21 @@
 package com.example.joel.proyecto_incidencias;
 
+import android.Manifest;
 import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.nfc.Tag;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AlertDialog;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,11 +35,9 @@ import com.android.volley.toolbox.Volley;
 import com.cloudinary.android.MediaManager;
 import com.cloudinary.android.callback.ErrorInfo;
 import com.cloudinary.android.callback.UploadCallback;
-import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.common.api.GoogleApiClient;
-
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
 import com.google.android.gms.maps.CameraUpdate;
@@ -56,19 +56,14 @@ import com.squareup.picasso.Picasso;
 import org.json.JSONObject;
 
 import java.io.BufferedInputStream;
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import static android.app.Activity.RESULT_OK;
-import static android.content.ContentValues.TAG;
 
 //import android.support.v4.app.Fragment;
 
@@ -103,6 +98,7 @@ public class GenerarIncidenciaFragment extends Fragment implements OnMapReadyCal
     String foto_string;
     int   id_insidencia;
     ProgressDialog dialog;
+    Button guardar;
 // static final int REQUEST_IMAGE_CAPTURE = 123;
     String acciones;
 TextView zona;
@@ -111,6 +107,7 @@ Uri direcionimagen;
 String photoPath;
 File photo;
 int iglogbal;
+int id_incidenciaaa;
     ImageButton foto;
 Bitmap ima;
 int iconovalor=R.drawable.baches;
@@ -120,6 +117,7 @@ Spinner spinner;
     private File file = new File(ruta_fotos);
 
     CharSequence[] array={"4","5","6","7","8","9","10","11"};
+    int [] array_posiciones={0,1,2,3,4,5,6,7};
 
 
     String valor ;
@@ -170,11 +168,21 @@ Spinner spinner;
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         Fragment FRA=this;
-
+checkCameraPermission();
 //
       View vista_crearincidencias=inflater.inflate(R.layout.fragment_generar_incidencia, container, false);
 
       // sspiner
+
+        //
+        zona=(TextView)vista_crearincidencias.findViewById(R.id.txt_dadada);
+        comentario=(EditText) vista_crearincidencias.findViewById(R.id.txt_comentario);
+        foto=(ImageButton)vista_crearincidencias.findViewById(R.id.btn_foto);
+        guardar= (Button)vista_crearincidencias.findViewById(R.id.btn_guardar);
+     //   Bundle datos=getActivity().getIntent().getExtras();
+        id_usuario = getArguments().getInt("id");
+
+//spiner
         List<SocialNetwork> items = new ArrayList<SocialNetwork>(9);
 
         items.add(new SocialNetwork(getString(R.string.baches), R.drawable.baches));
@@ -193,10 +201,20 @@ Spinner spinner;
             public void onItemSelected(AdapterView <?> adapterView, View view, int i, long l) {
                 valor=array[i].toString();
                 id_insidencia=Integer.parseInt(valor);
-                iglogbal=i;
-                Toast.makeText(getActivity()," "+((SocialNetwork)adapterView.getItemAtPosition(i)).getNombre() +" "+id_insidencia,Toast.LENGTH_LONG).show();
-                latitud=20.9673702;
-                longitud=-89.59258569999997;
+                id_incidenciaaa=array_posiciones[i];
+              //  id_incidenciaaa=Integer.parseInt(array[i].toString());
+
+                    iglogbal = i;
+
+                //    Toast.makeText(getActivity()," "+((SocialNetwork)adapterView.getItemAtPosition(i)).getNombre() +" "+id_insidencia,Toast.LENGTH_LONG).show();
+                latitud = 20.9673702;
+                longitud = -89.59258569999997;
+              if(getArguments().get("id_inciden")!=null)
+              {
+                  latitud = getArguments().getDouble("lat");
+                  longitud = getArguments().getDouble("lot");
+              }
+
 
                 LatLng LA=new LatLng(latitud,longitud);
                 ngogle.clear();
@@ -204,35 +222,37 @@ Spinner spinner;
                 {
 
                     case 0 :
-                        marcadorgay = ngogle.addMarker(new MarkerOptions().position(LA).title("Click al marcador para seleccionar tu la Ubicación").icon(BitmapDescriptorFactory.fromResource(R.drawable.baches)));
+                        marcadorgay = ngogle.addMarker(new MarkerOptions().position(LA).title("Tocar al marcador para seleccionar tu la Ubicación").icon(BitmapDescriptorFactory.fromResource(R.drawable.baches)));
                         marcadorgay.showInfoWindow();
+
                         break;
                     case 1 :
-                        marcadorgay = ngogle.addMarker(new MarkerOptions().position(LA).title("Click al marcador para seleccionar tu la Ubicación").icon(BitmapDescriptorFactory.fromResource(R.drawable.maltrato)));
+                        marcadorgay = ngogle.addMarker(new MarkerOptions().position(LA).title("Tocar al marcador para seleccionar tu la Ubicación").icon(BitmapDescriptorFactory.fromResource(R.drawable.maltrato)));
                         marcadorgay.showInfoWindow();
+
                         break;
                     case 2 :
-                        marcadorgay = ngogle.addMarker(new MarkerOptions().position(LA).title("Click al marcador para seleccionar tu la Ubicación").icon(BitmapDescriptorFactory.fromResource(R.drawable.lotes)));
+                        marcadorgay = ngogle.addMarker(new MarkerOptions().position(LA).title("Tocar al marcador para seleccionar tu la Ubicación").icon(BitmapDescriptorFactory.fromResource(R.drawable.lotes)));
                         marcadorgay.showInfoWindow();
                         break;
                     case 3 :
-                        marcadorgay = ngogle.addMarker(new MarkerOptions().position(LA).title("Click al marcador para seleccionar tu la Ubicación").icon(BitmapDescriptorFactory.fromResource(R.drawable.vandalismo)));
+                        marcadorgay = ngogle.addMarker(new MarkerOptions().position(LA).title("Tocar al marcador para seleccionar tu la Ubicación").icon(BitmapDescriptorFactory.fromResource(R.drawable.vandalismo)));
                         marcadorgay.showInfoWindow();
                         break;
                     case 4 :
-                        marcadorgay = ngogle.addMarker(new MarkerOptions().position(LA).title("Click al marcador para seleccionar tu la Ubicación").icon(BitmapDescriptorFactory.fromResource(R.drawable.robo)));
+                        marcadorgay = ngogle.addMarker(new MarkerOptions().position(LA).title("Tocar al marcador para seleccionar tu la Ubicación").icon(BitmapDescriptorFactory.fromResource(R.drawable.robo)));
                         marcadorgay.showInfoWindow();
                         break;
                     case 5 :
-                        marcadorgay = ngogle.addMarker(new MarkerOptions().position(LA).title("Click al marcador para seleccionar tu la Ubicación").icon(BitmapDescriptorFactory.fromResource(R.drawable.quema)));
+                        marcadorgay = ngogle.addMarker(new MarkerOptions().position(LA).title("Tocar al marcador para seleccionar tu la Ubicación").icon(BitmapDescriptorFactory.fromResource(R.drawable.quema)));
                         marcadorgay.showInfoWindow();
                         break;
                     case 6 :
-                        marcadorgay = ngogle.addMarker(new MarkerOptions().position(LA).title("Click al marcador para seleccionar tu la Ubicación").icon(BitmapDescriptorFactory.fromResource(R.drawable.accidentes)));
+                        marcadorgay = ngogle.addMarker(new MarkerOptions().position(LA).title("Tocar al marcador para seleccionar tu la Ubicación").icon(BitmapDescriptorFactory.fromResource(R.drawable.accidentes)));
                         marcadorgay.showInfoWindow();
                         break;
                     case 7 :
-                        marcadorgay = ngogle.addMarker(new MarkerOptions().position(LA).title("Click al marcador para seleccionar tu la Ubicación").icon(BitmapDescriptorFactory.fromResource(R.drawable.otros)));
+                        marcadorgay = ngogle.addMarker(new MarkerOptions().position(LA).title("Tocar al marcador para seleccionar tu la Ubicación").icon(BitmapDescriptorFactory.fromResource(R.drawable.otros)));
                         marcadorgay.showInfoWindow();
                         break;
 
@@ -251,10 +271,8 @@ Spinner spinner;
         });
         //
 
-        id_usuario = getArguments().getInt("id");
-         zona=(TextView)vista_crearincidencias.findViewById(R.id.txt_dadada);
-         comentario=(EditText) vista_crearincidencias.findViewById(R.id.txt_comentario);
-         foto=(ImageButton)vista_crearincidencias.findViewById(R.id.btn_foto);
+
+
         foto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -299,17 +317,76 @@ Spinner spinner;
             }
         });
       String id=Integer.toString(id_usuario);
+        if(getArguments().get("ID")!=null)
+        {
+            id_insidencia=Integer.parseInt(getArguments().getString("id_inciden"));
+            comentario.setText(getArguments().getString("comen"));
+            guardar.setText("Editar");
+            foto_string=getArguments().getString("fot");
+            zona_string=zona.getText().toString();
+Picasso.get().load(getArguments().getString("fot")).resize(100,150).centerCrop().into(foto);
+            zona.setText(getArguments().getString("zona"));
+            switch (id_insidencia)
+            {
+                case 4:
+                    id_incidenciaaa=0;
+                    break;
+                    case 5:
+                        id_incidenciaaa=1;
+                break;
+                case 6:
+                    id_incidenciaaa=2;
+                break;
+                case 7:
+                    id_incidenciaaa=3;
+                break;
+                case 8:
+                    id_incidenciaaa=4;
+                break;
+                case 9:
+                    id_incidenciaaa=5;
+                break;
+                case 10:
+                    id_incidenciaaa=6;
+                break;
+                case 11:
+                    id_incidenciaaa=7;
+                    break;
+
+            }
+
+            spinner.setSelection(id_incidenciaaa);
+
+        }
 
 requestQueue= Volley.newRequestQueue(getContext());
-        Button guardar= (Button)vista_crearincidencias.findViewById(R.id.btn_guardar);
+
          guardar.setOnClickListener(new View.OnClickListener() {
              @Override
              public void onClick(View view) {
 
 
-                 comentario_straing=comentario.getText().toString();
-                 cargar_webservice(longitud,latitud,zona_string.toString(),id_usuario,id_insidencia,comentario_straing.toString(),foto_string);
+              //      Toast.makeText(getActivity(),getArguments().geti""+zona.getText().toString()+longitud+" "+latitud+"  "+id_usuario+"  "+comentario.getText()+" "+foto_string,Toast.LENGTH_LONG).show();
 
+                     if (TextUtils.isEmpty(comentario.getText().toString())) {
+                         comentario.setError("ingrese un comentario");
+                     } else {
+                         comentario_straing = comentario.getText().toString();
+                         cargar_webservice(longitud, latitud, zona.getText().toString(), id_usuario, id_insidencia, comentario_straing.toString(), foto_string);
+                     }
+
+                 /*
+                 * if (getArguments().get("id_inciden") != null) {
+
+                    Toast.makeText(getActivity(),""+zona.getText().toString()+longitud+" "+latitud+"  "+id_usuario+"  "+comentario.getText()+" "+foto_string,Toast.LENGTH_LONG).show();
+                 } else {
+                     if (TextUtils.isEmpty(comentario.getText().toString())) {
+                         comentario.setError("ingrese un comentario");
+                     } else {
+                         comentario_straing = comentario.getText().toString();
+                         cargar_webservice(longitud, latitud, zona_string.toString(), id_usuario, id_insidencia, comentario_straing.toString(), foto_string);
+                     }
+                 }*/
              }
          });
 
@@ -358,12 +435,12 @@ requestQueue= Volley.newRequestQueue(getContext());
         if (requestCode == PLACE_PICKER_REQUEST && resultCode == RESULT_OK && acciones == "mapa") {
 
             Place place = PlacePicker.getPlace(getActivity(), data);
-            String adrees = String.format("place  :" + place.getAddress() + " longitud : " + place.getLatLng().longitude + " latitud: " + place.getLatLng().latitude);
+          //  String adrees = String.format("place  :" + place.getAddress() + " longitud : " + place.getLatLng().longitude + " latitud: " + place.getLatLng().latitude);
             latitud = place.getLatLng().latitude;
             longitud = place.getLatLng().longitude;
             zona.setText(place.getAddress());
             zona_string = place.getAddress().toString();
-            Toast.makeText(getActivity(), adrees, Toast.LENGTH_LONG).show();
+            //Toast.makeText(getActivity(), adrees, Toast.LENGTH_LONG).show();
             LatLng LA = new LatLng(latitud, longitud);
             ngogle.clear();
             switch (id_insidencia)
@@ -404,10 +481,11 @@ requestQueue= Volley.newRequestQueue(getContext());
             if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK && acciones == "CAMARA") {
 
                 File imgfile = new File(photoPath);
-                Bitmap bitmap = BitmapFactory.decodeFile(imgfile.getAbsolutePath());
 
+                Bitmap bitmap = BitmapFactory.decodeFile(imgfile.getAbsolutePath());
+Bitmap.createScaledBitmap(bitmap,150,150,true);
                 direcionimagen = Uri.fromFile(photo);
-                Picasso.get().load(direcionimagen).into(foto);
+              //  Picasso.get().load(direcionimagen).into(foto);
                 dialog = new ProgressDialog(getContext());
                 dialog.setMessage("Guardando Imagen");
                 dialog.show();
@@ -430,6 +508,7 @@ requestQueue= Volley.newRequestQueue(getContext());
                         String URLRESULTADO = resultData.get("url").toString();
                         foto_string = URLRESULTADO;
                       //  Toast.makeText(getActivity(), foto_string, Toast.LENGTH_SHORT).show();
+                        Picasso.get().load(foto_string).resize(120,120).centerCrop().into(foto);
                         dialog.hide();
                     }
 
@@ -451,9 +530,10 @@ requestQueue= Volley.newRequestQueue(getContext());
                     try {
                         is = getActivity().getContentResolver().openInputStream(selectedImage);
                         BufferedInputStream bis = new BufferedInputStream(is);
-                        Bitmap bitmap = BitmapFactory.decodeStream(bis);
 
-                        foto.setImageBitmap(bitmap);
+                        Bitmap bitmap = BitmapFactory.decodeStream(bis);
+Bitmap.createScaledBitmap(bitmap,150,150,true);
+                      //  foto.setImageBitmap(bitmap);
                         dialog = new ProgressDialog(getContext());
                         dialog.setMessage("Guardando Imagen");
                         dialog.show();
@@ -472,14 +552,17 @@ requestQueue= Volley.newRequestQueue(getContext());
                             public void onSuccess(String requestId, Map resultData) {
                                 String uri = resultData.get("url").toString();
                                 foto_string = uri;
+                                Picasso.get().load(foto_string).resize(120,120).centerCrop().into(foto);
                                 dialog.hide();
-                                Toast.makeText(getActivity(), foto_string, Toast.LENGTH_SHORT).show();
+                              //  Toast.makeText(getActivity(), foto_string, Toast.LENGTH_SHORT).show();
                                 //  Log.d("Resultado", resultData.get("url").toString());
                             }
 
                             @Override
                             public void onError(String requestId, ErrorInfo error) {
+                                dialog.hide();
 
+                                Toast.makeText(getActivity(), error.toString(), Toast.LENGTH_SHORT).show();
                             }
 
                             @Override
@@ -547,17 +630,56 @@ requestQueue= Volley.newRequestQueue(getContext());
 
     public  void cargar_webservice(double longi,double lat,String zona,int id_usuario,int id_incidencia,String come ,String fto)
     {
+        if(getArguments().get("id_inciden")!=null)
+        {
+     int       id_del_incidente=getArguments().getInt("ID");
+            String url;
+            String urldafa="kkdkd";
+            if(fto==null) {
+                fto="https://res.cloudinary.com/dyhowxkye/image/upload/v1521322391/image_placeholder.jpg";
+                url = "http://proyectoinciencias.gearhostpreview.com/sos_service.asmx/editar_puntos?longitud=" + longi + "&latitud=" + lat + "&zona=" + zona + "&id_peligro=" + id_incidencia + "&comentario=" + come + "&foto=" + fto + "&id_inci="+id_del_incidente;
+            }
+            else
+            {
+                url = "http://proyectoinciencias.gearhostpreview.com/sos_service.asmx/editar_puntos?longitud=" + longi + "&latitud=" + lat + "&zona=" + zona + "&id_peligro=" + id_incidencia + "&comentario=" + come + "&foto=" + fto + "&id_inci="+id_del_incidente;
 
-       String urldafa="kkdkd";
-        String url="http://proyectoinciencias.gearhostpreview.com/sos_service.asmx/Guardar_puntos?longitud="+longi+"&latitud="+lat+"&zona="+zona+"&id_usuario="+id_usuario+"&id_peligro="+id_incidencia+"&url="+urldafa+"&comentario="+come+"&foto="+fto;
-        url=url.replace(" ","%20");
-        jsonObject = new JsonObjectRequest(com.android.volley.Request.Method.GET,url,null,this,this);
-        requestQueue.add(jsonObject);
+            }
+
+            url=url.replace(" ","%20");
+            jsonObject = new JsonObjectRequest(com.android.volley.Request.Method.GET,url,null,this,this);
+            requestQueue.add(jsonObject);
+           // Toast.makeText(getActivity(),"C",Toast.LENGTH_SHORT).show();
+        }
+        else{
+            String url;
+            String urldafa="kkdkd";
+            if(fto==null)
+            {
+                fto="https://res.cloudinary.com/dyhowxkye/image/upload/v1521322391/image_placeholder.jpg";
+                url="http://proyectoinciencias.gearhostpreview.com/sos_service.asmx/Guardar_puntos?longitud="+longi+"&latitud="+lat+"&zona="+zona+"&id_usuario="+id_usuario+"&id_peligro="+id_incidencia+"&url="+urldafa+"&comentario="+come+"&foto="+fto;
+
+            }else
+            {
+                url="http://proyectoinciencias.gearhostpreview.com/sos_service.asmx/Guardar_puntos?longitud="+longi+"&latitud="+lat+"&zona="+zona+"&id_usuario="+id_usuario+"&id_peligro="+id_incidencia+"&url="+urldafa+"&comentario="+come+"&foto="+fto;
+
+            }
+            url=url.replace(" ","%20");
+            jsonObject = new JsonObjectRequest(com.android.volley.Request.Method.GET,url,null,this,this);
+            requestQueue.add(jsonObject);
+        }
+
     }
 
     @Override
     public void onErrorResponse(VolleyError error) {
-        Toast.makeText(getContext(),"Guardado con Exito su punto esta en espera de ser aprovado",Toast.LENGTH_LONG).show();
+        Toast.makeText(getContext(),"Guardado con Exito su punto esta en espera de ser aprobado",Toast.LENGTH_LONG).show();
+        comentario.setText("");
+        zona.setText("");
+        latitud = 20.9673702;
+        longitud = -89.59258569999997;
+        foto.setImageResource(R.drawable.camera);
+        //spinner.setSelection();
+
 
     }
 
@@ -600,6 +722,16 @@ requestQueue= Volley.newRequestQueue(getContext());
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+    private void checkCameraPermission() {
+        int permissionCheck = ContextCompat.checkSelfPermission(
+                getActivity(), Manifest.permission.ACCESS_FINE_LOCATION);
+        if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
+            Log.i("Mensaje", "No se tiene permiso para la camara!.");
+            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 225);
+        } else {
+            Log.i("Mensaje", "Tienes permiso para usar la camara.");
+        }
     }
 
 

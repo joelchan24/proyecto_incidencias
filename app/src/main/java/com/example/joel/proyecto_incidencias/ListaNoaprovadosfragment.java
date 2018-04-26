@@ -146,7 +146,7 @@ public class ListaNoaprovadosfragment extends Fragment implements com.android.vo
         for (int i = 0; i <= jsonArray.length(); i++) {
             try {
                 JSONObject row = jsonArray.getJSONObject(i);
-                lista_datos.add(new datos_incidencia_(row.getString("Peligro"), row.getString("comentadmin"), row.getString("imagen")));
+                lista_datos.add(new datos_incidencia_(row.getString("Peligro"), row.getString("comentadmin"), row.getString("imagen"),row.getDouble("Latitud"),row.getDouble("Longitud"),row.getString("Zona"),row.getString("ID1"),row.getString("comentario"),row.getInt("ID")));
 
             } catch (JSONException e) {
                 e.printStackTrace();

@@ -23,12 +23,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 
 //import android.support.v4.app.Fragment;
@@ -92,43 +86,7 @@ public class ListaAprovadosFragment extends Fragment implements com.android.voll
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
-        /*Thread hilo = new Thread() {
-            @Override
-            public void run() {
-                respuesta = enviarcard_aprovados1(id);
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        int con = OBJJsonS(respuesta);
 
-                        if (con > 0) {
-                            try {
-
-                                JSONArray array = null;
-
-                                array = new JSONArray(respuesta);
-                                for (int i = 0; i < array.length(); i++) {
-                                    JSONObject row = array.getJSONObject(i);
-                                 //   lista_datos.add(new datos_incidencia_(row.getString("Peligro"), row.getString("comentadmin"), row.getString("imagen")));
-                                    Toast.makeText(getContext(), "" + row.getString("Peligro") + row.getString("comentadmin") + row.getString("imagen"), Toast.LENGTH_LONG).show();
-                                }
-
-
-
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        } else {
-                            Toast.makeText(getActivity(),"NO HAY INCIDENTES DE VACHES ",Toast.LENGTH_LONG).show();
-                        }
-                    }
-                });
-            }
-
-
-
-        };
-        hilo.start();*/
     }
 
     @Override
@@ -170,7 +128,7 @@ public class ListaAprovadosFragment extends Fragment implements com.android.voll
 
     private void CargarWebserivice(int id) {
         progressDialog = new ProgressDialog(getContext());
-        progressDialog.setMessage("consultadoi");
+        progressDialog.setMessage("consultando");
         progressDialog.show();
         String urll = "http://proyectoinciencias.gearhostpreview.com/sos_service.asmx/filtros_de_incidencias_porusuario_aprovados_cardview?id_usuario=" + id;
 
@@ -178,16 +136,7 @@ public class ListaAprovadosFragment extends Fragment implements com.android.voll
         requestQueue.add(jsonObjectRequest);
     }
 
-    private void llenar_lista() {
-        //llamar la lista y meterle la referencia de la clase datos incidencia que tienbe lkos get yset
 
-
-        //        lista_datos.add(new datos_incidencia_(row.getString("Peligro"), row.getString("comentadmin"),row.getString( "imagen")));
-
-        lista_datos.add(new datos_incidencia_("ddd", "dddd", "http://res.cloudinary.com/dlyngnwmw/image/upload/v1523486335/v0x9es7ssqjrlakkykot.png"));
-
-
-    }
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
@@ -229,7 +178,7 @@ public class ListaAprovadosFragment extends Fragment implements com.android.voll
         for (int i = 0; i <= jsonArray.length(); i++) {
             try {
                 JSONObject row = jsonArray.getJSONObject(i);
-                lista_datos.add(new datos_incidencia_(row.getString("Peligro"), row.getString("comentadmin"), row.getString("imagen")));
+                lista_datos.add(new datos_incidencia_(row.getString("Peligro"), row.getString("comentadmin"), row.getString("imagen"),row.getDouble("Latitud"),row.getDouble("Longitud"),row.getString("Zona"),row.getString("ID1"),row.getString("comentario"),row.getInt("ID")));
 
             } catch (JSONException e) {
                 e.printStackTrace();

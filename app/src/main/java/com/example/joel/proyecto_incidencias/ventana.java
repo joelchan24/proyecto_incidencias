@@ -43,7 +43,7 @@ public class ventana  implements GoogleMap.InfoWindowAdapter {
 details_tv.setText(((datos_ventana) marker.getTag()).getNombre());
 
    String rutaimagen=((datos_ventana) marker.getTag()).getImage();
-     Picasso.get().load(rutaimagen).into(img);
+     Picasso.get().load(rutaimagen).resize(100,150).centerCrop().into(img);
 
 
 

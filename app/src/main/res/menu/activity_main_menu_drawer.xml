@@ -18,21 +18,23 @@
             android:title="Generar Incidencia" />
 
     </group>
+    <group android:checkableBehavior="single">
     <item android:title="lista de puntos">
         <menu>
             <item
                 android:id="@+id/list_aprovados"
                 android:icon="@drawable/verdarero_apro"
-                android:title="Lista aprovados" />
+                android:title="Lista aprobados" />
             <item
                 android:id="@+id/list_no"
                 android:icon="@drawable/no_apro"
-                android:title="Lista No aprovados " />
+                android:title="Lista No aprobados " />
 
 
         </menu>
     </item>
-
+</group>
+    <group android:checkableBehavior="single">
     <item android:title="Gráficas">
         <menu>
 
@@ -47,7 +49,8 @@
 
         </menu>
     </item>
-
+    </group>
+    <group android:checkableBehavior="single">
     <item android:title="Mis datos">
         <menu>
             <item
@@ -65,5 +68,6 @@
                 android:title="Cerrar" />
         </menu>
     </item>
+    </group>
 
 </menu>

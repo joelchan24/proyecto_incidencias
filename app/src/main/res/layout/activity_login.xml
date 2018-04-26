@@ -39,7 +39,7 @@
                     android:layout_below="@+id/img_imagenusuario"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="25dp"
-                    android:text="Todo Protegido SOS"
+                    android:text="Reportero Ciudadano"
                     android:textSize="30sp"
                     android:textStyle="bold" />
 
