@@ -4,11 +4,9 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.io.BufferedInputStream;
@@ -21,13 +19,8 @@ public class Imagen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_imagen);
-        Button btngal=(Button)findViewById(R.id.btngaleria);
-        btngal.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                abrirgaleria(view);
-            }
-        });
+
+
     }
 
     public  void abrirgaleria(View view){
