@@ -129,7 +129,7 @@ String baches;
                                                     LatLng LA = new LatLng(latitud, longitud);
                                          marker=           nmap.addMarker(new MarkerOptions().position(new LatLng(latitud, longitud)).title(nombrelugar).icon(BitmapDescriptorFactory.fromResource(R.drawable.baches)));
                                                     //    Toast.makeText(getActivity(),"jdjdj"+longitud,Toast.LENGTH_LONG).show();
-                                                    ventana ventana = new ventana(getContext());
+                                                    ventana ventana = new ventana(getActivity());
                                                     datos_ventana datos_ventana =new datos_ventana();
                                                     datos_ventana.setComentario(comentario);
                                                     datos_ventana.setNombre_incidente(nombreincidencia);
@@ -183,7 +183,7 @@ String baches;
                                                     LatLng LA = new LatLng(latitud, longitud);
                                          marker=           nmap.addMarker(new MarkerOptions().position(new LatLng(latitud, longitud)).title(nombrelugar).icon(BitmapDescriptorFactory.fromResource(R.drawable.maltrato)));
                                                     //    Toast.makeText(getActivity(),"jdjdj"+longitud,Toast.LENGTH_LONG).show();
-                                                    ventana ventana = new ventana(getContext());
+                                                    ventana ventana = new ventana(getActivity());
                                                     datos_ventana datos_ventana =new datos_ventana();
                                                     datos_ventana.setComentario(comentario);
                                                     datos_ventana.setNombre_incidente(nombreincidencia);
@@ -237,7 +237,7 @@ Toast.makeText(getActivity(),"NO HAY INCIDENTES DE MALTRATO ANIMAL ",Toast.LENGT
                                                     LatLng LA = new LatLng(latitud, longitud);
                                                 marker=    nmap.addMarker(new MarkerOptions().position(new LatLng(latitud, longitud)).title(nombrelugar).icon(BitmapDescriptorFactory.fromResource(R.drawable.lotes)));
                                                     //    Toast.makeText(getActivity(),"jdjdj"+longitud,Toast.LENGTH_LONG).show();
-                                                    ventana ventana = new ventana(getContext());
+                                                    ventana ventana = new ventana(getActivity());
                                                     datos_ventana datos_ventana =new datos_ventana();
                                                     datos_ventana.setDetalle(nombreincidencia);
                                                     datos_ventana.setNombre(nombrelugar);
@@ -290,7 +290,7 @@ Toast.makeText(getActivity(),"NO HAY INCIDENTES DE MALTRATO ANIMAL ",Toast.LENGT
                                                     LatLng LA = new LatLng(latitud, longitud);
                                                 marker=    nmap.addMarker(new MarkerOptions().position(new LatLng(latitud, longitud)).title(nombrelugar).icon(BitmapDescriptorFactory.fromResource(R.drawable.vandalismo)));
                                                     //    Toast.makeText(getActivity(),"jdjdj"+longitud,Toast.LENGTH_LONG).show();
-                                                    ventana ventana = new ventana(getContext());
+                                                    ventana ventana = new ventana(getActivity());
                                                     datos_ventana datos_ventana =new datos_ventana();
                                                     datos_ventana.setDetalle(nombreincidencia);
                                                     datos_ventana.setNombre(nombrelugar);
@@ -343,7 +343,7 @@ Toast.makeText(getActivity(),"NO HAY INCIDENTES DE MALTRATO ANIMAL ",Toast.LENGT
                                                     LatLng LA = new LatLng(latitud, longitud);
                                                     marker=nmap.addMarker(new MarkerOptions().position(new LatLng(latitud, longitud)).title(nombrelugar).icon(BitmapDescriptorFactory.fromResource(R.drawable.robo)));
                                                     //    Toast.makeText(getActivity(),"jdjdj"+longitud,Toast.LENGTH_LONG).show();
-                                                    ventana ventana = new ventana(getContext());
+                                                    ventana ventana = new ventana(getActivity());
                                                     datos_ventana datos_ventana =new datos_ventana();
                                                     datos_ventana.setDetalle(nombreincidencia);
                                                     datos_ventana.setComentario(comentario);
@@ -396,7 +396,7 @@ Toast.makeText(getActivity(),"NO HAY INCIDENTES DE MALTRATO ANIMAL ",Toast.LENGT
                                                     LatLng LA = new LatLng(latitud, longitud);
                                                    marker= nmap.addMarker(new MarkerOptions().position(new LatLng(latitud, longitud)).title(nombrelugar).icon(BitmapDescriptorFactory.fromResource(R.drawable.quema)));
                                                     //    Toast.makeText(getActivity(),"jdjdj"+longitud,Toast.LENGTH_LONG).show();
-                                                    ventana ventana = new ventana(getContext());
+                                                    ventana ventana = new ventana(getActivity());
                                                     datos_ventana datos_ventana =new datos_ventana();
                                                     datos_ventana.setDetalle(nombreincidencia);
                                                     datos_ventana.setComentario(comentario);
@@ -448,7 +448,7 @@ Toast.makeText(getActivity(),"NO HAY INCIDENTES DE MALTRATO ANIMAL ",Toast.LENGT
                                                     LatLng LA = new LatLng(latitud, longitud);
                                                     marker=nmap.addMarker(new MarkerOptions().position(new LatLng(latitud, longitud)).title(nombrelugar).icon(BitmapDescriptorFactory.fromResource(R.drawable.accidentes)));
                                                     //    Toast.makeText(getActivity(),"jdjdj"+longitud,Toast.LENGTH_LONG).show();
-                                                    ventana ventana = new ventana(getContext());
+                                                    ventana ventana = new ventana(getActivity());
                                                     datos_ventana datos_ventana =new datos_ventana();
                                                     datos_ventana.setDetalle(nombreincidencia);
                                                     datos_ventana.setComentario(comentario);
@@ -501,7 +501,7 @@ Toast.makeText(getActivity(),"NO HAY INCIDENTES DE MALTRATO ANIMAL ",Toast.LENGT
                                                     LatLng LA = new LatLng(latitud, longitud);
                                                     marker=nmap.addMarker(new MarkerOptions().position(new LatLng(latitud, longitud)).title(nombrelugar).icon(BitmapDescriptorFactory.fromResource(R.drawable.otros)));
                                                     //    Toast.makeText(getActivity(),"jdjdj"+longitud,Toast.LENGTH_LONG).show();
-                                                    ventana ventana = new ventana(getContext());
+                                                    ventana ventana = new ventana(getActivity());
                                                     datos_ventana datos_ventana =new datos_ventana();
                                                     datos_ventana.setDetalle(nombreincidencia);
                                                     datos_ventana.setComentario(comentario);
@@ -588,7 +588,7 @@ this.respuesta=mapa_preferencias.getString("respuesta_mapa","");
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        MapsInitializer.initialize(getContext());
+        MapsInitializer.initialize(getActivity());
         nmap=googleMap;
         nmap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
 
@@ -614,11 +614,11 @@ this.respuesta=mapa_preferencias.getString("respuesta_mapa","");
                                   nombreincidencia=row.getString("Peligro");
                                     comentario=row.getString("comentario");
 
-no=nombrelugar;
+
                                 final datos_ventana datos_ventana =new datos_ventana();
 
 //datos_ventana.setHotel(nombrelugar.toString());
-                                    ventana ventana = new ventana(getContext());
+                                    ventana ventana = new ventana(getActivity());
                                     //ventana vetana=new ventana(getActivity());
                                     nmap.setInfoWindowAdapter(ventana);
                                    // ventana.onInfoWindowClick(marker);
@@ -872,7 +872,7 @@ TextView nombreinci=(TextView)v.findViewById(R.id.txt_tipoincidente);
 
 
 
-
+//kjkjjk
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
